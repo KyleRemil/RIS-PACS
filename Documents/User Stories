@@ -1,49 +1,52 @@
+// The numbering lines up user stories, functional, and non-functional requirements ///////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 As a disinterested employee I do not want to have to read documentation about how a system works, so that I do not have to 
 waste more time doing some thing I do not want to do.
 
-As a monkey, I want buttons with pictures in a clear and intuitive workflow, so that I do not have to learn a new system to 
+(1) As a monkey, I want buttons with pictures in a clear and intuitive workflow, so that I do not have to learn a new system to 
 use it.
 
 As a referring physician I want to  be able to easily draft up an order for the radiology department to execute so that I do
 not have to waste time scheduling appointments.
 
-As a referring physician I want to have access to my patients current RIS information, so that I can answer any questions the 
+(2) As a referring physician I want to have access to my patients current RIS information, so that I can answer any questions the 
 radiology department might have about the patient.
 
-As a secretary I want to be able to quickly check in and out patients to maximize the utilization of the hospitals critical 
+(2) As a secretary I want to be able to quickly check in and out patients to maximize the utilization of the hospitals critical 
 resources.
 
-As a secretary I want to be able to easily look up or enter a patients insurance to ensure that the hospital doesn’t accept a 
+(2) As a secretary I want to be able to easily look up or enter a patients insurance to ensure that the hospital doesn’t accept a 
 job they wont get paid for.
 
-As a secretary I want to be able to easily secure a charge capture from the correct source to minimize financial complications.
+(2) As a secretary I want to be able to easily secure a charge capture from the correct source to minimize financial complications.
 
-As an attendant (or nurse) I want to be able to keep track of patients physical location and time, so that I can ensure every 
+(3) As an attendant (or nurse) I want to be able to keep track of patients physical location and time, so that I can ensure every 
 patient is well attended.
 
-As an attendant I would like a notification about the status of patients, so that I know when and who needs attention.
+(3) As an attendant I would like a notification about the status of patients, so that I know when and who needs attention.
 
-As a radiology technician I want a system that keeps track of my modalities so that I never have two patients scheduled to 
+(4) As a radiology technician I want a system that keeps track of my modalities so that I never have two patients scheduled to 
 occupy the same equipment at the same time.
 
-As a radiology  technician I want to be able to clearly identify the task at hand, so that the radiologist receives the correct 
+(2) As a radiology  technician I want to be able to clearly identify the task at hand, so that the radiologist receives the correct 
 information.
 
-As a radiologist I want to receive information in a standard format, so that I know exactly what I am looking for in the image.
+(5) As a radiologist I want to receive information in a standard format, so that I know exactly what I am looking for in the image.
 
-As a radiologist I want to be able send a report back to the referring physician so that they know the results of the exam.
+(4)(5) As a radiologist I want to be able send a report back to the referring physician so that they know the results of the exam.
 
-As a referring physician, I want to be able to tell who analyzed the results and be able to contact them, so that they can 
+(4)(5)(3) As a referring physician, I want to be able to tell who analyzed the results and be able to contact them, so that they can 
 answer any questions I might have about the returned results.
 
-As a referring physician I want to be notified when I receive news from the radiology department, so that I can act quickly 
+(3) As a referring physician I want to be notified when I receive news from the radiology department, so that I can act quickly 
 form a plan of action concerning the patients treatment.
 
 As an onsite IT person I want a robust system that rarely require maintenance, so that I can watch cat videos in the break room.
 
 As an IT person I want clear documentation, so that I can trouble shoot issues.
 
-As a business owner I want the new software to be able to run on existing systems, so that I do not have to spend more money 
+(6) As a business owner I want the new software to be able to run on existing systems, so that I do not have to spend more money 
 on new hardware.
 
 As a lawyer I want a secure system, so that we do not get sued for leaking sensitive patient information.
