@@ -1,1 +1,19 @@
+Non-functional requirements:
+(6)	Written in Java
+(1)	GUI in FXML
+(2)	Have a file sorting system or DB
+(2)	Save text files
+(3)	Have Alerts in a notification panel
+(4)	System to check for resource conflics before allocation
+(5)	DICOM? PDF? JPG? picture and text saved seperately and loaded in the same pane???????????
+Database in SQL (either remote or local, not sure yet)
+Shared in github
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+Functional Requirements:
+(1)	Have an easy to use GUI with explanatory buttons on hover 
+(2)	Have a DB or file management system for storing and pulling files
+(3)	Be notified of scheduling
+(4)	Prevent over booking modalities
+(5)	Report viewer
+
 
