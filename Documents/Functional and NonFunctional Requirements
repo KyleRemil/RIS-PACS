@@ -21,6 +21,9 @@ Order radiology procesdure as either a MD or radiologist
 
 Schedule single/multiple radiology procedures of patient
 Scheculde Conflict Alert and conflict resolution
+Schedule list
+  -list of currently scheduled tasks/procedures
+  -click to show more info of procedure and patient
 
 prefetch and of Patient's previous modality images
 Take modality images of patient
@@ -28,8 +31,8 @@ Acquire Patient's current modailty images
 
 Store and manage patient modality images 
 
-Retrieve Patient modailty images
-Review Patient modaility Images/ Write radiolist report
+Retrieve Patient modality images
+Review Patient modality Images/ Write radiolist report
 
 Store radiologist report in report repoisitory for MD review/print radiologist report for MD review.
 
