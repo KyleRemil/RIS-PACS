@@ -1,1 +1,19 @@
+Initial Capture of patient demographics information
+primary actors: Doctor (Referring Physician)
+                Radiologist
+                Patient
 
+  Basic Flow of events:
+    1. Radiologist/Referring Physician logs in to the system with their supplied HIS/RIS ID and Password
+    2. The System logs them in to thier respective portal
+    3. Radiologist/Referring Physician selects add new patient or update returning patient
+    4. The System loads the new Add Patient form
+    5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics.
+    4. The System sends the form information to the database for archiving
+  
+  Alternative Flow:
+    1a. Radiologist/Referring Physician credientials are not valid
+      1a1. The System displays an error message
+    2a. The System cannot connect to the database
+      2a1. The System displays an error message
+    
