@@ -1,5 +1,6 @@
 Initial Capture of patient demographics information
   primary actors: Doctor (Referring Physician)
+                  Reference (Person who physically schedules the appointment. Nurse, secretary, PA, etc...)
                   Radiologist
                   Patient
 
@@ -32,3 +33,10 @@ Referring Physician/Radiologist orders the desired radiology procedure
   
     Alternative Flow:
       
+// Numbered Use Cases to diagram ///////////////////////////////////////////////////////////////////////////////////////
+Use Case 1: A Patient's appointment is scheduled.
+  1. A reference selects an available time slot on the table.
+  2. The reference chooses the type of examination and adds notes to explain its purpose.
+  
+ Use Case 2: 
+ 
