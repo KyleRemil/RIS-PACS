@@ -42,10 +42,17 @@ Use Case 1: A user Logs into the system
   4. User is logged on to the main page if the information is valid.
   5. If the information is invalid the user is given error messages to help them enter valid information
     if they have it.
+  6. They have 15 minutes of inactivity until they are logged out.
+  7. They have 3 trys to enter the correct information.
+  8. They have to option to recover or create the appropriate information to log in. (See Case 2 or 3)
 
-Use Case 2: A Patient's appointment is scheduled.
+Use Case 2: A user recovers account information
+  1. The user does not know their information to log into the system.
+  2. 
+
+Use Case 3: A Patient's appointment is scheduled.
   1. A reference selects an available time slot on the table.
   2. The reference chooses the type of examination and adds notes to explain its purpose.
   
- Use Case 3: 
+ Use Case 4: 
  
