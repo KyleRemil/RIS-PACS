@@ -1,6 +1,7 @@
 Initial Capture of patient demographics information
   primary actors: Doctor (Referring Physician)
                   Reference (Person who physically schedules the appointment. Nurse, secretary, PA, etc...)
+                  User (Any one with credentials to access the system)
                   Radiologist
                   Patient
 
@@ -34,9 +35,17 @@ Referring Physician/Radiologist orders the desired radiology procedure
     Alternative Flow:
       
 // Numbered Use Cases to diagram ///////////////////////////////////////////////////////////////////////////////////////
-Use Case 1: A Patient's appointment is scheduled.
+Use Case 1: A user Logs into the system
+  1. A user selects the appropriate portal
+  2. The user enters their Username into the username field and their password into the password field.
+  3. User hits the log in button once credentials are entered.
+  4. User is logged on to the main page if the information is valid.
+  5. If the information is invalid the user is given error messages to help them enter valid information
+    if they have it.
+
+Use Case 2: A Patient's appointment is scheduled.
   1. A reference selects an available time slot on the table.
   2. The reference chooses the type of examination and adds notes to explain its purpose.
   
- Use Case 2: 
+ Use Case 3: 
  
