@@ -1,3 +1,3 @@
 # RIS-PACS
-Github repo for Radiology system project csci 4400
+Github Repo for Radiology Information System Project - CSCI 4400
 
