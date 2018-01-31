@@ -1,19 +1,34 @@
 Initial Capture of patient demographics information
-primary actors: Doctor (Referring Physician)
-                Radiologist
-                Patient
+  primary actors: Doctor (Referring Physician)
+                  Radiologist
+                  Patient
 
-  Basic Flow of events:
-    1. Radiologist/Referring Physician logs in to the system with their supplied HIS/RIS ID and Password
-    2. The System logs them in to thier respective portal
-    3. Radiologist/Referring Physician selects add new patient or update returning patient
-    4. The System loads the new Add Patient form
-    5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics.
-    4. The System sends the form information to the database for archiving
+   Basic Flow of events:
+      1. Radiologist/Referring Physician logs in to the system with their supplied HIS/RIS ID and Password
+      2. The System logs them in to thier respective portal
+      3. Radiologist/Referring Physician selects add new patient or update returning patient
+      4. The System loads the new Add Patient form
+      5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics.
+      6. The System sends the form information to the database for archiving
   
-  Alternative Flow:
-    1a. Radiologist/Referring Physician credientials are not valid
-      1a1. The System displays an error message
-    2a. The System cannot connect to the database
-      2a1. The System displays an error message
+    Alternative Flow:
+      1a. Radiologist/Referring Physician credientials are not valid
+        1a1. The System displays an error message
+      2a. The System cannot connect to the database
+        2a1. The System displays an error message
     
+Referring Physician/Radiologist orders the desired radiology procedure
+  primary actors: Doctor (Referring Physician)
+                  Radiologist
+                  Patient
+
+   Basic Flow of events:
+      1. Radiologist/Referring Physician accesses radiology portal
+      2. The System loads the respective radiology portal
+      3. Radiologist/Referring Physician selects modality Tab
+      4. The System loads the modality Tab
+      5. Radiologist/Referring Physician selects desired modality 
+      6. The System automatically captures price and adds the charge(s) to the patient's bill
+  
+    Alternative Flow:
+      
