@@ -51,3 +51,10 @@ on new hardware.
 
 As a lawyer I want a secure system, so that we do not get sued for leaking sensitive patient information.
 
+
+
+As a patient's physician, I want to easily find and view a patient's history, including their previous examinations, reports, and
+radiology images, so I can track their health progress and more accurately determine the best way to treat them.
+
+As an admin, I want to clearly see how resources, equipment, and employees are currently scheduled, so I can see what is in use.
+As an admin, I want to see current ist of procedures order in need of scheduling, so I can approve/disprove and schedule them.
