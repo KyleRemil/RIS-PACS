@@ -63,14 +63,39 @@ Modality images aquisisition completed\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   Alternative Flow:   
     2a. The radiologist approves of the taken modality image and saves it for archiving.
       2a1. The system will then save the image to the database
+      2a2. The radiologist can either continue taking modality images or continue to next steps
     2b. The radiologist does not approve of the taken modality image
       2a1. The system will then loop back to the previous step "Radiologist completes modality worklist"
     
+Modality image Archiving\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: System
+                  
+  Basic Flow of events:
+    1. The system will automatically save all radiologist approved modality images and store them within an archival database under the        patient id and patient name
     
+  Alternative Flow:   
+    1a. If chosen, select images can be physically printed
     
+Diagnositic Workstation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: Radiologist
+                  System
+                  
+  Basic Flow of events:
+    1. The radiologist can select any modality taken and view the image for diagnostics
     
+  Alternative Flow:   
+    1a. If chosen, select images can be physically printed   
     
+ Report Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: Radiologist
+                  System
+                  
+  Basic Flow of events:
+    1. The radiologist can write a report
+    2. The system will then store the report for Referring Physician access
     
+  Alternative Flow:   
+    1a. If chosen, select images can be physically printed     
     
     
     
