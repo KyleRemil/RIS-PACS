@@ -1,5 +1,4 @@
-Initial Capture of patient demographics information
-  primary actors: Doctor (Referring Physician)
+Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  primary actors: Doctor (Referring Physician)
                   Reference (Person who physically schedules the appointment. Nurse, secretary, PA, etc...)
                   User (Any one with credentials to access the system)
                   Radiologist
@@ -19,7 +18,7 @@ Initial Capture of patient demographics information
       2a. The System cannot connect to the database
         2a1. The System displays an error message
     
-Referring Physician/Radiologist orders the desired radiology procedure
+Referring Physician/Radiologist orders the desired radiology procedure\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   primary actors: Doctor (Referring Physician)
                   Radiologist
                   Patient
@@ -33,7 +32,49 @@ Referring Physician/Radiologist orders the desired radiology procedure
       6. The System automatically captures price and adds the charge(s) to the patient's bill
   
     Alternative Flow:
+    
+System prefetchs prior patient studies\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: Radiologist
+                  System
+   Basic Flow of events:
+      1. Radiologist begins the process of taking the desired modality
+      2. The system will automatically collect every prior study of the patient and display them within a seperate tab/table
       
+    Alternative Flow:      
+
+Radiologist completes modality worklist\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: Radiologist
+                  System
+                  
+  Basic Flow of events:
+    1. Radiologist follows the modality worklist steps and takes patient modalities
+    2. The system will take the requested image of patient.
+      
+    Alternative Flow:     
+ 
+Modality images aquisisition completed\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: Radiologist
+                  System
+                  
+  Basic Flow of events:
+    1. The system will save the image locally and send the image to the radiologist for approval
+    2. The radiologist can either save the taken modality image for permanent archival.
+    
+  Alternative Flow:   
+    2a. The radiologist approves of the taken modality image and saves it for archiving.
+      2a1. The system will then save the image to the database
+    2b. The radiologist does not approve of the taken modality image
+      2a1. The system will then loop back to the previous step "Radiologist completes modality worklist"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 // Numbered Use Cases to diagram ///////////////////////////////////////////////////////////////////////////////////////
 Use Case 1: A user Logs into the system
   1. A user selects the appropriate portal
