@@ -29,9 +29,11 @@ Referring Physician/Radiologist orders the desired radiology procedure\\\\\\\\\\
       3. Radiologist/Referring Physician selects modality Tab
       4. The System loads the modality Tab
       5. Radiologist/Referring Physician selects desired modality 
-      6. The System automatically captures price and adds the charge(s) to the patient's bill
-  
+      6. Requests scheduling of modality resources.  
+    
     Alternative Flow:
+      5a. Modality unavailable, flags are thrown
+      5b. Patient conflicts, flags are thrown
     
 System prefetchs prior patient studies\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   primary actors: Radiologist
@@ -127,6 +129,16 @@ Charge capture (financing) "splitting the bill" (Kyle Remillard, 2018)
       3. The insurance is billed for the agreed upon amount and the patient's bill is reduced to the difference.
       4. The bill is made available for payment to patient by the scretary.
 
+Orders filled ///////////////////////////////////////////////////////////////////////////////////////////////////////
+  primary actors: Secretary
+                  System
+    
+    1. After appointment is submitted but not confirmed.
+    2. Resource management system checks for available resources and scheduling conflicts.
+    3. If successfull procedure is broken down into steps:
+      Patient, follows pre-op guidelines
+      modality checklist filled
+      
 
 
 
