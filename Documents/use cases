@@ -39,39 +39,40 @@ System prefetchs prior patient studies\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
    Basic Flow of events:
       1. Radiologist begins the process of taking the desired modality
       2. The system will automatically collect every prior study of the patient and display them within a seperate tab/table
+      3. The Radiologist can access the patients history.
       
     Alternative Flow:      
 
-Radiologist completes modality worklist\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Radiologist
-                  System
+Modality worklist\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: System
+                  Technition
                   
   Basic Flow of events:
-    1. Radiologist follows the modality worklist steps and takes patient modalities
-    2. The system will take the requested image of patient.
+    1. The system loads the modality worklist steps and patient information.
+    2. Flags are displayed. (Flags are known conflicts)
       
     Alternative Flow:     
  
-Modality images aquisisition completed\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Radiologist
+Charge Capture \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  primary actors: Patient
                   System
+                  Secretary
                   
   Basic Flow of events:
-    1. The system will save the image locally and send the image to the radiologist for approval
-    2. The radiologist can either save the taken modality image for permanent archival.
+    1. The system keeps track of the patients expenses.
+    2. Expenses accrue as procedures are completed.
+    3. The Patient interacts with the secretary to secure charge capture.
     
-  Alternative Flow:   
-    2a. The radiologist approves of the taken modality image and saves it for archiving.
-      2a1. The system will then save the image to the database
-      2a2. The radiologist can either continue taking modality images or continue to next steps
-    2b. The radiologist does not approve of the taken modality image
-      2a1. The system will then loop back to the previous step "Radiologist completes modality worklist"
+    Alternative flow:
+    1. Patient contacts insurance and deducts their coverage from the total.
     
 Modality image Archiving\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   primary actors: System
-                  
+                
   Basic Flow of events:
-    1. The system will automatically save all radiologist approved modality images and store them within an archival database under the        patient id and patient name
+    1. The system will automatically save all approved modality images and store them within an archival database 
+    under the patient id and patient name
+    2. The system amkes the recent aquistions available to PACS.
     
   Alternative Flow:   
     1a. If chosen, select images can be physically printed
@@ -81,20 +82,52 @@ Diagnositic Workstation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                   System
                   
   Basic Flow of events:
-    1. The radiologist can select any modality taken and view the image for diagnostics
+    1. The radiologist can select any image and view the image for diagnostics
+    2. The radiologist writes their report.
+    3. Radiologist requests to achrive report to Report Repository.
     
   Alternative Flow:   
     1a. If chosen, select images can be physically printed   
     
  Report Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Radiologist
-                  System
+  primary actors: System
                   
   Basic Flow of events:
-    1. The radiologist can write a report
-    2. The system will then store the report for Referring Physician access
+    1. Report is stored.
+    2. Report is made available for viewing only, to the refering physcian
     
   Alternative Flow:   
     1a. If chosen, select images can be physically printed     
     
- 
+Secretary flags ////////////////////////////////////////////////////////////////////////////
+  primary actors: Secretary
+                  System
+                  
+    1. Secretary attempts to submit appointment.
+    2. System alerts secretary to scheduling conflicts
+    3. Secretary selects appropriate time with no conflicts.
+    
+Medical flags /////////////////////////////////////////////////////////////////////////////////////////////
+   primary actors: technition
+                   System
+                   Refering physcian
+                   
+     1. Refering physcian request procedures.
+     2. System catches known medical conflicts and throws the appropriate flags.
+     3. These are soft flags. They will not stop the procedures, but alert the party involved.
+     4. At procedure time Technition confirms flags are resolved.
+     
+Charge capture (financing) "splitting the bill" (Kyle Remillard, 2018)
+  primary actors: System
+                  Secretary
+                  Patient
+                  
+      1. After each procedure is completed or each resource is expended a charge accrues on the patients bill.
+      2. Check for insurance approval of expenses.
+      3. The insurance is billed for the agreed upon amount and the patient's bill is reduced to the difference.
+      4. The bill is made available for payment to patient by the scretary.
+
+
+
+
+
