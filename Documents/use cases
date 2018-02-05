@@ -5,7 +5,7 @@ Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                   Patient
 
    Basic Flow of events:
-      1. Radiologist/Referring Physician logs in to the system with their supplied HIS/RIS ID and Password
+      1. User logs in to the system with their supplied HIS/RIS ID and Password
       2. The System logs them in to thier respective portal
       3. Radiologist/Referring Physician selects add new patient or update returning patient
       4. The System loads the new Add Patient form
@@ -13,7 +13,7 @@ Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
       6. The System sends the form information to the database for archiving
   
     Alternative Flow:
-      1a. Radiologist/Referring Physician credientials are not valid
+      1a. User credientials are not valid
         1a1. The System displays an error message
       2a. The System cannot connect to the database
         2a1. The System displays an error message
@@ -97,28 +97,4 @@ Diagnositic Workstation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   Alternative Flow:   
     1a. If chosen, select images can be physically printed     
     
-    
-    
-    
-// Numbered Use Cases to diagram ///////////////////////////////////////////////////////////////////////////////////////
-Use Case 1: A user Logs into the system
-  1. A user selects the appropriate portal
-  2. The user enters their Username into the username field and their password into the password field.
-  3. User hits the log in button once credentials are entered.
-  4. User is logged on to the main page if the information is valid.
-  5. If the information is invalid the user is given error messages to help them enter valid information
-    if they have it.
-  6. They have 15 minutes of inactivity until they are logged out.
-  7. They have 3 trys to enter the correct information.
-  8. They have to option to recover or create the appropriate information to log in. (See Case 2 or 3)
-
-Use Case 2: A user recovers account information
-  1. The user does not know their information to log into the system.
-  2. 
-
-Use Case 3: A Patient's appointment is scheduled.
-  1. A reference selects an available time slot on the table.
-  2. The reference chooses the type of examination and adds notes to explain its purpose.
-  
- Use Case 4: 
  
