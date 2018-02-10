@@ -5,3 +5,22 @@ README:
   you have to work on both at the same time because they are connected.)
   
   //Project Backlog ////////////////////////////////////////////////////////////////////////////
+    Prototype
+      -represent GUI
+      -show flow of events
+      -show data to be displayed
+      
+    UML Diagram (classes)
+      -show what classes are going to be interacting
+      -give classes needed attributes
+      -map functions
+      
+    UML Diagram (High level design)
+      -used to help make class diagram
+      -have a complete flow of events for all scenarios
+      -show actors, events, etc...
+      
+    Redo use cases (AGAIN.... :(  )
+      -make use cases fit the Salami-man's examples
+
+    Sort out calendar to acomplish goals
