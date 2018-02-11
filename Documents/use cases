@@ -1,126 +1,162 @@
-Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  primary actors: Doctor (Referring Physician)
-
-  Name: CapturePatientDemographics
-  Particiapting Actors:
-    MD User (Nurse, Secretary, Refereing MD, Radiologist)
-    Patient
-  Entry Conditions: Reference logs in the the system.
-  Flow of events:
-    1. MD User logs in to the system with their supplied HIS/RIS ID and Password.
-    2. The System logs them in to thier respective portal.
-    3. Radiologist/Referring Physician selects add new patient or update returning patient.
-    4. The System loads the new Add Patient form.
-    5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics..
-    6. The System sends the form information to the database for archiving.
-   Exit Conditions: Once the system has saved the patient demographics the the database and recives confimration of archival.
-   Exceptions:
-    1a. User credientials are not valid.
-      1a1. The System displays an error message.
-    2a. The System cannot connect to the database.
-      2a1. The System displays an error message.
-   Quality Requirments: The MD User must be informed of any exceptional cases.
+Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ 
+	Name: CapturePatientDemographics
+	Particiapting Actors:
+		MD User (Nurse, Secretary, Refereing MD, Radiologist)
+	Entry Conditions: Reference logs in the the system.
+	Flow of events:
+		1. MD User logs in to the system with their supplied HIS/RIS ID and Password.
+		2. The System logs them in to thier respective portal.
+		3. Radiologist/Referring Physician selects add new patient or update returning patient.
+		4. The System loads the new Add Patient form.
+		5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics..
+		6. The System sends the form information to the database for archiving.
+	Exit Conditions: Once the system has saved the patient demographics the the database and recives confimration of archival.
+	Exceptions:
+		1a. User credientials are not valid.
+			1a1. The System displays an error message.
+		2a. The System cannot connect to the database.
+			2a1. The System displays an error message.
+	Quality Requirments: The MD User must be informed of any exceptional cases.
    
 Referring Physician/Radiologist orders the desired radiology procedure\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Doctor (Referring Physician)
-                  Radiologist
-                  Patient
-
-   Basic Flow of events:
-      1. Radiologist/Referring Physician accesses radiology portal
-      2. The System loads the respective radiology portal
-      3. Radiologist/Referring Physician selects modality Tab
-      4. The System loads the modality Tab
-      5. Radiologist/Referring Physician selects desired modality 
-      6. Requests scheduling of modality resources.  
-    
-    Alternative Flow:
-      5a. Modality unavailable, flags are thrown
-      5b. Patient conflicts, flags are thrown
-    
+	Name: OrderRadiologyProcedure
+	Particiapting Actors:
+		MD User (Refereing MD, Radiologist)
+	Entry Conditions: MD User selects request radiology modality for patient in radiology Tab
+	Flow of events:
+		1. Radiologist/Referring Physician accesses radiology portal
+		2. The System loads the respective radiology portal
+		3. Radiologist/Referring Physician selects modality Tab
+		4. The System loads the modality Tab
+		5. Radiologist/Referring Physician selects desired modality 
+		6. Requests scheduling of modality resources.  
+    Exit Conditions: The MD user must confirm request of modality resources
+    Exceptions:
+		5a. Modality unavailable, flags are thrown
+		5b. Patient conflicts, flags are thrown
+    Quality Requirments: The System must flag the MD if any conflicts are found and will continue with MD user approval.
+	
 System prefetchs prior patient studies\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Radiologist
-                  System
-   Basic Flow of events:
-      1. Radiologist begins the process of taking the desired modality
-      2. The system will automatically collect every prior study of the patient and display them within a seperate tab/table
-      3. The Radiologist can access the patients history.
-      
-    Alternative Flow:      
+	Name: fetchPriorStudies
+	Particiapting Actors:
+		System
+		Modality Technition
+	Entry Conditions: Modality Techinition begins scheduled procedure
+	Flow of events:
+		1. The modality technition begins the scheduled modality
+		2. The system automatically accesses the image archival database and collects every prior study of the patient and sends the images to the diagnostic workstation
+    Exit Conditions: The system retrieves the images
+    Exceptions:
+		1a. The modality technition never begins the modality procedure
+			1a1. The system will then not connact the archival database
+		2a. The System cannot contact the archival database
+			2a1. The system throws a flag and displays an error.
+		2b. The patient has no prior studies conducted
+			2b1. The system displays "No Patient Studies Found"
+    Quality Requirments: The System must display any warning for system technitions to debug 
 
-Modality worklist\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: System
-                  Technition
-                  
-  Basic Flow of events:
-    1. The system loads the modality worklist steps and patient information.
-    2. Flags are displayed. (Flags are known conflicts)
-      
-    Alternative Flow:     
+Modality worklist\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	Name: CreateModalityWorklist
+	Particiapting Actors: 
+		System
+	Entry Conditions: 
+	Flow of events:
+		1. The System updates the global schedule with patient and his/her procudure information.
+		2. All modality imaging machinary will have access to thier respective scheduling information
+    Exit Conditions: The database has been updated with new patient and procedure information
+    Exceptions:
+		1a. The system fails to update the global schedule due to some error
+			1a1. The system will then display an error
+    Quality Requirments: The System must flag the MD if any conflicts are found and will continue with MD user approval.       
  
-Charge Capture \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Patient
-                  System
-                  Secretary
-                  
-  Basic Flow of events:
-    1. The system keeps track of the patients expenses.
-    2. Expenses accrue as procedures are completed.
-    3. The Patient interacts with the secretary to secure charge capture.
-    
-    Alternative flow:
-    1. Patient contacts insurance and deducts their coverage from the total.
+Charge Capture \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	Name: ChargeCapture
+	Particiapting Actors: 
+		Patient
+		System
+		Secretary
+	Entry Conditions: The patient signs in at the front desk
+	Flow of events:
+		1. The system keeps track of the patients expenses.
+		2. Expenses accrue as procedures are completed.
+		3. The Patient interacts with the secretary to secure charge capture.
+    Exit Conditions: The Secretary has flag the system to stop charge capture for patient
+    Exceptions:
+		1a. The system fails to update charge capture for patient
+    Quality Requirments: The System must flag for all falied captures
     
 Modality image Archiving\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: System
-                
-  Basic Flow of events:
-    1. The system will automatically save all approved modality images and store them within an archival database 
-    under the patient id and patient name
-    2. The system amkes the recent aquistions available to PACS.
+	Name: ArchiveModalityImage
+	Particiapting Actors: 
+		System
+		Modality Techintion
+	Entry Conditions: Modality Techinition begins scheduled procedure
+	Flow of events:
+		1. The Modality Techintion begins scheduled modality 
+		2. The system does fetchPriorStudies use case as technitions takes modality images
+		3. Modality Technitions can either accept or not accepted taken modality image and has the ability to take more images if needed
+		4. The system will automatically save all approved modality images and store them within an archival database under the patient id and patient name
+		5. The system amkes the recent aquistions available to PACS.
+    Exit Conditions: The modality technition ends scheduled procedure
+    Exceptions:
+		1a. The system fails to update charge capture for patient
+    Quality Requirments: The System must load and display taken images instantly
+ 
+Diagnositic Workstation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	Name: WorkstationDiagnostics
+	Particiapting Actors: 
+		Radiologist
+		System
+    Entry Conditions: The Radiologist signs in and accesses the diagnotics workstation tab              
+	Basic Flow of events:
+		1. The system will automatically load in prefetched patient studies for radiologist viewing and 
+		2. Any new patient studies will automatically be accessable to radiologist
+		3. The radiologist writes their report.
+		4. The system archives the report to Report Repository with patient demographics infomration and patient modality images.
+	Exit Conditions: The system confirms archival or report
+	Exceptions:
+    1a. If chosen, report and all relevant data/images can be physically printed   
+	Quality Requirments: The radilogist must have access to patient images 
     
-  Alternative Flow:   
-    1a. If chosen, select images can be physically printed
+Report Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	Name: ReportRepository
+	Particiapting Actors: 
+		System
+  Entry Conditions: Referring MD logs in to the system             
+	Flow of events:
+		2. The Report is made available for viewing only, to the refering physcian
+  Exit Conditions: Referring MD logs out of the system  
+	Exceptions:     
+    Quality Requirments: The radilogist must have access to patient images 
     
-Diagnositic Workstation\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: Radiologist
-                  System
-                  
-  Basic Flow of events:
-    1. The radiologist can select any image and view the image for diagnostics
-    2. The radiologist writes their report.
-    3. Radiologist requests to achrive report to Report Repository.
+Scheduling flags \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	Name: FlagsScheduling
+	Particiapting Actors: 
+		MD User
+		System
+    Entry Conditions: MD User attempts to schdule modality procedure
+	Flow of events:	
+		1. MD User attempts to submit modality appointment.
+		2. System alerts secretary to scheduling conflicts
+		3. MD User selects appropriate time with no conflicts.
+    Exit Conditions: 
+	Exceptions:     
+    Quality Requirments: 
     
-  Alternative Flow:   
-    1a. If chosen, select images can be physically printed   
-    
- Report Repository\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-  primary actors: System
-                  
-  Basic Flow of events:
-    1. Report is stored.
-    2. Report is made available for viewing only, to the refering physcian
-    
-  Alternative Flow:   
-    1a. If chosen, select images can be physically printed     
-    
-Secretary flags ////////////////////////////////////////////////////////////////////////////
-  primary actors: Secretary
-                  System
-                  
-    1. Secretary attempts to submit appointment.
-    2. System alerts secretary to scheduling conflicts
-    3. Secretary selects appropriate time with no conflicts.
-    
-Medical flags /////////////////////////////////////////////////////////////////////////////////////////////
-   primary actors: technition
-                   System
-                   Refering physcian
-                   
-     1. Refering physcian request procedures.
-     2. System catches known medical conflicts and throws the appropriate flags.
-     3. These are soft flags. They will not stop the procedures, but alert the party involved.
-     4. At procedure time Technition confirms flags are resolved.
-     
+Medical flags \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+	Name: FlagsMedical
+	Particiapting Actors: 
+		Modality Technition
+		System
+		MD User (Refering physcian)
+    Entry Conditions: MD user attempts to request modality appointment for patient                   
+	Flow of events:	
+		1. MD User request modality procedure for schduling.
+		2. System catches known medical conflicts and throws the appropriate flags.
+		3. These are soft flags. They will not stop the procedures, but alert the party involved.
+    Exit Conditions: At procedure time Technition confirms flags are resolved.
+	Exceptions:     
+    Quality Requirments:  
 Charge capture (financing) "splitting the bill" (Kyle Remillard, 2018)
   primary actors: System
                   Secretary
@@ -131,7 +167,7 @@ Charge capture (financing) "splitting the bill" (Kyle Remillard, 2018)
       3. The insurance is billed for the agreed upon amount and the patient's bill is reduced to the difference.
       4. The bill is made available for payment to patient by the scretary.
 
-Orders filled ///////////////////////////////////////////////////////////////////////////////////////////////////////
+Orders filled \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   primary actors: Secretary
                   System
     
