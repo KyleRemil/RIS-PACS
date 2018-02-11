@@ -1,23 +1,25 @@
 Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  primary actors: Doctor (Referring Physician)
-                  Reference (Person who physically schedules the appointment. Nurse, secretary, PA, etc...)
-                  User (Any one with credentials to access the system)
-                  Radiologist
-                  Patient
 
-   Basic Flow of events:
-      1. User logs in to the system with their supplied HIS/RIS ID and Password
-      2. The System logs them in to thier respective portal
-      3. Radiologist/Referring Physician selects add new patient or update returning patient
-      4. The System loads the new Add Patient form
-      5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics.
-      6. The System sends the form information to the database for archiving
-  
-    Alternative Flow:
-      1a. User credientials are not valid
-        1a1. The System displays an error message
-      2a. The System cannot connect to the database
-        2a1. The System displays an error message
-    
+  Name: CapturePatientDemographics
+  Particiapting Actors:
+    MD User (Nurse, Secretary, Refereing MD, Radiologist)
+    Patient
+  Entry Conditions: Reference logs in the the system.
+  Flow of events:
+    1. MD User logs in to the system with their supplied HIS/RIS ID and Password.
+    2. The System logs them in to thier respective portal.
+    3. Radiologist/Referring Physician selects add new patient or update returning patient.
+    4. The System loads the new Add Patient form.
+    5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics..
+    6. The System sends the form information to the database for archiving.
+   Exit Conditions: Once the system has saved the patient demographics the the database and recives confimration of archival.
+   Exceptions:
+    1a. User credientials are not valid.
+      1a1. The System displays an error message.
+    2a. The System cannot connect to the database.
+      2a1. The System displays an error message.
+   Quality Requirments: The MD User must be informed of any exceptional cases.
+   
 Referring Physician/Radiologist orders the desired radiology procedure\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   primary actors: Doctor (Referring Physician)
                   Radiologist
