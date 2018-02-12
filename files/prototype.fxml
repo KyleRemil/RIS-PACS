@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -9,10 +11,13 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1090.0">
         <menus>
@@ -33,9 +38,46 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TabPane layoutX="-1.0" layoutY="27.0" prefHeight="564.0" prefWidth="1090.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="-1.0" layoutY="27.0" prefHeight="634.0" prefWidth="1090.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Registration" />
+          <Tab text="Registration">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ddd;">
+                     <children>
+                        <Pane layoutX="14.0" layoutY="14.0" prefHeight="129.0" prefWidth="601.0" style="-fx-background-color: #fff;">
+                           <children>
+                              <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Basic Information" />
+                              <Text layoutX="37.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
+                              <TextField layoutX="112.0" layoutY="19.0" promptText="First Name" />
+                              <TextField layoutX="308.0" layoutY="19.0" promptText="Last Name" />
+                              <TextField layoutX="261.0" layoutY="19.0" prefHeight="25.0" prefWidth="47.0" promptText="MI" />
+                              <Text layoutX="42.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:" />
+                              <JFXDatePicker layoutX="112.0" layoutY="43.0" />
+                              <ComboBox layoutX="437.0" layoutY="43.0" prefWidth="150.0" promptText="Male" />
+                              <Text layoutX="395.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender:" />
+                              <TextField layoutX="112.0" layoutY="68.0" promptText="#" />
+                              <Text layoutX="86.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SSN:" />
+                              <ComboBox layoutX="437.0" layoutY="68.0" prefWidth="150.0" promptText="Male" />
+                              <Text layoutX="361.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status:" />
+                              <TextField layoutX="112.0" layoutY="93.0" promptText="ft." />
+                              <Text layoutX="72.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
+                              <TextField layoutX="438.0" layoutY="93.0" prefHeight="25.0" prefWidth="150.0" promptText="lbs." />
+                              <Text layoutX="398.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="14.0" layoutY="143.0" prefHeight="129.0" prefWidth="601.0" style="-fx-background-color: #fff;">
+                           <children>
+                              <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Information" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="14.0" layoutY="272.0" prefHeight="129.0" prefWidth="601.0" style="-fx-background-color: #fff;">
+                           <children>
+                              <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Information 2" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
           <Tab text="Appointment" />
             <Tab text="Dianosis" />
             <Tab text="Radiology">
@@ -76,6 +118,25 @@
                         <DatePicker layoutX="56.0" layoutY="61.0" prefHeight="25.0" prefWidth="109.0" />
                         <JFXTextField accessibleRole="LIST_VIEW" editable="false" focusColor="WHITE" layoutX="173.0" layoutY="61.0" prefHeight="25.0" prefWidth="33.0" text="To : " unFocusColor="#ffffff00" />
                         <DatePicker layoutX="206.0" layoutY="61.0" prefHeight="25.0" prefWidth="109.0" />
+                        <Pane layoutX="331.0" layoutY="424.0" prefHeight="129.0" prefWidth="746.0">
+                           <children>
+                              <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Details" />
+                              <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Performing Modality Name:" />
+                              <Text layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology Service Type:" />
+                              <ComboBox layoutX="160.0" layoutY="36.0" prefWidth="150.0" />
+                              <ComboBox layoutX="159.0" layoutY="65.0" prefWidth="150.0" />
+                              <Text layoutX="12.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology Service Type:" />
+                              <ComboBox layoutX="159.0" layoutY="93.0" prefWidth="150.0" />
+                              <Text layoutX="337.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology / Technicien" />
+                              <ComboBox layoutX="484.0" layoutY="36.0" prefWidth="150.0" />
+                              <TextArea layoutX="397.0" layoutY="69.0" prefHeight="54.0" prefWidth="345.0" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="331.0" layoutY="61.0" prefHeight="99.0" prefWidth="746.0">
+                           <children>
+                              <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                </content>
