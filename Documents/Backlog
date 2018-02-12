@@ -1,26 +1,26 @@
 README:
-  List items from the requirements and use cases and give them weights (Small, Medium, Large)
+  List items from the requirements and use cases and give them weights (Name: Small, Medium, Large)
   Possibly calculate the risk (if salimi requires it)
   Self select the item you want to work on. (Don't select more than one at a time unless 
   you have to work on both at the same time because they are connected.)
   
   //Project Backlog ////////////////////////////////////////////////////////////////////////////
-    Prototype
+    Prototype (Kyle: M)
       -represent GUI
       -show flow of events
       -show data to be displayed
       
-    UML Diagram (classes)
+    UML Diagram (classes) (Kyle: L)
       -show what classes are going to be interacting
       -give classes needed attributes
       -map functions
       
-    UML Diagram (High level design)
+    UML Diagram (High level design) (Kyle: S)
       -used to help make class diagram
       -have a complete flow of events for all scenarios
       -show actors, events, etc...
       
-    Redo use cases (AGAIN.... :(  )
+    Redo use cases (AGAIN.... :(  ) (Kyle: S)
       -make use cases fit the Salami-man's examples
 
-    Sort out calendar to acomplish goals
+    Sort out calendar to acomplish goals (Kyle: S)
