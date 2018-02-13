@@ -58,3 +58,6 @@ radiology images, so I can track their health progress and more accurately deter
 
 As an admin, I want to clearly see how resources, equipment, and employees are currently scheduled, so I can see what is in use.
 As an admin, I want to see current ist of procedures order in need of scheduling, so I can approve/disprove and schedule them.
+
+When scheduling an appointment, I want to either easily add a new patient to the system, or have the system search the patient database
+based on entered info to more quickly register which patient is being scheduled.
