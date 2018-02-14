@@ -37,4 +37,18 @@ README:
     Database Handler
       - Restrict information based on permissions
       
+    Scheduler
+      - Handle the availability of modalities
+      - Check for conflicts
+        ~ Throw flags
+        
+    Convert Robs GUI prototype into some thing functional (or ditch it and restructure)
+      - Registration
+      - Appointment
+      - Diagnosis
+      - Radiology
+      - Invoice
+      
+    
+      
     
