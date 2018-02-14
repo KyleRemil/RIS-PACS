@@ -24,3 +24,17 @@ README:
       -make use cases fit the Salami-man's examples
 
     Sort out calendar to acomplish goals (Kyle: S)
+    
+    Project Backlog (start of programming) //////////////////////////////////////////////////////////
+    
+    Login System
+      - Username and Password match
+      - Filter invalid characters
+      
+    Database
+      - Save all the information
+      
+    Database Handler
+      - Restrict information based on permissions
+      
+    
