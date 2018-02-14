@@ -1,0 +1,87 @@
+
+
+users  table
+  userId
+  username - unique
+  password
+  role
+  
+patients table
+  patientId
+  primaryPhysicianId - foreign key
+  name
+  phone_num
+  age
+  gender
+  height
+  ...etc
+  
+patient_records table - lists previous visits, reasons, illness, perscriptions, etc
+  recordId
+  patientId - foreign key
+  doctorId - foreign key
+  appointmentId - foreign key
+  timestamp
+  visit_reason -ex: appointment, regular check-up, etc
+  visit_details -ex: symptoms
+  emergency_bool
+  treatment
+  perscription
+  perscription_start
+  perscription_end
+  (vitals like blood pressure, temp, etc.)
+  
+
+employee table (maybe)
+  id
+  userId - foreign key
+  name
+  position/job title
+  ..etc
+  
+modalities/equipment table
+  id
+  name
+  inUse_bool
+  current_appointment - foreign key
+  next_appointment - foreign key
+  
+reports table
+  id
+  patientId - foreign key
+  refferingId - foreign key
+  technicianId - foreign key
+  schedulerId - foreign key
+  radiologistId - foreign key
+  timestamp
+  type - ex: xray
+  info
+  image_info
+  
+appointments table
+  id
+  date_created
+  scheduler_userId - foreign key
+  referring_userId - foreign key
+  employee_userId - foreign key
+  patientId - foreign key
+  modalityId - foreign key
+  patient_name
+  appointment_type
+  appointment_info
+  emergency_bool
+  start_time
+  end_time_expected
+  end_time
+  completed_bool
+  canceled_bool
+
+reportsList table - lists reports that need to be made by radiologist after appointment/modality is done
+  appointmentId - foreign key
+  radiologistId - foreign key (maybe starts null, then a radiologist is assigned the oldest one when one is open)
+  time_created
+  time_completed (set when radiologist makes final report)
+  image_info
+  appointment_info
+  emergency_bool (if true, has higher priority)
+  
