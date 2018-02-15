@@ -1,10 +1,10 @@
 
 
 users  table
-  userId
-  username - unique
-  password
-  role
+  userId - int autoincrement NOT NULL PRIMARY KEY
+  username - unique VARCHAR 15
+  password - VARCHAR 15
+  role (I assume this corresponds to their permissions?)
   
 patients table
   patientId
