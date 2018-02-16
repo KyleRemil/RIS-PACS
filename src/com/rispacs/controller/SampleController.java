@@ -1,5 +1,6 @@
 package com.rispacs.controller;
 
-public class SampleController {
-	
+public class SampleController
+{
+	//testing
 }
