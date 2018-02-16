@@ -16,6 +16,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1358.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
@@ -79,7 +80,58 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-          <Tab text="Appointment" />
+          <Tab text="Appointment">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="14.0" layoutY="45.0" prefHeight="546.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn prefWidth="49.000030517578125" text="Time" />
+                            <TableColumn prefWidth="149.0" text="Name" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TableView layoutX="232.0" layoutY="45.0" prefHeight="546.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn prefWidth="49.000030517578125" text="Time" />
+                              <TableColumn prefWidth="149.0" text="Name" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TableView layoutX="450.0" layoutY="45.0" prefHeight="546.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn prefWidth="49.000030517578125" text="Time" />
+                              <TableColumn prefWidth="149.0" text="Name" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TableView layoutX="668.0" layoutY="45.0" prefHeight="546.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn prefWidth="49.000030517578125" text="Time" />
+                              <TableColumn prefWidth="149.0" text="Name" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TableView layoutX="886.0" layoutY="45.0" prefHeight="546.0" prefWidth="200.0">
+                           <columns>
+                              <TableColumn prefWidth="49.000030517578125" text="Time" />
+                              <TableColumn prefWidth="149.0" text="Name" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
             <Tab text="Dianosis" />
             <Tab text="Radiology">
                <content>
@@ -182,7 +234,66 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Invoice" />
+            <Tab text="Invoice">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Pane layoutX="14.0" layoutY="14.0" prefHeight="577.0" prefWidth="282.0" style="-fx-background-color: blue;">
+                           <children>
+                              <TableView layoutX="14.0" layoutY="22.0" prefHeight="541.0" prefWidth="186.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Invoice No." />
+                                  <TableColumn prefWidth="75.0" text="Patient Name" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="306.0" layoutY="292.0" prefHeight="299.0" prefWidth="1047.0" style="-fx-background-color: orange;">
+                           <children>
+                              <TableView layoutX="15.0" layoutY="35.0" prefHeight="194.0" prefWidth="1018.0">
+                                <columns>
+                                  <TableColumn prefWidth="98.0" text="Date of Service" />
+                                    <TableColumn prefWidth="95.0" text="Item " />
+                                  <TableColumn prefWidth="150.0" text="Description" />
+                                    <TableColumn prefWidth="150.0" text="Number of Items" />
+                                    <TableColumn prefWidth="150.0" text="Cost Per" />
+                                    <TableColumn prefWidth="150.0" text="Discount" />
+                                    <TableColumn prefWidth="150.0" text="Balance" />
+                                </columns>
+                              </TableView>
+                              <Text layoutX="14.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice No:" wrappingWidth="108.13671875">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text layoutX="96.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice No Value" wrappingWidth="168.13671875">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="306.0" layoutY="187.0" prefHeight="99.0" prefWidth="1048.0" style="-fx-background-color: green;">
+                           <children>
+                              <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
+                              <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
+                              <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age:" />
+                              <Text layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
+                              <Text layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age Value" />
+                              <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name" />
+                              <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status" />
+                              <Text layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
+                              <Text layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Marital Status Value" />
+                              <Text layoutX="484.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
+                              <Text layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content></Tab>
         </tabs>
       </TabPane>
    </children>
