@@ -2,14 +2,14 @@ Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	Functional Requirement: (7)
 	Name: CapturePatientDemographics
 	Particiapting Actors:
-		MD User (Nurse, Secretary, Refereing MD, Radiologist)
+		MD User (Receptionist)
 	Entry Conditions: Reference logs in the the system.
 	Flow of events:
-		1. MD User logs in to the system with their supplied HIS/RIS ID and Password.
+		1. Receptionist logs in to the system with their supplied HIS/RIS ID and Password.
 		2. The System logs them in to thier respective portal.
-		3. Radiologist/Referring Physician selects add new patient or update returning patient.
+		3. Receptionist selects add new patient or update returning patient.
 		4. The System loads the new Add Patient form.
-		5. Radiologist/Referring Physician fills out created form with new/returning patient's current demographics..
+		5. Receptionist fills out created form with new/returning patient's current demographics..
 		6. The System sends the form information to the database for archiving.
 	Exit Conditions: Once the system has saved the patient demographics the the database and recives confimration of archival.
 	Exceptions:
@@ -19,18 +19,18 @@ Initial Capture of patient demographics information\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 			2a1. The System displays an error message.
 	Quality Requirments: The MD User must be informed of any exceptional cases.
    
-Referring Physician/Radiologist orders the desired radiology procedure\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Referring Physician orders the desired radiology procedure\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 	Functional Requirement: (12)
 	Name: OrderRadiologyProcedure
 	Particiapting Actors:
-		MD User (Refereing MD, Radiologist)
+		MD User (Refereing MD)
 	Entry Conditions: MD User selects request radiology modality for patient in radiology Tab
 	Flow of events:
-		1. Radiologist/Referring Physician accesses radiology portal
+		1. Referring Physician accesses radiology portal
 		2. The System loads the respective radiology portal
-		3. Radiologist/Referring Physician selects modality Tab
+		3. Referring Physician selects modality Tab
 		4. The System loads the modality Tab
-		5. Radiologist/Referring Physician selects desired modality 
+		5. Referring Physician selects desired modality 
 		6. Requests scheduling of modality resources.  
     Exit Conditions: The MD user must confirm request of modality resources
     Exceptions:
