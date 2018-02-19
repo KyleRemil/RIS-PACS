@@ -5,42 +5,63 @@ Non-functional requirements:
 (3)	Have Alerts in a notification panel
 (4)	System to check for resource conflics before allocation
 (5)	Save images as jpg
-(2)   Database in SQL (either remote or local, not sure yet)
+(7) Database in SQL (either remote or local, not sure yet)
+(9)	Have an easy to use GUI with explanatory buttons on hover 
+(8)        System must provide a visible Schedule list
+                        -list of currently scheduled tasks/procedures
+                        -On hover, provide information on patient and procedure
+
 Shared in github
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Functional Requirements:
-(1)	Have an easy to use GUI with explanatory buttons on hover 
-(3)	Be notified of scheduling
-(4)	Prevent over booking modalities
-(5)	Report viewer
-(7)   archive reports
-(8)   Manage who has access to reports
-(10)  Register patient demographics as either a MD or radiologist 
-(11)  Order radiology procesdure as either a MD or radiologist
-(12)  Schedule single/multiple radiology procedures of patient
-(13)  Scheculde Conflict Alert and conflict resolution
-(14)  Schedule list
-            -list of currently scheduled tasks/procedures
-            -click to show more info of procedure and patient
-(15) prefetch of Patient's previous modality images
-(16) Take modality images of patient
-(17) Acquire Patient's current modailty images 
-(18) Store and manage patient modality images 
-(19) Retrieve Patient modality images
-(20) Review Patient modality Images/ Write radiolist report
-(21) Store radiologist report in report repoisitory for MD review/print radiologist report for MD review.
-(22) Charge Capture:
-        Insurance Coverage.
-        labor
-        modalities
-        Medication
-        Room/board
-        Other financers
-(9) Referring physician portal
-(23) Conflict Warning messeging:
-      -Patient Perscriptions
-      -Patient medical Implants
-      -Patient illnesses (or allergies)
+//          Patient Info            /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(10)	Capture current patient demographics
+		-First Name
+		-Last Name
+		-Medical Prescptions 
+	            -etc.
+(24)	System should have patient search and autofill capablities to ease updating returning patient demographics
 
+//          Radiology procedure Order and schduling         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(11)	Can order radiology procedure as a reffering MD
+(20)	System can either automatically schedule modality procedure at earlist convienice or provide a pending list for receptionist to choose procedure schedule time
+(4)	System must prevent over-booking of modality resources
+		-Resources must be allocated at intervals of 15mins
+		-If prevention fails, procedure moved to pending table for later automatic scheduleing or receptionist input
+(3)	System must notify of scheduling errors and provide scheduling conflict resolution if schecduled by receptionist
+(12)	System should only schedule radiology procedures of patient for current day (Current Scope)
+(23)	At procedure request the system must notify of medical conflict Warnings:
+	            -Patient Perscriptions
+                        -Patient medical Implants
+		-Patient illnesses (or allergies)
+            
+ //         Procedure Breakdown                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////          
+(21)	System must break down requested radiology procedure into procedure steps. 
+(22)	Modality machines must have access to created procedure steps. 
+(15) 	System must prefetch Patient's previous modality studies and have them readily avalible for radiologst viewing at diagnositic workstation. 
+                        
+//          Image Taking and Saving             /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(25)	System must get confirmation to continue procedure from modality technician to ward off medical flags
+(16)	System must be able to take modality images of patient (Select image(s) from file browser)
+(18)	System must store and manage patient modality images 
 
+//          WorkStation Functionality
+(19)	System must retrieve Patient modality images from database for radiologist viewing
+(20)	System must provide a workspace for radiologist to review patient modality Images and write radiolist report
 
+//          Report Repository                   /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(7)	System must save reports written by radiologists into a report repository
+(5)	System must have a report repository for network access
+(8)	System must manage who has access to reports based on role and ID
+(23)	System must have the option to print radiologist report
+(9)	The system must have a Referring physician portal for report viewing
+
+//          Charge Capture                      /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+(22)	The system must capture charges based on resrouces used:
+	            -Insurance Coverage.
+                        -labor
+                        -modalities
+                        -Medication
+                        -Room/board
+                        -Other financers
