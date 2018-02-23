@@ -1,0 +1,22 @@
+	• Flags for medical issues
+		○ Physician places order
+			§ System checks it
+			§ Physician chooses whether or not to proceed.
+	• Modality technician does not worry about approving flags.
+		○ They just perform the procedure
+	• Technician knows the steps and does not need prompts 
+		○ Technician just has the options to perform the different procedures
+		○ Takes picture
+		○ Takes notes
+		○ Patient appointment completed
+		○ Info sent to database
+	• Financial
+		○ After procedure is completed the charge is captured
+			§ After radiologist completes the report
+		○ Bill patient directly, let him worry about every thing else
+	• Referring physician is outside of scope
+		○ Do not worry about him getting paid
+ 	• Prioritize requirements
+		
+
+		

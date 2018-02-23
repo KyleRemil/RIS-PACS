@@ -1,0 +1,14 @@
+Scenarios:
+
+Scenario: User schedules patient’s appointment.
+	Sheryl is a 34-year-old secretary who has been working in family practice for 4 years. She grew up at the start of the digital age 
+  and is a competent basic user. Earl is a plumber and a patient at Dr. Who’s practice where Sheryl works. Earl has complained to 
+  doctor who about mysterious abdominal pain. Dr. Who writes up a report on the visit and a form of recommendation to a Radiologist 
+  that might illuminate Earls problem. A nurse escorts earl with the form to Sheryl. Sheryl reads the relevant information that 
+  pertains to her on the top of the form. She uses her HIS system to communicate with a RIS to schedule the appointment. She looks up 
+  Earl’s information to add him to the appointment. Earl has no previous history in the system. Sheryl gives Earl a form to fill out 
+  with the needed information to add him to the system. Sheryl reviews the form for completeness and then enters the information into 
+  the system creating Earl the patient. She chooses an available time slot. A warning message appears telling her there is a problem 
+  with Earl receiving the chosen procedure. Dr. Who reviews Earls case and decides to proceed with the current course and overrides 
+  the necessary permissions to continue. The appointment is confirmed and proof of this confirmation is supplied to the practice who 
+  in turn supply earl with copy that contains the information he, and any one inquiring should know.
