@@ -15,6 +15,9 @@ patients table
   gender
   height
   ...etc
+  previousVisitRecordId
+  arrived - boolean
+  
   
 patient_records table - lists previous visits, reasons, illness, perscriptions, etc
   recordId
