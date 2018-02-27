@@ -209,7 +209,7 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
-            <Tab text="Dianosis">
+            <Tab text="Diagnosis">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -291,15 +291,11 @@
                                              <children>
                                                 <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Details" />
                                                 <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Performing Modality Name:" />
-                                                <Text layoutX="12.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology Service Type:" />
-                                                <ComboBox layoutX="167.0" layoutY="36.0" prefWidth="150.0" />
-                                                <ComboBox layoutX="167.0" layoutY="65.0" prefWidth="150.0" />
-                                                <Text layoutX="12.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology Service:" />
-                                                <ComboBox layoutX="167.0" layoutY="93.0" prefWidth="150.0" />
-                                                <Text layoutX="356.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology / Technicien:" />
-                                                <ComboBox layoutX="484.0" layoutY="36.0" prefWidth="150.0" />
-                                                <TextArea layoutX="484.0" layoutY="66.0" prefHeight="54.0" prefWidth="445.0" />
-                                                <Text layoutX="414.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+                                                <ComboBox layoutX="167.0" layoutY="36.0" prefWidth="150.0" promptText="Xray" />
+                                                <Text layoutX="14.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology Service:" />
+                                                <ComboBox layoutX="167.0" layoutY="65.0" prefWidth="150.0" promptText="Femur" />
+                                                <TextArea layoutX="484.0" layoutY="38.0" prefHeight="54.0" prefWidth="445.0" />
+                                                <Text layoutX="409.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
                                              </children>
                                           </Pane>
                                           <Pane prefHeight="99.0" prefWidth="940.0">
@@ -323,7 +319,22 @@
                             </Tab>
                             <Tab text="Patient History">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <TableView layoutX="14.0" layoutY="14.0" prefHeight="467.0" prefWidth="200.0">
+                                            <columns>
+                                              <TableColumn prefWidth="75.0" text="Report ID" />
+                                              <TableColumn prefWidth="75.0" text="Procedure" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                          </TableView>
+                                          <Pane layoutX="224.0" layoutY="14.0" prefHeight="297.0" prefWidth="350.0" style="-fx-background-color: grey;" />
+                                          <Button layoutX="496.0" layoutY="315.0" mnemonicParsing="false" text="Next Image" />
+                                          <Button layoutX="224.0" layoutY="315.0" mnemonicParsing="false" text="Previous Image" />
+                                          <TextArea layoutX="584.0" layoutY="14.0" prefHeight="412.0" prefWidth="349.0" text="Report Goes Here (Uneditable)" />
+                                       </children></AnchorPane>
                               </content>
                             </Tab>
                           </tabs>
@@ -338,8 +349,6 @@
                                  <columns>
                                     <TableColumn prefWidth="68.0" text="Patient ID" />
                                     <TableColumn prefWidth="85.0" text="Patient Name" />
-                                    <TableColumn prefWidth="148.0" text="Req/App Date" />
-                                    <TableColumn prefWidth="148.0" text="Req/App Time" />
                                  </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
