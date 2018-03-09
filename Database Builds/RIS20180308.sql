@@ -34,7 +34,7 @@ CREATE TABLE `patient` (
   `patientDOB` date DEFAULT NULL,
   PRIMARY KEY (`patientID`),
   UNIQUE KEY `idmasterPatientList_UNIQUE` (`patientID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES (1,'Test',NULL,'Test',NULL,0,0,0,NULL);
+INSERT INTO `patient` VALUES (2,'Testy','T','Testerson','x',0,72,185,'2018-03-09');
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-08 20:25:41
+-- Dump completed on 2018-03-08 21:58:21
