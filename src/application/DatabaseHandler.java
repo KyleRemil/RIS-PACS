@@ -1,4 +1,4 @@
-package com.rispacs.model;
+package application;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,9 +11,12 @@ public class DatabaseHandler
 	private static String connectionPassword = "#altf4ctrlf6f12!";
 
 	// connection  method that connects us to the MySQL database
-	public static Connection getConnection() throws SQLException{
+	public static Connection getConnection() throws SQLException
+	{
 		return DriverManager.getConnection(connectionString, connectionName, connectionPassword);
+
 	}
+
 	// method that displays our errors in more detail if connection fails
 	public static void displayException(SQLException ex){
 		System.err.println("Error Message: " + ex.getMessage());
