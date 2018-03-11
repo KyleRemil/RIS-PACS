@@ -433,6 +433,11 @@
                      </children>
                   </AnchorPane>
                </content></Tab>
+               <Tab text="Invoice2">
+               <content>
+               <fx:include source="Test.fxml"/>
+               </content></Tab>
+
         </tabs>
       </TabPane>
    </children>

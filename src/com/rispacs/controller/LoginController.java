@@ -1,15 +1,15 @@
 package com.rispacs.controller;
-
+/*
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import static javafx.application.Application.launch;
+*/
+public class LoginController/* extends javafx.application.Application */{
 
-public class LoginController extends javafx.application.Application {
-
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         launch(args);
     }
 
@@ -21,5 +21,5 @@ public class LoginController extends javafx.application.Application {
         stage.setTitle("Login");
         stage.setScene(loginScreen);
         stage.show();
-    }
+    }*/
 }
