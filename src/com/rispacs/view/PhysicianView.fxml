@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -21,15 +19,15 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="720.0">
                      <children>
-                        <TableView layoutY="101.0" prefHeight="262.0" prefWidth="946.0">
+                        <TableView fx:id="Table_patientRadiologyHistory" layoutY="101.0" prefHeight="262.0" prefWidth="940.0">
                            <columns>
-                              <TableColumn prefWidth="111.0" text="Request Date" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Sercive Type" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Request Service" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Service Date" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Service Time" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Radiologist" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Updated Status" />
+                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Modality" />
+                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Procedure Type" />
+                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Modality Technician" />
+                              <TableColumn prefWidth="111.0" text="Date of Request" />
+                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Scheduled Date" />
+                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Scheduled Time" />
+                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Status" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -39,11 +37,13 @@
                            <children>
                               <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Details" />
                               <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Performing Modality Name:" />
-                              <ComboBox layoutX="167.0" layoutY="36.0" prefWidth="150.0" promptText="Xray" />
-                              <Text layoutX="14.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Radiology Service:" />
-                              <ComboBox layoutX="167.0" layoutY="65.0" prefWidth="150.0" promptText="Femur" />
-                              <TextArea layoutX="484.0" layoutY="38.0" prefHeight="54.0" prefWidth="445.0" />
+                              <ComboBox fx:id="comboBox_modalityName" layoutX="167.0" layoutY="36.0" prefWidth="150.0" promptText="Xray" />
+                              <TextArea fx:id="textarea_phsysicanNoteBox" layoutX="484.0" layoutY="38.0" prefHeight="54.0" prefWidth="445.0" />
                               <Text layoutX="409.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
+                              <Text layoutX="14.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Procedure Type:" />
+                              <ComboBox fx:id="comboBox_modalityProcedureType" layoutX="167.0" layoutY="66.0" prefWidth="150.0" promptText="Left Arm" />
+                              <ComboBox fx:id="comboBox_modalityTechnician" layoutX="167.0" layoutY="95.0" prefWidth="150.0" promptText="Technician" />
+                              <Text layoutX="14.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modality Technician" />
                            </children>
                         </Pane>
                         <Pane prefHeight="99.0" prefWidth="940.0">
@@ -90,31 +90,25 @@
       </TabPane>
       <Pane layoutX="8.0" layoutY="63.0" prefHeight="537.0" prefWidth="358.0" style="-fx-background-color: green;">
          <children>
-            <JFXTextField accessibleRole="LIST_VIEW" editable="false" focusColor="WHITE" layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="35.0" text="From :  " unFocusColor="#ffffff00" />
-            <DatePicker layoutX="41.0" layoutY="5.0" prefHeight="25.0" prefWidth="109.0" />
-            <JFXTextField accessibleRole="LIST_VIEW" editable="false" focusColor="WHITE" layoutX="167.0" layoutY="5.0" prefHeight="25.0" prefWidth="33.0" text="To : " unFocusColor="#ffffff00" />
-            <DatePicker layoutX="188.0" layoutY="5.0" prefHeight="25.0" prefWidth="109.0" />
-            <TableView layoutY="60.0" prefHeight="437.0" prefWidth="358.0">
+            <TableView fx:id="Table_avaliablePatients" layoutY="2.0" prefHeight="495.0" prefWidth="358.0">
                <columns>
-                  <TableColumn prefWidth="68.0" text="Patient ID" />
-                  <TableColumn prefWidth="85.0" text="Patient Name" />
+                  <TableColumn fx:id="column_patientID" prefWidth="68.0" text="Patient ID" />
+                  <TableColumn fx:id="column_patientName" prefWidth="85.0" text="Patient Name" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button layoutX="188.0" layoutY="30.0" mnemonicParsing="false" text="Search" />
-            <Button layoutX="245.0" layoutY="30.0" mnemonicParsing="false" text="Clear" />
-            <Button layoutX="14.0" layoutY="504.0" mnemonicParsing="false" text="Refresh" />
+            <Button fx:id="Button_refreshAvaliblePatientTable" layoutX="14.0" layoutY="504.0" mnemonicParsing="false" onAction="#refresh_Table_avaliablePatients" text="Refresh" />
          </children>
       </Pane>
       <Pane layoutX="376.0" layoutY="558.0" prefHeight="42.0" prefWidth="968.0" style="-fx-background-color: orange;">
          <children>
             <Button layoutX="874.0" layoutY="9.0" mnemonicParsing="false" text="Cancel" />
-            <Button layoutX="777.0" layoutY="9.0" mnemonicParsing="false" text="Delete Request" />
-            <Button layoutX="676.0" layoutY="9.0" mnemonicParsing="false" text="Update Request" />
-            <Button layoutX="587.0" layoutY="9.0" mnemonicParsing="false" text="Send Request" />
-            <Button layoutX="474.0" layoutY="9.0" mnemonicParsing="false" text="Book Appoinment" />
+            <Button fx:id="Button_deleteRequest" layoutX="777.0" layoutY="9.0" mnemonicParsing="false" text="Delete Request" />
+            <Button fx:id="Button_updateRequest" layoutX="676.0" layoutY="9.0" mnemonicParsing="false" text="Update Request" />
+            <Button fx:id="Button_sendRequest" layoutX="587.0" layoutY="9.0" mnemonicParsing="false" onAction="#requestProcedure" text="Send Request" />
+            <Button fx:id="Button_AddAppointment" layoutX="474.0" layoutY="9.0" mnemonicParsing="false" text="Book Appoinment" />
             <Button layoutX="429.0" layoutY="9.0" mnemonicParsing="false" text="Reset" />
          </children>
       </Pane>
