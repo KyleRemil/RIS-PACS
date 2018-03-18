@@ -19,11 +19,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import models.ArrivedPatientsModel;
+import models.ProcedureListModel;
 
 public class PhysicianController {
 
-    @FXML private TableView<?> Table_patientRadiologyHistory;
-    @FXML private ComboBox<?> comboBox_modalityService;
+    @FXML private TableView<ProcedureListModel> Table_patientRadiologyHistory;
     @FXML private TextArea textarea_phsysicanNoteBox;
     @FXML private TableView<ArrivedPatientsModel> Table_avaliablePatients;
     @FXML private TableColumn<ArrivedPatientsModel, String> column_patientID;
@@ -36,12 +36,20 @@ public class PhysicianController {
     @FXML private ComboBox<ModalityName> comboBox_modalityName;
     @FXML private ComboBox<ModalityProcedureType> comboBox_modalityProcedureType;
     @FXML private ComboBox<ModalityTechnician> comboBox_modalityTechnician;
-
+    @FXML private TableColumn<ProcedureListModel, String> column_ModalityName;
+    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureType;
+    @FXML private TableColumn<ProcedureListModel, String> column_ModalityTechnician;
+    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureDOR;
+    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureScheduledDate;
+    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureScheduledTime;
+    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureStatus;
+    @FXML private Button Button_refreshPatientHistory;
 
     private ObservableList<ArrivedPatientsModel> arrivedPatientArray;
     private ObservableList<ModalityTechnician> modalityTechnicianObservableList;
     private ObservableList<ModalityName> ModalityNameObservableList;
     private ObservableList<ModalityProcedureType> ModalityProcedureTypeObservableList;
+    private ObservableList<ProcedureListModel> ModalityProcedureListObservableList;
 
     private class ModalityTechnician
     {
@@ -107,7 +115,66 @@ public class PhysicianController {
     	populatecomboBox_modalityTechnician();
     	populatecomboBox_modalityName();
     }
+    void populateTable_patientRadiologyHistory(String patientID)
+    {
+    	System.out.println("populateTable_patientRadiologyHistory("+ patientID +") Called");
+    	Connection connection = null;
+    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurelist.procedureScheduledTime, procedurestatus.procedureStatusDesc FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
+    	ModalityProcedureListObservableList = FXCollections.observableArrayList();
+    	try
+    	{
+    		connection = DatabaseHandler.getConnection();
+    		System.out.println(getPatientProcedureHistory);
+    		ResultSet resultSet = connection.createStatement().executeQuery(getPatientProcedureHistory);
+    		while (resultSet.next())
+    		{
+    			String modalityName = resultSet.getString("modalitytype.modalityTypeName");
+    			String procedureTypeDesc = resultSet.getString("modalityproceduretype.modalityProcedureTypeDesc");
+    			String modalityTechnician = resultSet.getString("staff.staffName");
+    			String dateOfRequest = resultSet.getString("procedurelist.procedureDateOfRequest");
+    			String scheduledDate = resultSet.getString("procedurelist.procedureScheduledDate");
+    			String scheduledTime = resultSet.getString("procedurelist.procedureScheduledTime");
+    			String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
+    			ProcedureListModel procedureListModel = new ProcedureListModel(
+    					modalityName,
+    					procedureTypeDesc,
+    					modalityTechnician,
+    					dateOfRequest,
+    					scheduledDate,
+    					scheduledTime,
+    					procedureStatus);
+    			ModalityProcedureListObservableList.add(procedureListModel);
+    		}
+    		Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
 
+    		column_ModalityName.setCellValueFactory(new PropertyValueFactory<>("modalityName"));
+    		column_ProcedureType.setCellValueFactory(new PropertyValueFactory<>("procedureTypeDesc"));
+    		column_ModalityTechnician.setCellValueFactory(new PropertyValueFactory<>("modalityTechnician"));
+    		column_ProcedureDOR.setCellValueFactory(new PropertyValueFactory<>("dateOfRequest"));
+    		column_ProcedureScheduledDate.setCellValueFactory(new PropertyValueFactory<>("scheduledDate"));
+    		column_ProcedureScheduledTime.setCellValueFactory(new PropertyValueFactory<>("scheduledTime"));
+    		column_ProcedureStatus.setCellValueFactory(new PropertyValueFactory<>("procedureStatus"));
+
+    		Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
+    	}
+    	catch(SQLException e)
+    	{
+    		e.printStackTrace();
+    		System.out.println("ERROR @ Control.removeUser.First Try");
+    	}
+    	finally
+    	{
+    		try
+    		{
+				connection.close();
+			}
+    		catch (SQLException e)
+    		{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
     void populatecomboBox_modalityProcedureType(String modalityTypeId)
     {
     	System.out.println("populatecomboBox_modalityProcedureType("+ modalityTypeId +") Called");
@@ -294,7 +361,7 @@ public class PhysicianController {
         		String modalityTechnicianId = modalityTechnician.getstaffID();
         		//System.out.println(selectedPatientID);
 
-        		String insertNewProcedure = "INSERT INTO `risdatabase`.`procedure` ("
+        		String insertNewProcedure = "INSERT INTO procedurelist ("
         				+ "staffID_technician,"
         				+ "modalityProcedureTypeId,"
         				+ "patient_patientID,"
@@ -365,6 +432,20 @@ public class PhysicianController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+    	}
+    }
+    @FXML
+    void refresh_Table_patientRadiologyHistory(ActionEvent Event)
+    {
+    	System.out.println("refresh_Table_patientRadiologyHistory() Called");
+    	try
+    	{
+    	String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
+    	populateTable_patientRadiologyHistory(patientID);
+    	}
+    	catch(Exception exception)
+    	{
+    		exception.printStackTrace();
     	}
     }
 }

@@ -21,13 +21,13 @@
                      <children>
                         <TableView fx:id="Table_patientRadiologyHistory" layoutY="101.0" prefHeight="262.0" prefWidth="940.0">
                            <columns>
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Modality" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Procedure Type" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Modality Technician" />
-                              <TableColumn prefWidth="111.0" text="Date of Request" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Scheduled Date" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Scheduled Time" />
-                              <TableColumn minWidth="2.0" prefWidth="141.0" text="Status" />
+                              <TableColumn fx:id="column_ModalityName" minWidth="2.0" prefWidth="141.0" text="Modality" />
+                              <TableColumn fx:id="column_ProcedureType" minWidth="2.0" prefWidth="141.0" text="Procedure Type" />
+                              <TableColumn fx:id="column_ModalityTechnician" minWidth="2.0" prefWidth="141.0" text="Modality Technician" />
+                              <TableColumn fx:id="column_ProcedureDOR" prefWidth="111.0" text="Date of Request" />
+                              <TableColumn fx:id="column_ProcedureScheduledDate" minWidth="2.0" prefWidth="141.0" text="Scheduled Date" />
+                              <TableColumn fx:id="column_ProcedureScheduledTime" minWidth="2.0" prefWidth="141.0" text="Scheduled Time" />
+                              <TableColumn fx:id="column_ProcedureStatus" minWidth="2.0" prefWidth="141.0" text="Status" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -110,6 +110,7 @@
             <Button fx:id="Button_sendRequest" layoutX="587.0" layoutY="9.0" mnemonicParsing="false" onAction="#requestProcedure" text="Send Request" />
             <Button fx:id="Button_AddAppointment" layoutX="474.0" layoutY="9.0" mnemonicParsing="false" text="Book Appoinment" />
             <Button layoutX="429.0" layoutY="9.0" mnemonicParsing="false" text="Reset" />
+            <Button fx:id="Button_refreshPatientHistory" layoutX="373.0" layoutY="9.0" mnemonicParsing="false" onAction="#refresh_Table_patientRadiologyHistory" text="Refresh" />
          </children>
       </Pane>
    </children>
