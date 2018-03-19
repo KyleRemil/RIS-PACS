@@ -1,4 +1,4 @@
-package models;
+package com.rispacs.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

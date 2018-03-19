@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import com.rispacs.model.ArrivedPatientsModel;
+import com.rispacs.model.ProcedureListModel;
+
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,8 +21,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
-import models.ArrivedPatientsModel;
-import models.ProcedureListModel;
 
 public class PhysicianController {
 
