@@ -59,7 +59,9 @@ Recepsionist
   Payment
 
 Referring MD
-  Request Modality Procedure
+  Request Modality Procedure *Done*
+  Get avalible Patients *Done*
+  Get Patient Procedures *Done*
   Sign off on flags
   Read Report
   
@@ -77,6 +79,7 @@ Radiologist
   Write report
   Save report
  
+Create Login Page
     
       
     
