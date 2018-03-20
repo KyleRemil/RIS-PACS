@@ -7,6 +7,15 @@ public class Context {
 	private final static Context instance = new Context();
 	private int x = 0;
 
+	private int role = 1;
+	/*
+	0	Admin
+	1	Receptionist
+	2	Modality Technician
+	3	Radiologist
+	4	Physician
+	*/
+
     public static Context getInstance() {
         return instance;
     }
@@ -23,6 +32,20 @@ public class Context {
 	 */
 	public void setX(int x) {
 		this.x = x;
+	}
+
+	/**
+	 * @return the role
+	 */
+	public int getRole() {
+		return role;
+	}
+
+	/**
+	 * @param set the role
+	 */
+	public void setRole(int role) {
+		this.role = role;
 	}
 
 }
