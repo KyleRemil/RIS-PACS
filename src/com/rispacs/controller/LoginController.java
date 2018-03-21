@@ -34,17 +34,17 @@ import java.util.ArrayList;
 
 
 public class LoginController  extends Application {
-	
+
 
 	//stuff for testing login view, without messing with main.java
     public static void main(String[] args){
-        
+
         try{
 	        //testing
 	        /*String pass = "Seven";
 	        String s1 = toSHA1( pass.getBytes("UTF-8") );
 	        String s2 = encryptPassword(pass);
-	        
+
 	        System.out.println("plaintext: "+pass + "\n" + "s1: " + s1+ "\ns2: "+s2);*/
 	        ArrayList<String> a = new ArrayList<String>();
 	        a.add("admin");
@@ -80,7 +80,7 @@ public class LoginController  extends Application {
 		}
 	}
     //end of testing stuff
-    
+
 
 	@FXML public TextField textField_username, textField_password;
 	@FXML private Label label_badUsername, label_badPassword;
@@ -96,28 +96,75 @@ public class LoginController  extends Application {
     void login(ActionEvent event) {
 
     	System.out.println("Tried to login.");
+    	System.out.println("current username: " + textField_username.getText());
+
+    	if(textField_username.getText().equals(""))
+    	{
+    		System.out.println("Username is empty.");
+			label_badUsername.setVisible(true);
+			label_badPassword.setVisible(false);
+			return;
+    	}
+
     	String s = "select (select if(count(*), 'match', 'no') from staff where username like ?) as user, "+
     			"if(count(*), 'match', 'no') as pass, `staffID` as id, `staffName` as name, `StaffRole_staffRoleID` as r " +
     			"from staff where username like ? and `password` like ?";
     	// 1st two ?'s are the username (so have the same input), and 3rd is the hashed password (hash it first)
     	String user = textField_username.getText();
-    	String pass = DigestUtils.sha1Hex(label_badPassword.getText());
-    	
+    	String pass = DigestUtils.sha1Hex(textField_password.getText());
+
         Connection conn = null;
     	PreparedStatement ps = null;
         ResultSet rs = null;
+
+        boolean succeed = false;
     	try{
     		conn = DatabaseHandler.getConnection();
 			ps = conn.prepareStatement(s);
 			ps.setString(1, user);
 			ps.setString(2, user);
 			ps.setString(3, pass);
-			
+
 			rs = ps.executeQuery();
-			
+			//columns of result set are as follows:
+			// user is string - tells if username exists in db
+			// pass is string - tells if username and password combo exists in db
+			// id is int - gives staffId
+			// name is string - gives staffName
+			// r is int - gives id of that user's role
+			//** the last 3 will be null if login failed, and user & pass tell why it failed
+			String u="", p="";
 			while(rs.next())
 			{
-				System.out.println(rs.getObject(1).getClass());
+				//System.out.println(rs.getObject(1).getClass());
+				u = rs.getString("user");
+				if (u.equals("no"))
+				{
+					System.out.println("Username not found.");
+					label_badUsername.setVisible(true);
+					label_badPassword.setVisible(false);
+					break;
+				}
+				else
+				{
+					p = rs.getString("pass");
+					if (p.equals("no"))
+					{
+						System.out.println("Password incorrect.");
+						label_badUsername.setVisible(false);
+						label_badPassword.setVisible(true);
+						break;
+					}
+					else
+					{
+						//set it in the context
+						Context.getInstance().setRole(rs.getInt("r"));
+						Context.getInstance().setStaffId(rs.getInt("id"));
+						Context.getInstance().setStaffName(rs.getString("name"));
+						Context.getInstance().setUserName(user);
+						succeed = true;
+					}
+				}
 			}
 		}
     	catch (Exception e) {
@@ -127,13 +174,22 @@ public class LoginController  extends Application {
         	try { rs.close(); } catch (Exception e) { /* ignored */ }
             try { ps.close(); } catch (Exception e) { /* ignored */ }
             try { conn.close(); } catch (Exception e) { /* ignored */ }
-       }
+    	}
+
+    	if(succeed)
+    	{
+    		changeView();
+    	}
     }
 
-    void setRole(int role) {
+    private void changeView()
+    {
+    	System.out.println("Login succeeded!");
+    }
+    private void setRole(int role) {
     	Context.getInstance().setRole(role);
     }
-    
+
     //for testing hashing before I found the Apache Commons Codec
 //    //way2
 //    private static String encryptPassword(String password)
@@ -170,7 +226,7 @@ public class LoginController  extends Application {
 //        formatter.close();
 //        return result;
 //    }
-//    
+//
 //    //way 2
 //    public static String byteArrayToHexString(byte[] b) {
 //    	  String result = "";
@@ -180,7 +236,7 @@ public class LoginController  extends Application {
 //    	  }
 //    	  return result;
 //	}
-//    
+//
 //    //way 3
 //    static final String HEXES = "0123456789ABCDEF";
 //    public static String getHex( byte [] raw ) {
@@ -194,7 +250,7 @@ public class LoginController  extends Application {
 //      }
 //      return hex.toString();
 //    }
-//    
+//
 //    //way 4
 //    static final byte[] HEX_CHAR_TABLE = {
 //	    (byte)'0', (byte)'1', (byte)'2', (byte)'3',
@@ -215,5 +271,5 @@ public class LoginController  extends Application {
 //    	}
 //    	return new String(hex, "ASCII");
 //	}
-//    
+//
 }

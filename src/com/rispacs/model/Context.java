@@ -15,6 +15,8 @@ public class Context {
 	3	Radiologist
 	4	Physician
 	*/
+	private int staffId = 0;
+	private String staffName = "", userName = "";
 
     public static Context getInstance() {
         return instance;
@@ -46,6 +48,30 @@ public class Context {
 	 */
 	public void setRole(int role) {
 		this.role = role;
+	}
+
+	public int getStaffId() {
+		return staffId;
+	}
+
+	public void setStaffId(int staffId) {
+		this.staffId = staffId;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }
