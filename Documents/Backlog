@@ -43,15 +43,23 @@ README:
       - Check for conflicts
         ~ Throw flags
         
-    Convert Robs GUI prototype into some thing functional (or ditch it and restructure)
+    Convert Robs GUI prototype into some thing functional (or ditch it and restructure) *Restructured*
       - Registration
       - Appointment
       - Diagnosis
       - Radiology
       - Invoice
       
+    Convert Robs GUI prototype into seperate controllers and views
+      - Registration  *Done*
+      - Appointments *Done*
+      - Diagnosis *Done*
+      - Radiology *Done*
+      - Invoice *Done*
+      - Admin *Done*
+
 Recepsionist
-  Insert Patient
+  Insert Patient  *Done*
   Search Patient
   Update Patient
   Schedule Precedures(If Neccesary)
@@ -63,7 +71,7 @@ Referring MD
   Get avalible Patients *Done*
   Get Patient Procedures *Done*
   Sign off on flags
-  Read Report
+  Get Precedure Report
   
 Modality Technician
   Get procedure worklist
@@ -72,14 +80,17 @@ Modality Technician
   Complete procedure
   
 Radiologist
-  Get all patients with comepleted procedures
-  Select desired procedure
-  Get all relevant images from those procedures
-  Get all relevant studies of patient
+  Get all patient procedures with procedureCompleted Status
+  Ability to select desired procedure
+  Get all relevant images from those procedures based on procedureID
+  Get all relevant prior procedures of patient based on patientID
   Write report
   Save report
  
 Create Login Page
-    
+Create new Admin Tab
+  Create Username and password for staff
+  
+  
       
     
