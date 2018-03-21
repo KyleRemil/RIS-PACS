@@ -15,8 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
-
-
+import javafx.scene.control.PasswordField;
 //imports for testing login view, without messing with main.java
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,7 +82,8 @@ public class LoginController  extends Application {
     //end of testing stuff
 
 
-	@FXML public TextField textField_username, textField_password;
+	@FXML public TextField textField_username;//, textField_password;
+	@FXML private PasswordField textField_password;
 	@FXML private Label label_badUsername, label_badPassword;
     @FXML private Button button_login;
 
@@ -95,6 +96,10 @@ public class LoginController  extends Application {
     @FXML
     void login(ActionEvent event) {
 
+    	button_login.setDisable(true);
+    	textField_username.setDisable(true);
+    	textField_password.setDisable(true);
+
     	System.out.println("Tried to login.");
     	System.out.println("current username: " + textField_username.getText());
 
@@ -103,6 +108,11 @@ public class LoginController  extends Application {
     		System.out.println("Username is empty.");
 			label_badUsername.setVisible(true);
 			label_badPassword.setVisible(false);
+
+			button_login.setDisable(false);
+        	textField_username.setDisable(false);
+        	textField_password.setDisable(false);
+
 			return;
     	}
 
@@ -180,11 +190,23 @@ public class LoginController  extends Application {
     	{
     		changeView();
     	}
+		button_login.setDisable(false);
+    	textField_username.setDisable(false);
+    	textField_password.setDisable(false);
     }
 
     private void changeView()
     {
     	System.out.println("Login succeeded!");
+		try {
+			AnchorPane root = FXMLLoader.load(getClass().getResource("../view/FrameView.fxml"));
+			Stage stage = (Stage) button_login.getScene().getWindow();
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     private void setRole(int role) {
     	Context.getInstance().setRole(role);
