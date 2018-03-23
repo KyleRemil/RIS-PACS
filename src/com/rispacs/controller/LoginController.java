@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 //imports for testing login view, without messing with main.java
@@ -84,21 +85,32 @@ public class LoginController  extends Application {
 
 	@FXML public TextField textField_username;//, textField_password;
 	@FXML private PasswordField textField_password;
-	@FXML private Label label_badUsername, label_badPassword;
+	@FXML private Label label_badUsername, label_badPassword,  label_error;
     @FXML private Button button_login;
 
 
     @FXML
     public void initialize() {
 
+    	textField_username.setOnKeyPressed(event -> {
+    		   if(event.getCode() == KeyCode.ENTER){
+    		     login();
+    		   }
+    		});
+    	textField_password.setOnKeyPressed(event -> {
+ 		   if(event.getCode() == KeyCode.ENTER){
+ 		     login();
+ 		   }
+ 		});
     }
 
     @FXML
-    void login(ActionEvent event) {
+    void login() {
 
     	button_login.setDisable(true);
     	textField_username.setDisable(true);
     	textField_password.setDisable(true);
+    	label_error.setVisible(true);
 
     	System.out.println("Tried to login.");
     	System.out.println("current username: " + textField_username.getText());
@@ -179,6 +191,7 @@ public class LoginController  extends Application {
 		}
     	catch (Exception e) {
 			e.printStackTrace();
+			label_error.setVisible(true);
 		}
     	finally {
         	try { rs.close(); } catch (Exception e) { /* ignored */ }

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.LoginController">
    <children>
       <TextField fx:id="textField_username" layoutX="226.0" layoutY="350.0" promptText="Username" />
@@ -26,5 +25,10 @@
       </Label>
       <Button fx:id="button_login" layoutX="278.0" layoutY="422.0" mnemonicParsing="false" onAction="#login" text="Login" />
       <Label layoutX="276.0" layoutY="122.0" text="RIS-PACS" />
+      <Label fx:id="label_error" layoutX="206.0" layoutY="476.0" text="An error has occurred." textFill="RED" visible="false">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
