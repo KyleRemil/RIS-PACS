@@ -1,6 +1,6 @@
 package com.rispacs.controller;
 
-public class SampleController
+public class ProcedureController
 {
 	//testing
 	//Testing harder

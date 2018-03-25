@@ -35,9 +35,9 @@
 	          	<fx:include source="RegistrationView.fxml" />
 	          </content>
           </Tab>
-          <Tab text="Appointment">
+          <Tab text="Technician">
           	<content>
-          		<fx:include source="AppointmentView.fxml" />
+          		<fx:include source="TechnicianView.fxml" />
           	</content>
           </Tab>
             <Tab text="Radiologist">

@@ -5,7 +5,6 @@ import javafx.beans.property.StringProperty;
 
 public class ArrivedPatientsModel
 {
-
 	private StringProperty patientName;
 	private StringProperty patientID;
 
