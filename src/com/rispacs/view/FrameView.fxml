@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1358.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="1358.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.FrameController">
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1358.0">
         <menus>
@@ -28,29 +28,29 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TabPane layoutX="-1.0" layoutY="27.0" prefHeight="634.0" prefWidth="1358.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" layoutX="-1.0" layoutY="27.0" prefHeight="634.0" prefWidth="1358.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Registration">
+          <Tab fx:id="tab_registration" text="Registration">
 	          <content>
 	          	<fx:include source="RegistrationView.fxml" />
 	          </content>
           </Tab>
-          <Tab text="Technician">
+          <Tab fx:id="tab_tech" text="Technician">
           	<content>
           		<fx:include source="TechnicianView.fxml" />
           	</content>
           </Tab>
-            <Tab text="Radiologist">
+            <Tab fx:id="tab_rad" text="Radiologist">
           	<content>
           		<fx:include source="RadiologistView.fxml" />
           	</content>
           </Tab>
-            <Tab text="Physician">
+            <Tab fx:id="tab_physician" text="Physician">
           	<content>
           		<fx:include source="PhysicianView.fxml" />
           	</content>
           </Tab>
-            <Tab text="Invoice">
+            <Tab fx:id="tab_invoice" text="Invoice">
           	<content>
           		<fx:include source="InvoiceView.fxml" />
           	</content>

@@ -184,6 +184,7 @@ public class LoginController  extends Application {
 						Context.getInstance().setStaffId(rs.getInt("id"));
 						Context.getInstance().setStaffName(rs.getString("name"));
 						Context.getInstance().setUserName(user);
+						System.out.println("" + Context.getInstance().getRole());
 						succeed = true;
 					}
 				}

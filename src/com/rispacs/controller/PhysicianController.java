@@ -115,6 +115,14 @@ public class PhysicianController {
     	System.out.println("initialize() Called");
     	populatecomboBox_modalityTechnician();
     	populatecomboBox_modalityName();
+    	
+    	Table_avaliablePatients.setOnMouseClicked(event -> {
+    		if(Table_avaliablePatients.getSelectionModel().getSelectedItem() != null)
+    		{
+    			String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
+    			populateTable_patientRadiologyHistory(patientID);
+    		}
+    	});
     }
     void populateTable_patientRadiologyHistory(String patientID)
     {
