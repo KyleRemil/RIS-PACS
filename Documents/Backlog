@@ -74,9 +74,12 @@ Referring MD
   Get Precedure Report
   
 Modality Technician
-  Get procedure worklist
-  Select modality proceudre to begin
+  Get procedure worklist *Done*
+  Select modality proceudre to begin *Done*
+  Save Notes by image or save notes by procedure
   "Take" images (Select image file(s))
+  Display "taken" image
+  Have Access to all images "taken"
   Complete procedure
   
 Radiologist
@@ -87,7 +90,7 @@ Radiologist
   Write report
   Save report
  
-Create Login Page
+Create Login Page *Done*
 Create new Admin Tab
   Create Username and password for staff
   
