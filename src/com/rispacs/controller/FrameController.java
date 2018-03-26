@@ -27,7 +27,6 @@ public class FrameController {
 		  { false, false, false, true, false } //physician
 		};
 
-
 		int r = Context.getInstance().getRole();
 		System.out.println(r);
 		tab_registration.setDisable(!role_array[r][0]);
@@ -35,9 +34,20 @@ public class FrameController {
 		tab_rad.setDisable(!role_array[r][2]);
 		tab_physician.setDisable(!role_array[r][3]);
 		tab_invoice.setDisable(!role_array[r][4]);
+		Tab[] tabs = new Tab[]{
+				tab_registration,
+				tab_tech,
+				tab_rad,
+				tab_physician,
+				tab_invoice
+		};
 
-		if(!role_array[r][0])
-			tabPane.getTabs().remove(tab_registration);
+		
+		for(int i = 0; i < tabs.length; i++ )
+		{
+			if(!role_array[r][i])
+				tabPane.getTabs().remove(tabs[i]);
+		}
 		//tab_registration.h
 
     }
