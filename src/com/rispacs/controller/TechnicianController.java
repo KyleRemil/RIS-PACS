@@ -125,7 +125,7 @@ public class TechnicianController {
     }
     public void openProcedureView() {
         try {
-        	AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/rispacs/view/ProcedureStageView.fxml"));
+        	AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/rispacs/view/ProcedureView.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Procedure");
             stage.setScene(new Scene(root));
