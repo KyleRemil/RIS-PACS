@@ -1,13 +1,24 @@
 package com.rispacs.controller;
 
+import java.io.IOException;
+
 import com.rispacs.model.Context;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class FrameController {
 
+	@FXML private MenuItem menu_close;
+    @FXML private MenuItem menu_about;
+    @FXML private MenuItem menu_logout;
 	@FXML private Tab tab_registration;
     @FXML private Tab tab_tech;
     @FXML private Tab tab_rad;
@@ -51,5 +62,29 @@ public class FrameController {
 		}
 		//tab_registration.h
 
+		menu_logout.setOnAction(event -> {
+			logOut();
+ 		});
+		menu_close.setOnAction(event -> {
+			System.exit(0);
+		});
+    }
+
+    public void logOut()
+    {
+		System.out.println("Logging out.");
+    	Context.getInstance().setRole(1);
+		Context.getInstance().setStaffId(0);
+		Context.getInstance().setStaffName("");
+		Context.getInstance().setUserName("");
+		try {
+			AnchorPane root = FXMLLoader.load(getClass().getResource("../view/LoginView.fxml"));
+			Stage stage = (Stage) tabPane.getScene().getWindow();
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }
