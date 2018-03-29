@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.ProcedureSchedule;
+import com.rispacs.model.Context;
 
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
@@ -32,6 +33,9 @@ public class TechnicianController {
     @FXML private TableColumn<ProcedureSchedule, String> column_PatientName;
     @FXML private TableColumn<ProcedureSchedule, String> column_Modality;
     @FXML private TableColumn<ProcedureSchedule, String> column_procedureType;
+    @FXML private TableColumn<ProcedureSchedule, String> column_procedureTime;
+    @FXML private TableColumn<ProcedureSchedule, String> column_procedureStatus;
+
     @FXML private Button Button_beginProcedure;
 
     private ObservableList<ProcedureSchedule> procedureScheduleList;
@@ -45,8 +49,15 @@ public class TechnicianController {
     	{
         	procedureScheduleList = FXCollections.observableArrayList();
     		connection = DatabaseHandler.getConnection();
-    		String getAllScheduledProceduresQuery = "SELECT procedurelist.procedureId, procedurelist.patient_patientID, patient.patientFirstName, modalityproceduretype.modalityProcedureTypeDesc, modalitytype.modalityTypeName "
-    				+ "FROM procedurelist, patient, modalityproceduretype, modalitytype WHERE patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND procedureStatusID = 0;";
+    		String getAllScheduledProceduresQuery = "SELECT procedurelist.procedureId, "
+    												+ "procedurelist.patient_patientID, "
+    												+ "patient.patientFirstName, "
+    												+ "modalityproceduretype.modalityProcedureTypeDesc, "
+    												+ "modalitytype.modalityTypeName, "
+    												+ "procedurelist.procedureScheduledTime, "
+    												+ "procedurestatus.procedureStatusDesc "
+    												+ "FROM procedurelist, patient, modalityproceduretype, modalitytype, procedurestatus "
+    												+ "WHERE procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND procedureStatusID = 0";
 
     		PreparedStatement preparedStatement = connection.prepareStatement(getAllScheduledProceduresQuery);
     		ResultSet resultSet = preparedStatement.executeQuery();
@@ -58,12 +69,16 @@ public class TechnicianController {
 				String patientID = resultSet.getString("procedurelist.patient_patientID");
 				String modalityName = resultSet.getString("modalitytype.modalityTypeName");
 				String procedureType = resultSet.getString("modalityproceduretype.modalityProcedureTypeDesc");
-				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientName, modalityName,procedureType ));
+				String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
+				String procedureDate = resultSet.getString("procedurelist.procedureScheduledTime");
+				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientName, modalityName,procedureType,procedureStatus,procedureDate));
     		}
 
     		column_PatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
     		column_Modality.setCellValueFactory(new PropertyValueFactory<>("modalityName"));
     		column_procedureType.setCellValueFactory(new PropertyValueFactory<>("procedureType"));
+    		column_procedureTime.setCellValueFactory(new PropertyValueFactory<>("procedureTime"));
+    		column_procedureStatus.setCellValueFactory(new PropertyValueFactory<>("procedureStatus"));
 
     		Table_procedureScheduleTable.setItems(null);
     		Table_procedureScheduleTable.setItems(procedureScheduleList);
@@ -91,20 +106,28 @@ public class TechnicianController {
     @FXML
     void beginProcedure(ActionEvent event)
     {
-    	openProcedureView();
     	String procedureID = Table_procedureScheduleTable.getSelectionModel().getSelectedItem().getprocedureID().toString();
+    	Context.getInstance().setCurrentProcedureID(procedureID);
     	System.out.println("beginProcedure() Called");
     	Connection connection = null;
         try
     	{
-        	procedureScheduleList = FXCollections.observableArrayList();
-    		connection = DatabaseHandler.getConnection();
-    		String updateProcedureStatusQuery = "UPDATE procedurelist SET procedureStatusID=2 WHERE procedureID=" + procedureID ;
+        	if (procedureID == null)
+        	{
+        		System.out.println("Please Select a procedure from the table to begin.");
+        	}
+        	else
+        	{
+        		procedureScheduleList = FXCollections.observableArrayList();
+        		connection = DatabaseHandler.getConnection();
+        		String updateProcedureStatusQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID = 2 WHERE procedureID=" + procedureID ;
 
-    		PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureStatusQuery);
-    		preparedStatement.execute();
+        		PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureStatusQuery);
+        		preparedStatement.execute();
 
-    		refreshProcedureScheduleTable(null);
+        		refreshProcedureScheduleTable(null);
+        		openProcedureView();
+        	}
     	}
         catch(Exception exception)
     	{

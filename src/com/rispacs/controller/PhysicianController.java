@@ -115,7 +115,7 @@ public class PhysicianController {
     	System.out.println("initialize() Called");
     	populatecomboBox_modalityTechnician();
     	populatecomboBox_modalityName();
-    	
+
     	Table_avaliablePatients.setOnMouseClicked(event -> {
     		if(Table_avaliablePatients.getSelectionModel().getSelectedItem() != null)
     		{
@@ -128,7 +128,7 @@ public class PhysicianController {
     {
     	System.out.println("populateTable_patientRadiologyHistory("+ patientID +") Called");
     	Connection connection = null;
-    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurelist.procedureScheduledTime, procedurestatus.procedureStatusDesc FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
+    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurelist.procedureScheduledTime, procedurestatus.procedureStatusDesc FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
     	ModalityProcedureListObservableList = FXCollections.observableArrayList();
     	try
     	{

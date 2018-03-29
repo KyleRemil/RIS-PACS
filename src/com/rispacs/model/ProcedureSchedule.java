@@ -10,14 +10,18 @@ public class ProcedureSchedule
 	private StringProperty patientID;
 	private StringProperty modalityName;
 	private StringProperty procedureType;
+	private StringProperty procedureStatus;
+	private StringProperty procedureTime;
 
-	public ProcedureSchedule(String procedureID, String patientID, String patientName, String modalityName, String procedureType)
+	public ProcedureSchedule(String procedureID, String patientID, String patientName, String modalityName, String procedureType, String procedureStatus, String procedureTime)
 	{
 		this.procedureID = new SimpleStringProperty(procedureID);
 		this.patientName = new SimpleStringProperty(patientName);
 		this.patientID = new SimpleStringProperty(patientID);
 		this.modalityName = new SimpleStringProperty(modalityName);
 		this.procedureType = new SimpleStringProperty(procedureType);
+		this.procedureStatus = new SimpleStringProperty(procedureStatus);
+		this.procedureTime = new SimpleStringProperty(procedureTime);
 	}
 
 	//Getters
@@ -41,6 +45,14 @@ public class ProcedureSchedule
 	{
 		return procedureType.get();
 	}
+	public String getprocedureStatus()
+	{
+		return procedureStatus.get();
+	}
+	public String getprocedureTime()
+	{
+		return procedureTime.get();
+	}
 
 	//setters
 	public void setprocedureID(String Value)
@@ -63,6 +75,14 @@ public class ProcedureSchedule
 	{
 		procedureType.set(Value);
 	}
+	public void setprocedureStatus(String Value)
+	{
+		procedureStatus.set(Value);
+	}
+	public void setprocedureTime(String Value)
+	{
+		procedureTime.set(Value);
+	}
 
 	//properties
 	public StringProperty procedureIDProperty()
@@ -84,5 +104,13 @@ public class ProcedureSchedule
 	public StringProperty procedureTypeProperty()
 	{
 		return procedureType;
+	}
+	public StringProperty procedureStatusProperty()
+	{
+		return procedureStatus;
+	}
+	public StringProperty procedureTimeProperty()
+	{
+		return procedureTime;
 	}
 }
