@@ -1,26 +1,14 @@
 package com.rispacs.controller;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
-
-import javax.imageio.ImageIO;
-
 import com.rispacs.model.Context;
 import com.rispacs.model.ModalityImage;
-import com.rispacs.model.ProcedureSchedule;
-
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,9 +21,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class ProcedureController {
 
@@ -62,15 +50,50 @@ public class ProcedureController {
     public void initialize() {
 
     	getCurrentProcedureImages(null);
-    	
+
     	Table_procedureImages.setOnMouseClicked(event -> {
     		     setPreviewImage(Table_procedureImages.getSelectionModel().getSelectedItem());
     		});
+
+    	Button_saveImage.setDisable(true);
     }
 
 	@FXML
-    void FinalizeProcedure(ActionEvent event) {
+    void FinalizeProcedure(ActionEvent event)
+	{
+		System.out.println("FinalizeProcedure() Called");
+    	Connection connection = null;
+    	try
+    	{
+    		String currentProcedureID = Context.getInstance().getCurrentProcedureID();
+    		connection = DatabaseHandler.getConnection();
 
+        	String updateProcedureToProcedureCompleteQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID=3 WHERE procedureId=" + currentProcedureID;
+
+        	PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureToProcedureCompleteQuery);
+        	preparedStatement.execute();
+
+        	Context.getInstance().setCurrentProcedureID(null);
+
+        	Stage stage = (Stage) Button_finalizeProcedure.getScene().getWindow();
+        	stage.close();
+    	}
+    	catch(Exception exception)
+    	{
+    		exception.printStackTrace();
+    	}
+    	finally
+    	{
+    		try
+    		{
+				connection.close();
+			}
+    		catch (SQLException e)
+    		{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
     @FXML
     void SaveImage(ActionEvent event)
@@ -131,6 +154,18 @@ public class ProcedureController {
     	{
     		exception.printStackTrace();
     	}
+    	finally
+    	{
+    		try
+    		{
+				connection.close();
+			}
+    		catch (SQLException e)
+    		{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     	getCurrentProcedureImages(null);
     }
     @FXML
@@ -152,6 +187,7 @@ public class ProcedureController {
 	    		Label_imageName.setText("File selection cancelled.");
 	    		Label_imageName.setVisible(true);
 	    	}
+	    	Button_saveImage.setDisable(false);
     	}
     	catch(Exception exception)
     	{
@@ -235,6 +271,8 @@ public class ProcedureController {
                 ImageView_procedureImage.setImage(image);
         		ImageView_procedureImage.setPreserveRatio(true);
             }
+
+    		Button_saveImage.setDisable(true);
     	}
     	catch(Exception exception)
     	{
