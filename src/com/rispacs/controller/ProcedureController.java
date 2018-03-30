@@ -33,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
@@ -56,6 +57,14 @@ public class ProcedureController {
     static File selectedFile;
 
     private ObservableList<ModalityImage> procedureImagesList;
+
+    @FXML
+    public void initialize() {
+
+    	Table_procedureImages.setOnMouseClicked(event -> {
+    		     setPreviewImage(Table_procedureImages.getSelectionModel().getSelectedItem());
+    		});
+    }
 
 	@FXML
     void FinalizeProcedure(ActionEvent event) {
@@ -165,7 +174,8 @@ public class ProcedureController {
     		{
     			String modalityImageID = resultSet.getString("modalityImageID");
     			InputStream inputStream = resultSet.getBinaryStream("modalityImageBlob");
-    			BufferedImage image = ImageIO.read(inputStream);
+    			//BufferedImage image = ImageIO.read(inputStream);
+    			javafx.scene.image.Image image = new Image(inputStream, ImageView_procedureImage.getFitWidth(), ImageView_procedureImage.getFitHeight(), true, true);
     			String modalityImageName = resultSet.getString("modalityImageName");
     			procedureImagesList.add(new ModalityImage (modalityImageID,image,modalityImageName));
     		}
@@ -193,6 +203,42 @@ public class ProcedureController {
     	}
     }
 
+    private void setPreviewImage(ModalityImage mi)
+    {
+    	try
+    	{
+    		javafx.scene.image.Image image = mi.getImage();
+
+    		if (image != null) {
+                double w = 0;
+                double h = 0;
+
+                double ratioX = ImageView_procedureImage.getFitWidth() / image.getWidth();
+                double ratioY = ImageView_procedureImage.getFitHeight() / image.getHeight();
+
+                double reducCoeff = 0;
+                if(ratioX >= ratioY)
+                {
+                    reducCoeff = ratioY;
+                } else {
+                    reducCoeff = ratioX;
+                }
+
+                w = image.getWidth() * reducCoeff;
+                h = image.getHeight() * reducCoeff;
+
+                ImageView_procedureImage.setX((ImageView_procedureImage.getFitWidth() - w) / 2);
+                ImageView_procedureImage.setY((ImageView_procedureImage.getFitHeight() - h) / 2);
+
+                ImageView_procedureImage.setImage(image);
+        		ImageView_procedureImage.setPreserveRatio(true);
+            }
+    	}
+    	catch(Exception exception)
+    	{
+    		exception.printStackTrace();
+    	}
+    }
     private void setPreviewImage(File selectedFile){
     	try
     	{
