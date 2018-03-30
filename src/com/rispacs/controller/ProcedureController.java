@@ -1,16 +1,21 @@
 package com.rispacs.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+import javax.imageio.ImageIO;
 
 import com.rispacs.model.Context;
 import com.rispacs.model.ModalityImage;
@@ -71,6 +76,11 @@ public class ProcedureController {
         	filePath = filePath.replace("\\", "/");
 
         	String saveImageQuery = "INSERT INTO modalityimage(modalityImageBlob, modalityImageName, procedure_procedureId) VALUES ( ?, ?, ?)";
+
+        	if (fileName.length() >= 45)
+        	{
+        		fileName = fileName.substring(0, Math.min(fileName.length(), 40));
+        	}
 
         	// 1MB Limit
         	long maximumFileSize=1000000;
@@ -154,8 +164,10 @@ public class ProcedureController {
     		while (resultSet.next())
     		{
     			String modalityImageID = resultSet.getString("modalityImageID");
+    			InputStream inputStream = resultSet.getBinaryStream("modalityImageBlob");
+    			BufferedImage image = ImageIO.read(inputStream);
     			String modalityImageName = resultSet.getString("modalityImageName");
-    			procedureImagesList.add(new ModalityImage (modalityImageID,modalityImageName));
+    			procedureImagesList.add(new ModalityImage (modalityImageID,image,modalityImageName));
     		}
 
     		Column_imageID.setCellValueFactory(new PropertyValueFactory<>("modalityImageName"));
@@ -180,6 +192,7 @@ public class ProcedureController {
 			}
     	}
     }
+
     private void setPreviewImage(File selectedFile){
     	try
     	{

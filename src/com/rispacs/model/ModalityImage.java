@@ -1,5 +1,6 @@
 package com.rispacs.model;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -8,15 +9,16 @@ import javafx.beans.property.StringProperty;
 public class ModalityImage
 {
 	private StringProperty modalityImageID;
+	private BufferedImage image;
 	private StringProperty modalityImageName;
 
-	public ModalityImage(String modalityImageID,String modalityImageName)
+	public ModalityImage(String modalityImageID, BufferedImage image,String modalityImageName)
 	{
 		this.modalityImageID = new SimpleStringProperty(modalityImageID);
+		this.image = image;
 		this.modalityImageName = new SimpleStringProperty(modalityImageName);
 
 	}
-
 	public String getmodalityImageID(){
 		return modalityImageID.get();
 	}
@@ -35,5 +37,11 @@ public class ModalityImage
 	}
 	public StringProperty modalityImageNameProperty(){
 		return modalityImageName;
+	}
+	public BufferedImage getImage() {
+		return image;
+	}
+	public void setImage(BufferedImage image) {
+		this.image = image;
 	}
 }
