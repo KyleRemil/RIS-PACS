@@ -10,78 +10,34 @@ import org.apache.commons.codec.digest.DigestUtils;
 import com.rispacs.model.Context;
 
 import application.DatabaseHandler;
-import javafx.event.ActionEvent;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-//imports for testing login view, without messing with main.java
-import javafx.application.Application;
+
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
-
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+
+//imports for testing login view, without messing with main.java
+//import javafx.application.Application;
+//import java.sql.Statement;
+//import java.util.ArrayList;
 
 //testing imports end
 
 
-public class LoginController  extends Application {
-
-
-	//stuff for testing login view, without messing with main.java
-    public static void main(String[] args){
-
-        try{
-	        //testing
-	        /*String pass = "Seven";
-	        String s1 = toSHA1( pass.getBytes("UTF-8") );
-	        String s2 = encryptPassword(pass);
-
-	        System.out.println("plaintext: "+pass + "\n" + "s1: " + s1+ "\ns2: "+s2);*/
-	        ArrayList<String> a = new ArrayList<String>();
-	        a.add("admin");
-	        a.add("Admin");
-	        a.add("RICHARD");
-	        a.add("JEFF");
-	        for(int i = 0; i < a.size(); i++)
-	        {
-	        	System.out.println( a.get(i) + " is:");
-	        	//encryptPassword(a.get(i));
-	        	//System.out.println("BigInt: " + encryptPassword2(a.get(i)));
-	        	System.out.println("apache 1: " + DigestUtils.sha1Hex(a.get(i).getBytes("UTF-8")));
-	        	System.out.println("apache 2: " + DigestUtils.sha1Hex(a.get(i)));
-	        	System.out.println();
-	        }
-        }
-        catch(Exception e){
-        	e.printStackTrace();
-        }
-      launch(args);
-    }
-
-    @Override
-	public void start(Stage primaryStage) {
-		try {
-			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/LoginView.fxml"));
-			Scene scene = new Scene(root);
-			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-    //end of testing stuff
-
+public class LoginController //extends Application
+{
 
 	@FXML public TextField textField_username;//, textField_password;
 	@FXML private PasswordField textField_password;
@@ -222,9 +178,9 @@ public class LoginController  extends Application {
 			e.printStackTrace();
 		}
     }
-    private void setRole(int role) {
-    	Context.getInstance().setRole(role);
-    }
+//    private void setRole(int role) {
+//    	Context.getInstance().setRole(role);
+//    }
 
     //for testing hashing before I found the Apache Commons Codec
 //    //way2
@@ -308,4 +264,53 @@ public class LoginController  extends Application {
 //    	return new String(hex, "ASCII");
 //	}
 //
+
+    //testing methods (like a main function)
+
+
+	//stuff for testing login view, without messing with main.java
+//    public static void main(String[] args){
+//
+//        try{
+//	        //testing
+//	        /*String pass = "Seven";
+//	        String s1 = toSHA1( pass.getBytes("UTF-8") );
+//	        String s2 = encryptPassword(pass);
+//
+//	        System.out.println("plaintext: "+pass + "\n" + "s1: " + s1+ "\ns2: "+s2);*/
+//	        ArrayList<String> a = new ArrayList<String>();
+//	        a.add("admin");
+//	        a.add("Admin");
+//	        a.add("RICHARD");
+//	        a.add("JEFF");
+//	        for(int i = 0; i < a.size(); i++)
+//	        {
+//	        	System.out.println( a.get(i) + " is:");
+//	        	//encryptPassword(a.get(i));
+//	        	//System.out.println("BigInt: " + encryptPassword2(a.get(i)));
+//	        	System.out.println("apache 1: " + DigestUtils.sha1Hex(a.get(i).getBytes("UTF-8")));
+//	        	System.out.println("apache 2: " + DigestUtils.sha1Hex(a.get(i)));
+//	        	System.out.println();
+//	        }
+//        }
+//        catch(Exception e){
+//        	e.printStackTrace();
+//        }
+//      launch(args);
+//    }
+//
+//    @Override
+//	public void start(Stage primaryStage) {
+//		try {
+//			AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("../view/LoginView.fxml"));
+//			Scene scene = new Scene(root);
+//			//scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+//			primaryStage.setScene(scene);
+//			primaryStage.show();
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+//    //end of testing stuff
+
 }
