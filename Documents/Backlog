@@ -66,20 +66,20 @@ Recepsionist
   Adding Patient to waiting list
   Payment
 
-Referring MD
+Referring MD (Robert In progress)
   Request Modality Procedure *Done*
   Get avalible Patients *Done*
   Get Patient Procedures *Done*
   Sign off on flags
-  Get Precedure Report
+  Get Procedure Report
   
 Modality Technician (Robert In progress)
   Get procedure worklist *Done*
   Select modality proceudre to begin *Done*
-  Save Notes by image or save notes by procedure
-  "Take" images (Select image file(s))
-  Display "taken" image
-  Have Access to all images "taken"
+  Save Notes by image or save notes by procedure  
+  "Take" images (Select image file(s)) *Done*
+  Display "taken" image *Done*
+  Have Access to all images "taken" *Done*
   Complete procedure
   
 Radiologist
