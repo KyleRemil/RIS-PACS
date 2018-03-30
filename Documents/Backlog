@@ -28,7 +28,7 @@ README:
     
     Project Backlog (start of programming) //////////////////////////////////////////////////////////
     
-    Login System
+    Login System (Daniel Almost Complete)
       - Username and Password match
       - Filter invalid characters
       
@@ -38,7 +38,7 @@ README:
     Database Handler
       - Restrict information based on permissions
       
-    Scheduler
+    Scheduler (Kyle In progress)
       - Handle the availability of modalities
       - Check for conflicts
         ~ Throw flags
@@ -48,7 +48,7 @@ README:
       - Appointment
       - Diagnosis
       - Radiology
-      - Invoice
+      - Invoice (Nick In progress)
       
     Convert Robs GUI prototype into seperate controllers and views
       - Registration  *Done*
@@ -73,7 +73,7 @@ Referring MD
   Sign off on flags
   Get Precedure Report
   
-Modality Technician
+Modality Technician (Robert In progress)
   Get procedure worklist *Done*
   Select modality proceudre to begin *Done*
   Save Notes by image or save notes by procedure
