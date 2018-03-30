@@ -221,7 +221,6 @@ public class ProcedureController {
 
                 ImageView_procedureImage.setImage(image);
         		ImageView_procedureImage.setPreserveRatio(true);
-
             }
     	}
     	catch(Exception exception)

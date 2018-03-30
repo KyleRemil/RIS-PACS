@@ -53,7 +53,6 @@ public class RegistrationController {
     		System.out.println("Required Fields Cannot Be Empty");
     	}
     }
-
     private void insertNewPatient()
     {
     	System.out.println("insertNewPatient() Called");
