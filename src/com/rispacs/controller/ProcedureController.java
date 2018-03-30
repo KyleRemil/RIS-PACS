@@ -61,6 +61,8 @@ public class ProcedureController {
     @FXML
     public void initialize() {
 
+    	getCurrentProcedureImages(null);
+    	
     	Table_procedureImages.setOnMouseClicked(event -> {
     		     setPreviewImage(Table_procedureImages.getSelectionModel().getSelectedItem());
     		});
