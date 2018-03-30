@@ -41,6 +41,10 @@ public class TechnicianController {
     private ObservableList<ProcedureSchedule> procedureScheduleList;
 
     @FXML
+    public void initialize() {
+    	refreshProcedureScheduleTable(null);
+    }
+    @FXML
     void refreshProcedureScheduleTable(ActionEvent event)
     {
     	System.out.println("refresh_Table_avaliablePatients() Called");
