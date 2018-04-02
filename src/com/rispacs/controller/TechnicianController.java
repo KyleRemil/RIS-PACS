@@ -61,7 +61,7 @@ public class TechnicianController {
     												+ "procedurelist.procedureScheduledTime, "
     												+ "procedurestatus.procedureStatusDesc "
     												+ "FROM procedurelist, patient, modalityproceduretype, modalitytype, procedurestatus "
-    												+ "WHERE procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND procedureStatusID = 0";
+    												+ "WHERE procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND (procedureStatusID <= 1 OR procedureStatusID = 2)";
 
     		PreparedStatement preparedStatement = connection.prepareStatement(getAllScheduledProceduresQuery);
     		ResultSet resultSet = preparedStatement.executeQuery();
