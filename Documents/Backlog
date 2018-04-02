@@ -80,15 +80,16 @@ Modality Technician (Robert In progress)
   "Take" images (Select image file(s)) *Done*
   Display "taken" image *Done*
   Have Access to all images "taken" *Done*
-  Complete procedure
+  Complete procedure  *Done*
   
 Radiologist
-  Get all patient procedures with procedureCompleted Status
-  Ability to select desired procedure
-  Get all relevant images from those procedures based on procedureID
+  Get all patient procedures with procedureCompleted Status *Done*
+  Ability to select desired procedure *Done*
+  Get all relevant images from those procedures based on procedureID*Done*
   Get all relevant prior procedures of patient based on patientID
-  Write report
-  Save report
+  Write report  *Done*
+  Save report *Done*
+  Updated Procedure to reportComplete Status
  
 Create Login Page *Done*
 Create new Admin Tab
