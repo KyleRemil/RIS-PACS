@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="515.0" prefWidth="1231.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.ProcedureController">
+<AnchorPane prefHeight="515.0" prefWidth="1231.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.ProcedureController">
                      <children>
                         <Pane layoutX="14.0" layoutY="18.0" prefHeight="450.0" prefWidth="450.0" style="-fx-background-color: grey;">
          <children>
@@ -49,7 +49,7 @@
                         <Button fx:id="Button_takeImage" layoutX="201.0" layoutY="477.0" mnemonicParsing="false" onAction="#TakeImage" text="Take Image" />
                         <Text layoutX="694.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Image Notes" />
                         <Button fx:id="Button_finalizeProcedure" layoutX="1161.0" layoutY="477.0" mnemonicParsing="false" onAction="#FinalizeProcedure" text="Finalize" />
-      <TextArea layoutX="694.0" layoutY="166.0" prefHeight="301.0" prefWidth="524.0" />
+      <TextArea fx:id="TextArea_modalityImageNotes" layoutX="694.0" layoutY="166.0" prefHeight="301.0" prefWidth="524.0" />
       <Button fx:id="Button_saveImage" layoutX="694.0" layoutY="477.0" mnemonicParsing="false" onAction="#SaveImage" text="Save Image" />
       <Label fx:id="Label_imageName" layoutX="476.0" layoutY="18.0" text="Label" />
       <Button fx:id="Button_refresh_Table_procedureImages" layoutX="476.0" layoutY="442.0" mnemonicParsing="false" onAction="#getCurrentProcedureImages" text="Refresh" />
