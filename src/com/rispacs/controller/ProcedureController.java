@@ -139,6 +139,7 @@ public class ProcedureController {
         			}
         			else
         			{
+        				System.out.println(preparedStatement.toString());
             			preparedStatement.execute();
         			}
         			fileinputstream.close();
