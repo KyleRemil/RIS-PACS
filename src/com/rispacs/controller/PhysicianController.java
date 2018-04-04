@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import com.rispacs.model.ArrivedPatientsModel;
+import com.rispacs.model.ModalityImage;
 import com.rispacs.model.ProcedureListModel;
 
 import application.DatabaseHandler;
@@ -20,12 +21,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
 public class PhysicianController {
 
     @FXML private TableView<ProcedureListModel> Table_patientRadiologyHistory;
-    @FXML private TextArea textarea_phsysicanNoteBox;
+    @FXML private TextArea textarea_physicanNoteBox;
     @FXML private TableView<ArrivedPatientsModel> Table_avaliablePatients;
     @FXML private TableColumn<ArrivedPatientsModel, String> column_patientID;
     @FXML private TableColumn<ArrivedPatientsModel, String> column_patientName;
@@ -51,6 +53,20 @@ public class PhysicianController {
     private ObservableList<ModalityName> ModalityNameObservableList;
     private ObservableList<ModalityProcedureType> ModalityProcedureTypeObservableList;
     private ObservableList<ProcedureListModel> ModalityProcedureListObservableList;
+    
+
+    @FXML private TableView<?> Table_patientProcedures;
+    @FXML private TableColumn<?, ?> Column_patientProcedures;
+
+    @FXML private TableView<ModalityImage> Table_ProcedureImages;
+    @FXML private TableColumn<ModalityImage, String> Column_ImageName;
+
+    @FXML private ImageView ImageView_patientProcedureImage;
+    @FXML private Button Button_nextImage;
+    @FXML private Button Button_previousImage;
+    @FXML private TextArea TextArea_report;
+    
+    private ObservableList<ModalityImage> procedureImagesList;
 
     private class ModalityTechnician
     {
@@ -365,7 +381,7 @@ public class PhysicianController {
         	if(arrivedPatientArray != null)
         	{
         		String selectedPatientID = arrivedPatientArray.getpatientID();
-        		String physicianNotes = textarea_phsysicanNoteBox.getText().toString();
+        		String physicianNotes = textarea_physicanNoteBox.getText().toString();
         		String procedureTypeId = modalityProcedureType.getmodalityProcedureTypeID();
         		String modalityTechnicianId = modalityTechnician.getstaffID();
         		//System.out.println(selectedPatientID);

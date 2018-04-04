@@ -94,7 +94,7 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <TextArea fx:id="TextArea_report" layoutX="766.0" layoutY="39.0" prefHeight="429.0" prefWidth="268.0" />
+                        <TextArea fx:id="TextArea_report" editable="false" layoutX="766.0" layoutY="39.0" prefHeight="429.0" prefWidth="268.0" />
                         <Pane layoutX="347.0" layoutY="14.0" prefHeight="400.0" prefWidth="412.0" style="-fx-background-color: grey;">
                            <children>
                               <ImageView fx:id="ImageView_patientProcedureImage" fitHeight="400.0" fitWidth="412.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
