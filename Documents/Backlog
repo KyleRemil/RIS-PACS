@@ -60,9 +60,10 @@ README:
 
 Recepsionist
   Insert Patient  *Done*
-  Search Patient
+  Search Patient 
+  Populate Patient Infomration based on selected seach results
   Update Patient
-  Schedule Precedures(If Neccesary)
+  Schedule Procedures(If Neccesary)
   Adding Patient to waiting list
   Payment
 
