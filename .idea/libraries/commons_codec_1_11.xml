@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.11">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/external jars/commons-codec-1.11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/external jars/jfoenix.jar!/" />
+      <root url="jar://$PROJECT_DIR$/external jars/mysql-connector-java-5.1.44-bin.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,16 +1,16 @@
 package com.rispacs.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.ModalityImage;
 import com.rispacs.model.ProcedureListModel;
 
 import application.DatabaseHandler;
+import com.rispacs.model.ProcedureSchedule;
+import com.rispacs.model.SchedulerTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -44,8 +44,8 @@ public class PhysicianController {
     @FXML private TableColumn<ProcedureListModel, String> column_ModalityTechnician;
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureDOR;
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureScheduledDate;
-    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureScheduledTime;
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureStatus;
+    @FXML private TableColumn<ProcedureListModel, String> column_ProcedureId;
     @FXML private Button Button_refreshPatientHistory;
 
     private ObservableList<ArrivedPatientsModel> arrivedPatientArray;
@@ -68,7 +68,13 @@ public class PhysicianController {
 
     private ObservableList<ModalityImage> procedureImagesList;
 
-    private class ModalityTechnician
+    private ArrayList procedureList = new ArrayList();
+    private ArrayList procedureQueue = new ArrayList();
+
+	private SchedulerTree newSchedulerTree = new SchedulerTree();
+
+
+	private class ModalityTechnician
     {
         private final String staffID;
         private final String staffName;
@@ -144,7 +150,7 @@ public class PhysicianController {
     {
     	System.out.println("populateTable_patientRadiologyHistory("+ patientID +") Called");
     	Connection connection = null;
-    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurelist.procedureScheduledTime, procedurestatus.procedureStatusDesc FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
+    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurestatus.procedureStatusDesc, procedurelist.procedureId FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
     	ModalityProcedureListObservableList = FXCollections.observableArrayList();
     	try
     	{
@@ -158,26 +164,26 @@ public class PhysicianController {
     			String modalityTechnician = resultSet.getString("staff.staffName");
     			String dateOfRequest = resultSet.getString("procedurelist.procedureDateOfRequest");
     			String scheduledDate = resultSet.getString("procedurelist.procedureScheduledDate");
-    			String scheduledTime = resultSet.getString("procedurelist.procedureScheduledTime");
     			String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
+    			String procedureId = resultSet.getString("procedurelist.procedureId");
     			ProcedureListModel procedureListModel = new ProcedureListModel(
     					modalityName,
     					procedureTypeDesc,
     					modalityTechnician,
     					dateOfRequest,
     					scheduledDate,
-    					scheduledTime,
-    					procedureStatus);
+    					procedureStatus,
+						procedureId);
     			ModalityProcedureListObservableList.add(procedureListModel);
     		}
     		Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
 
-    		column_ModalityName.setCellValueFactory(new PropertyValueFactory<>("modalityName"));
+			column_ProcedureId.setCellValueFactory(new PropertyValueFactory<>("procedureId"));
+			column_ModalityName.setCellValueFactory(new PropertyValueFactory<>("modalityName"));
     		column_ProcedureType.setCellValueFactory(new PropertyValueFactory<>("procedureTypeDesc"));
     		column_ModalityTechnician.setCellValueFactory(new PropertyValueFactory<>("modalityTechnician"));
     		column_ProcedureDOR.setCellValueFactory(new PropertyValueFactory<>("dateOfRequest"));
     		column_ProcedureScheduledDate.setCellValueFactory(new PropertyValueFactory<>("scheduledDate"));
-    		column_ProcedureScheduledTime.setCellValueFactory(new PropertyValueFactory<>("scheduledTime"));
     		column_ProcedureStatus.setCellValueFactory(new PropertyValueFactory<>("procedureStatus"));
 
     		Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
@@ -370,7 +376,6 @@ public class PhysicianController {
     void requestProcedure(ActionEvent event){
     	System.out.println("requestProcedure() Called");
     	Connection connection = null;
-    	LocalDate currentDate = LocalDate.now();
     	try
     	{
     		connection = DatabaseHandler.getConnection();
@@ -381,7 +386,20 @@ public class PhysicianController {
         	if(arrivedPatientArray != null)
         	{
         		String selectedPatientID = arrivedPatientArray.getpatientID();
-        		String physicianNotes = textarea_physicanNoteBox.getText().toString();
+        		String physicianNotes = " ";
+        		try {
+					physicianNotes = textarea_physicanNoteBox.getText().trim();
+					if (!physicianNotes.equals("")) {
+
+						physicianNotes = textarea_physicanNoteBox.getText();
+					} else {
+						physicianNotes = " ";
+					}
+				} catch (Exception e) {
+        			e.printStackTrace();
+				}
+
+
         		String procedureTypeId = modalityProcedureType.getmodalityProcedureTypeID();
         		String modalityTechnicianId = modalityTechnician.getstaffID();
         		//System.out.println(selectedPatientID);
@@ -390,16 +408,14 @@ public class PhysicianController {
         				+ "staffID_technician,"
         				+ "modalityProcedureTypeId,"
         				+ "patient_patientID,"
-        				+ "physicianNotes,"
-        				+ "procedureDateOfRequest)"
-        				+ "VALUES (?,?,?,?,?)";
+        				+ "physicianNotes)"
+        				+ "VALUES (?,?,?,?)";
 
         		PreparedStatement preparedStatement = connection.prepareStatement(insertNewProcedure);
         		preparedStatement.setString(1, modalityTechnicianId);
         		preparedStatement.setString(2, procedureTypeId);
         		preparedStatement.setString(3, selectedPatientID);
         		preparedStatement.setString(4, physicianNotes );
-        		preparedStatement.setDate(5, java.sql.Date.valueOf(currentDate));
         		System.out.println(preparedStatement);
         		preparedStatement.execute();
         	}
@@ -473,4 +489,9 @@ public class PhysicianController {
     		exception.printStackTrace();
     	}
     }
+
+
+
+
+
 }

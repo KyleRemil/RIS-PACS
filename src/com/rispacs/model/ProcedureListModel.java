@@ -12,16 +12,17 @@ public class ProcedureListModel
 	private StringProperty scheduledDate;
 	private StringProperty scheduledTime;
 	private StringProperty procedureStatus;
+	private StringProperty procedureId;
 
-	public ProcedureListModel(String modalityName, String procedureTypeDesc, String modalityTechnician, String dateOfRequest, String scheduledDate, String scheduledTime, String procedureStatus)
+	public ProcedureListModel(String modalityName, String procedureTypeDesc, String modalityTechnician, String dateOfRequest, String scheduledDate, String procedureStatus, String procedureId)
 	{
 		this.modalityName = new SimpleStringProperty(modalityName);
 		this.procedureTypeDesc = new SimpleStringProperty(procedureTypeDesc);
 		this.modalityTechnician = new SimpleStringProperty(modalityTechnician);
 		this.dateOfRequest = new SimpleStringProperty(dateOfRequest);
 		this.scheduledDate = new SimpleStringProperty(scheduledDate);
-		this.scheduledTime = new SimpleStringProperty(scheduledTime);
 		this.procedureStatus = new SimpleStringProperty(procedureStatus);
+		this.procedureId = new SimpleStringProperty(procedureId);
 	}
 
 	public String getpatientName(){
@@ -87,4 +88,16 @@ public class ProcedureListModel
 	public StringProperty procedureStatusProperty(){
 		return procedureStatus;
 	}
+	public String getProcedureId() {
+		return procedureId.get();
+	}
+
+	public StringProperty procedureIdProperty() {
+		return procedureId;
+	}
+
+	public void setProcedureId(String procedureId) {
+		this.procedureId.set(procedureId);
+	}
+
 }
