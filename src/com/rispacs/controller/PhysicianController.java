@@ -53,7 +53,7 @@ public class PhysicianController {
     private ObservableList<ModalityName> ModalityNameObservableList;
     private ObservableList<ModalityProcedureType> ModalityProcedureTypeObservableList;
     private ObservableList<ProcedureListModel> ModalityProcedureListObservableList;
-    
+
 
     @FXML private TableView<?> Table_patientProcedures;
     @FXML private TableColumn<?, ?> Column_patientProcedures;
@@ -65,7 +65,7 @@ public class PhysicianController {
     @FXML private Button Button_nextImage;
     @FXML private Button Button_previousImage;
     @FXML private TextArea TextArea_report;
-    
+
     private ObservableList<ModalityImage> procedureImagesList;
 
     private class ModalityTechnician

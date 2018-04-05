@@ -22,6 +22,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class RadiologistController {
 
@@ -42,8 +43,11 @@ public class RadiologistController {
     private ObservableList<CompletedProcedureModel> completedProcedureList;
     private ObservableList<ModalityImage> procedureImagesList;
 
+    private String currentProcedureID;
+
     public void initialize() {
     	Table_patients.setOnMouseClicked(event -> {
+    			currentProcedureID = Table_patients.getSelectionModel().getSelectedItem().getprocedureID();
     			getProcedureImages(Table_patients.getSelectionModel().getSelectedItem().getprocedureID());
     		});
     	Table_ProcedureImages.setOnMouseClicked(event -> {
@@ -81,9 +85,6 @@ public class RadiologistController {
         			preparedStatement.setString(3, Integer.toString(currentStaffID));
 
         			preparedStatement.execute();
-
-
-
 	        	}
 	        	catch(Exception exception)
 	        	{
@@ -94,6 +95,10 @@ public class RadiologistController {
 	        		try
 	        		{
 	    				connection.close();
+	    				TextArea_report.setText(null);
+	    				Table_patientProcedures.getItems().clear();
+	    				Table_ProcedureImages.getItems().clear();
+	    				getAllRelevantPatientProcedures();
 	    			}
 	        		catch (SQLException e)
 	        		{
@@ -107,6 +112,38 @@ public class RadiologistController {
     	{
     		exception.printStackTrace();
     	}
+    }
+
+    void UpdateProcedureToReportComplete()
+   	{
+   		System.out.println("UpdateProcedureToReportComplete() Called");
+       	Connection connection = null;
+       	try
+       	{
+       		connection = DatabaseHandler.getConnection();
+
+           	String updateProcedureToProcedureCompleteQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID= 4 WHERE procedureId=" + currentProcedureID;
+
+           	PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureToProcedureCompleteQuery);
+           	preparedStatement.execute();
+       	}
+       	catch(Exception exception)
+       	{
+       		exception.printStackTrace();
+       	}
+       	finally
+       	{
+       		try
+       		{
+   				connection.close();
+   				currentProcedureID = null;
+   			}
+       		catch (SQLException e)
+       		{
+   				// TODO Auto-generated catch block
+   				e.printStackTrace();
+   			}
+       	}
     }
 
     void getAllRelevantPatientProcedures()
