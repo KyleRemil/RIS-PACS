@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ddd;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.RegistrationController">
+<AnchorPane prefHeight="511.0" prefWidth="1349.0" style="-fx-background-color: #ddd;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.RegistrationController">
    <children>
       <Pane layoutX="14.0" layoutY="14.0" prefHeight="129.0" prefWidth="601.0" style="-fx-background-color: #fff;">
          <children>
@@ -43,23 +43,26 @@
             <Text fx:id="registration_Title_ContactInformation2" layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contact Information 2" />
          </children>
       </Pane>
-      <Pane layoutX="641.0" layoutY="14.0" prefHeight="388.0" prefWidth="708.0" style="-fx-background-color: #fff;">
+      <Pane layoutX="641.0" layoutY="14.0" prefHeight="437.0" prefWidth="708.0" style="-fx-background-color: #fff;">
          <children>
             <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Paitnet Search" />
             <Text layoutX="7.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
-            <TextField layoutX="89.0" layoutY="35.0" promptText="First Name" />
-            <TextField layoutX="246.0" layoutY="35.0" promptText="Last Name" />
-            <Button layoutX="343.0" layoutY="74.0" mnemonicParsing="false" text="Search" />
-            <TableView layoutX="409.0" layoutY="35.0" prefHeight="340.0" prefWidth="284.0">
+            <TextField fx:id="TextField_patientSearchFirstName" layoutX="89.0" layoutY="35.0" prefHeight="25.0" prefWidth="116.0" promptText="First Name" />
+            <TextField fx:id="TextField_patientSearchLastName" layoutX="220.0" layoutY="35.0" prefHeight="25.0" prefWidth="116.0" promptText="Last Name" />
+            <Button fx:id="Button_SearchPatient" layoutX="284.0" layoutY="77.0" mnemonicParsing="false" onAction="#SearchPatient" text="Search" />
+            <TableView fx:id="Table_searchPatient" layoutX="353.0" layoutY="35.0" prefHeight="385.0" prefWidth="340.0">
                <columns>
-                  <TableColumn prefWidth="75.0" text="Paitnet ID" />
-                  <TableColumn prefWidth="99.0" text="Paitnet Name" />
-                  <TableColumn prefWidth="99.0" text="Last Visit" />
+                  <TableColumn fx:id="Column_patientID" prefWidth="75.0" text="Paitnet ID" />
+                  <TableColumn fx:id="Column_patientName" prefWidth="99.0" text="Paitnet Name" />
+                  <TableColumn fx:id="Column_patientLastVisit" prefWidth="99.0" text="Last Visit" />
                </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
          </children>
       </Pane>
       <Button fx:id="registration_Button_RegisterNewPatient" layoutX="515.0" layoutY="469.0" mnemonicParsing="false" onAction="#RequestRegisterNewPatient" text="Register Patient" />
-      <Button layoutX="411.0" layoutY="469.0" mnemonicParsing="false" text="Update Patient" />
+      <Button fx:id="registration_Button_UpdatePatient" layoutX="411.0" layoutY="469.0" mnemonicParsing="false" onAction="#updatePatient" text="Update Patient" />
    </children>
 </AnchorPane>

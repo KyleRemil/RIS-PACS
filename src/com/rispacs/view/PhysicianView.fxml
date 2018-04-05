@@ -7,13 +7,15 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
+<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
    <children>
-      <TabPane layoutX="375.0" layoutY="63.0" prefHeight="495.0" prefWidth="969.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="276.0" layoutY="63.0" prefHeight="495.0" prefWidth="1068.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Radiology Services">
                <content>
@@ -69,31 +71,47 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="467.0" prefWidth="200.0">
+                        <TableView fx:id="Table_patientProcedures" layoutY="14.0" prefHeight="400.0" prefWidth="165.0">
                            <columns>
-                              <TableColumn prefWidth="75.0" text="Report ID" />
-                              <TableColumn prefWidth="75.0" text="Procedure" />
+                              <TableColumn fx:id="Column_patientProcedures" prefWidth="75.0" text="Patient's Procedures" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <Pane layoutX="224.0" layoutY="14.0" prefHeight="297.0" prefWidth="350.0" style="-fx-background-color: grey;" />
-                        <Button layoutX="496.0" layoutY="315.0" mnemonicParsing="false" text="Next Image" />
-                        <Button layoutX="224.0" layoutY="315.0" mnemonicParsing="false" text="Previous Image" />
-                        <TextArea layoutX="584.0" layoutY="14.0" prefHeight="412.0" prefWidth="349.0" text="Report Goes Here (Uneditable)" />
+                        <Button fx:id="Button_nextImage" layoutX="681.0" layoutY="422.0" mnemonicParsing="false" text="Next Image" />
+                        <Button fx:id="Button_previousImage" layoutX="347.0" layoutY="422.0" mnemonicParsing="false" text="Previous Image" />
+                        <Text layoutX="766.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report:" wrappingWidth="117.5966796875">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <TableView fx:id="Table_ProcedureImages" layoutX="173.0" layoutY="14.0" prefHeight="400.0" prefWidth="165.0">
+                           <columns>
+                              <TableColumn fx:id="Column_ImageName" prefWidth="75.0" text="Image Name" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                        <TextArea fx:id="TextArea_report" editable="false" layoutX="766.0" layoutY="39.0" prefHeight="429.0" prefWidth="268.0" />
+                        <Pane layoutX="347.0" layoutY="14.0" prefHeight="400.0" prefWidth="412.0" style="-fx-background-color: grey;">
+                           <children>
+                              <ImageView fx:id="ImageView_patientProcedureImage" fitHeight="400.0" fitWidth="412.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
-      <Pane layoutX="8.0" layoutY="63.0" prefHeight="537.0" prefWidth="358.0" style="-fx-background-color: green;">
+      <Pane layoutX="8.0" layoutY="63.0" prefHeight="537.0" prefWidth="260.0" style="-fx-background-color: green;">
          <children>
-            <TableView fx:id="Table_avaliablePatients" layoutY="2.0" prefHeight="495.0" prefWidth="358.0">
+            <TableView fx:id="Table_avaliablePatients" layoutY="2.0" prefHeight="495.0" prefWidth="260.0">
                <columns>
-                  <TableColumn fx:id="column_patientID" prefWidth="68.0" text="Patient ID" />
-                  <TableColumn fx:id="column_patientName" prefWidth="85.0" text="Patient Name" />
+                  <TableColumn fx:id="column_patientID" maxWidth="90.0" minWidth="75.0" prefWidth="90.0" text="Patient ID" />
+                  <TableColumn fx:id="column_patientName" maxWidth="170.0" prefWidth="170.0" text="Patient Name" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -102,7 +120,7 @@
             <Button fx:id="Button_refreshAvaliblePatientTable" layoutX="14.0" layoutY="504.0" mnemonicParsing="false" onAction="#refresh_Table_avaliablePatients" text="Refresh" />
          </children>
       </Pane>
-      <Pane layoutX="376.0" layoutY="558.0" prefHeight="42.0" prefWidth="968.0" style="-fx-background-color: orange;">
+      <Pane layoutX="276.0" layoutY="558.0" prefHeight="42.0" prefWidth="1068.0" style="-fx-background-color: orange;">
          <children>
             <Button layoutX="874.0" layoutY="9.0" mnemonicParsing="false" text="Cancel" />
             <Button fx:id="Button_deleteRequest" layoutX="777.0" layoutY="9.0" mnemonicParsing="false" text="Delete Request" />

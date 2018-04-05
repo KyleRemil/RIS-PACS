@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +38,7 @@ public class ProcedureController {
     @FXML private Button Button_saveImage;
     @FXML private Label Label_imageName;
     @FXML private Button Button_refresh_Table_procedureImages;
-
+    @FXML private TextArea TextArea_modalityImageNotes;
     TechnicianController technicianController = new TechnicianController();
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter extFilterJPG = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
@@ -108,8 +109,9 @@ public class ProcedureController {
     		String fileName ="\""+ selectedFile.getName()+ "\"";
         	String filePath = selectedFile.getPath();
         	filePath = filePath.replace("\\", "/");
+        	String imageNotes = TextArea_modalityImageNotes.getText().toString();
 
-        	String saveImageQuery = "INSERT INTO modalityimage(modalityImageBlob, modalityImageName, procedure_procedureId) VALUES ( ?, ?, ?)";
+        	String saveImageQuery = "INSERT INTO modalityimage(modalityImageBlob, modalityImageName, procedure_procedureId, modalityImageNotes) VALUES ( ?, ?, ?, ?)";
 
         	if (fileName.length() >= 45)
         	{
@@ -130,12 +132,14 @@ public class ProcedureController {
         			preparedStatement.setBlob(1, fileinputstream);
         			preparedStatement.setString(2, fileName);
         			preparedStatement.setString(3, selectedProcedureID);
+        			preparedStatement.setString(4, imageNotes);
         			if (selectedProcedureID == null)
         			{
         				System.out.println("Selected ProcedureID is null");
         			}
         			else
         			{
+        				System.out.println(preparedStatement.toString());
             			preparedStatement.execute();
         			}
         			fileinputstream.close();
