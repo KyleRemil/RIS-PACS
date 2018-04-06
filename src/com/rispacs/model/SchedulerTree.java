@@ -49,19 +49,16 @@ public class SchedulerTree {
         }
     }
 
-    public void getNextProcedure(Node focusNode) {
+    public void getNextProcedure(Node focusNode, ArrayList arrayList) {
 
-        int counter = 0;
+        if (focusNode != null) {
 
-        if (focusNode != null && counter < 1) {
-
-            getNextProcedure(focusNode.leftChild);
+            getNextProcedure(focusNode.leftChild, arrayList);
 
             System.out.println("key: " + focusNode.key);
+            arrayList.add(focusNode);
 
-            counter++;
-
-            getNextProcedure(focusNode.rightChild);
+            getNextProcedure(focusNode.rightChild, arrayList);
 
 //            System.out.println("key: " + focusNode.key);
         } else {

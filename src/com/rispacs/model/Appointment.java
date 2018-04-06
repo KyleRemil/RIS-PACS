@@ -7,7 +7,7 @@ public class Appointment {
     //Need modalityTypeId from modalitytype table.
     // Need patientId, procedureId, procedureDateOfRequest, modalityProcedureType from procedurelist table
 
-    private int procedureId, modalityTypeId, patientId, modalityProcedureType, procedureStatus;
+    private int procedureId, modalityTypeId, patientId, procedureStatus;
     private Timestamp dateOfRequest,scheduledDate;
 
     Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest) {
@@ -41,14 +41,6 @@ public class Appointment {
 
     public void setPatientId(int patientId) {
         this.patientId = patientId;
-    }
-
-    public int getModalityProcedureType() {
-        return modalityProcedureType;
-    }
-
-    public void setModalityProcedureType(int modalityProcedureType) {
-        this.modalityProcedureType = modalityProcedureType;
     }
 
     public Timestamp getDateOfRequest() {

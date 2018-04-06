@@ -14,71 +14,55 @@ import java.util.ArrayList;
 public class Scheduler {
 
     private ArrayList appointmentList = new ArrayList();
+    SchedulerTree schedulerTree = new SchedulerTree();
 
-//    private void populateAppointmentList() {
-//
-//        Connection connection = null;
-//        // WHat do i need?
-//        //Need modalityTypeId from modalitytype table.
-//        // Need patientId, procedureId, procedureDateOfRequest, modalityProcedureType from procedurelist table
-//        // Need procedureStatusId from procedureStatus table
-//        String query = "SELECT modalitytype.modalityTypeId, procedurelist.procedureDateOfRequest, procedurelist.procedureId, procedurelist.patientId, procedurelist.modalityProcedureTypeId, procedurestatus.procedureStatusId FROM procedurelist, modalitytype, procedurestatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
-//        try
-//        {
-//            connection = DatabaseHandler.getConnection();
-//            System.out.println(getPatientProcedureHistory);
-//            ResultSet resultSet = connection.createStatement().executeQuery(getPatientProcedureHistory);
-//            while (resultSet.next())
-//            {
-//                String modalityName = resultSet.getString("modalitytype.modalityTypeName");
-//                String procedureTypeDesc = resultSet.getString("modalityproceduretype.modalityProcedureTypeDesc");
-//                String modalityTechnician = resultSet.getString("staff.staffName");
-//                String dateOfRequest = resultSet.getString("procedurelist.procedureDateOfRequest");
-//                String scheduledDate = resultSet.getString("procedurelist.procedureScheduledDate");
-//                String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
-//                String procedureId = resultSet.getString("procedurelist.procedureId");
-//                ProcedureListModel procedureListModel = new ProcedureListModel(
-//                        modalityName,
-//                        procedureTypeDesc,
-//                        modalityTechnician,
-//                        dateOfRequest,
-//                        scheduledDate,
-//                        procedureStatus,
-//                        procedureId);
-//                ModalityProcedureListObservableList.add(procedureListModel);
-//            }
-//            Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
-//
-//            column_ProcedureId.setCellValueFactory(new PropertyValueFactory<>("procedureId"));
-//            column_ModalityName.setCellValueFactory(new PropertyValueFactory<>("modalityName"));
-//            column_ProcedureType.setCellValueFactory(new PropertyValueFactory<>("procedureTypeDesc"));
-//            column_ModalityTechnician.setCellValueFactory(new PropertyValueFactory<>("modalityTechnician"));
-//            column_ProcedureDOR.setCellValueFactory(new PropertyValueFactory<>("dateOfRequest"));
-//            column_ProcedureScheduledDate.setCellValueFactory(new PropertyValueFactory<>("scheduledDate"));
-//            column_ProcedureStatus.setCellValueFactory(new PropertyValueFactory<>("procedureStatus"));
-//
-//            Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
-//        }
-//        catch(SQLException e)
-//        {
-//            e.printStackTrace();
-//            System.out.println("ERROR @ Control.removeUser.First Try");
-//        }
-//        finally
-//        {
-//            try
-//            {
-//                connection.close();
-//            }
-//            catch (SQLException e)
-//            {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//
-//    }
+    public void populateAppointmentList() {
+
+        Connection connection = null;
+
+        String query = "SELECT modalityproceduretype.modalityType_modalityTypeId, procedurelist.patient_patientID, " +
+                "procedurelist.procedureId, procedurelist.procedureDateOfRequest, procedurestatus.procedureStatusID\n" +
+                "FROM procedurelist, procedurestatus, modalityproceduretype\n" +
+                "WHERE procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId AND " +
+                "procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID;";
+        try
+        {
+            connection = DatabaseHandler.getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+            while (resultSet.next())
+            {
+                String modalityType_modalityTypeId = resultSet.getString("modalityproceduretype.modalityType_modalityTypeId");
+                String patient_patientID = resultSet.getString("procedurelist.patient_patientID");
+                String procedureId = resultSet.getString("procedurelist.procedureId");
+                String procedureDateOfRequest = resultSet.getString("procedurelist.procedureDateOfRequest");
+                String procedureStatusID = resultSet.getString("procedurestatus.procedureStatusID");
+
+                Appointment appointment = new Appointment(
+                        Integer.valueOf(modalityType_modalityTypeId),
+                        Integer.valueOf(patient_patientID),
+                        Integer.valueOf(procedureId),
+                        Integer.valueOf(procedureStatusID),
+                        Timestamp.valueOf(procedureDateOfRequest));
+                appointmentList.add(appointment);
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("ERROR @ Control.removeUser.First Try");
+        }
+        finally
+        {
+            try
+            {
+                connection.close();
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
 
     ///////// Scraps / Notes /////////////////////////////////////////////////////////////////////////////////////////
 
