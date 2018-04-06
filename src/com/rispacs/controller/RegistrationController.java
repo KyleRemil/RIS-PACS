@@ -11,6 +11,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import com.jfoenix.controls.JFXDatePicker;
+import com.mysql.jdbc.StringUtils;
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.PatientModel;
 
@@ -280,11 +281,34 @@ public class RegistrationController {
 
     		String searchPatientFirstName = TextField_patientSearchFirstName.getText().toString();
         	String searchPatientLastName = TextField_patientSearchLastName.getText().toString();
+        	
+        	boolean firstNull = StringUtils.isNullOrEmpty(searchPatientFirstName);//(searchPatientFirstName == null) || searchPatientFirstName.isEmpty()
+        	//System.out.println("Empty string: " + StringUtils.isNullOrEmpty(""));
+        	//System.out.println("Null string: " + StringUtils.isNullOrEmpty(null));
+        	boolean lastNull = (searchPatientLastName == null) || searchPatientLastName.isEmpty();
 
-    		String searchPatientQuery = "SELECT * FROM patient WHERE patientFirstName Like  '%"+searchPatientFirstName+"%' OR PatientLastName Like '%"+searchPatientLastName+"%'";
+        	System.out.println("First: " + firstNull + "\nLast: " + lastNull);
+        	if(firstNull && lastNull)
+        	{
+        		System.out.println("No search text");
+        		return;
+        	}
+    		//String searchPatientQuery = "SELECT * FROM patient WHERE patientFirstName Like  '%"+searchPatientFirstName+"%' OR PatientLastName Like '%"+searchPatientLastName+"%'";
 
+    		String searchPatientQuery = "SELECT * FROM patient" + ((!firstNull || !lastNull)? " WHERE" + 
+    				((!firstNull)? " patientFirstName Like  ?" + ((!lastNull)?" AND ": " "):" ") + 
+    				((!lastNull)? " PatientLastName Like ?" : " ") : "");
     		PreparedStatement preparedStatement = connection.prepareStatement(searchPatientQuery);
-    		//System.out.println(preparedStatement);
+    		System.out.println(searchPatientQuery);
+    		if(!firstNull) {
+    			preparedStatement.setString(1, "%" + searchPatientFirstName + "%");
+    			if(!lastNull)
+    				preparedStatement.setString(2, "%" + searchPatientLastName + "%");
+    		}
+    		else
+    			preparedStatement.setString(1, "%" + searchPatientLastName + "%");
+    		
+    		System.out.println(preparedStatement);
     		ResultSet resultSet = preparedStatement.executeQuery();
 
     		while (resultSet.next())
