@@ -13,6 +13,7 @@ public class Scheduler {
 
     private ArrayList appointmentList = new ArrayList();
     SchedulerTree schedulerTree = new SchedulerTree();
+    SchedulerQueue schedulerQueue;
 
     public void generateSchedule() {
 
@@ -20,6 +21,7 @@ public class Scheduler {
 
         populateAppointmentList();
         buildSchedulerTree();
+//        buildSchedulerQueue();
     }
 
     private void populateAppointmentList() {
@@ -79,6 +81,17 @@ public class Scheduler {
             long longDate = thisAppointment.getDateOfRequest().getTime();
             schedulerTree.addNode(longDate, thisAppointment);
         }
+    }
+
+    private void buildSchedulerQueue() {
+
+        int size = appointmentList.size();
+        schedulerQueue = new SchedulerQueue(size);
+
+        for (int i = 0; i < size; i++) {
+            schedulerQueue.insert((Appointment) appointmentList.get(i));
+        }
+
     }
 
     ///////// Scraps / Notes /////////////////////////////////////////////////////////////////////////////////////////
