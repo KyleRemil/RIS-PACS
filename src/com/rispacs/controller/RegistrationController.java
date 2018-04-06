@@ -72,8 +72,12 @@ public class RegistrationController {
     	registration_Button_UpdatePatient.setDisable(true);
 
     	Table_searchPatient.setOnMouseClicked(event -> {
-    		selectedPatientID = Table_searchPatient.getSelectionModel().getSelectedItem().getPatientID();
-			PopulatePatientInformation(Table_searchPatient.getSelectionModel().getSelectedItem());
+    		if(Table_searchPatient.getSelectionModel().getSelectedItem() != null)
+    		{
+	    		selectedPatientID = Table_searchPatient.getSelectionModel().getSelectedItem().getPatientID();
+				PopulatePatientInformation(Table_searchPatient.getSelectionModel().getSelectedItem());
+				registration_Button_UpdatePatient.setDisable(false);
+    		}
 		});
     }
     private void PopulatePatientInformation(PatientModel patientModel)
@@ -192,6 +196,7 @@ public class RegistrationController {
     @FXML
     void updatePatient(ActionEvent event)
     {
+    	registration_Button_UpdatePatient.setDisable(true);
     	System.out.println("insertNewPatient() Called");
     	Connection connection = null;
     	String patientFirstName = registration_TextField_PatientFirstName.getText().toString();
@@ -236,7 +241,7 @@ public class RegistrationController {
     		{
         		selectedPatientID = null;
         		registration_Button_RegisterNewPatient.setDisable(false);
-        		registration_Button_UpdatePatient.setDisable(true);
+        		//registration_Button_UpdatePatient.setDisable(true);
         		clearPatientInformation();
 				connection.close();
 			}
@@ -257,7 +262,7 @@ public class RegistrationController {
         registration_TextField_PatientFirstName.setText(null);
         registration_TextField_PatientLastName.setText(null);
         registration_TextField_PatientDOB.setValue(null);
-        registration_Button_RegisterNewPatient.setText(null);
+        //registration_Button_RegisterNewPatient.setText(null);
 	}
 
     @FXML
@@ -265,7 +270,7 @@ public class RegistrationController {
     {
 
     	System.out.println("SearchPatient() Called");
-    	registration_Button_UpdatePatient.setDisable(false);
+    	//registration_Button_UpdatePatient.setDisable(false);
     	Connection connection = null;
         try
     	{
