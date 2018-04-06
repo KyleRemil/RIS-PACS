@@ -60,9 +60,9 @@ README:
 
 Recepsionist
   Insert Patient  *Done*
-  Search Patient 
-  Populate Patient Infomration based on selected seach results
-  Update Patient
+  Search Patient *Done*
+  Populate Patient Infomration based on selected seach results *Done*
+  Update Patient *Done*
   Schedule Procedures(If Neccesary)
   Adding Patient to waiting list
   Payment
@@ -86,11 +86,11 @@ Modality Technician (Robert In progress)
 Radiologist
   Get all patient procedures with procedureCompleted Status *Done*
   Ability to select desired procedure *Done*
-  Get all relevant images from those procedures based on procedureID*Done*
+  Get all relevant images from those procedures based on procedureID *Done*
   Get all relevant prior procedures of patient based on patientID
   Write report  *Done*
   Save report *Done*
-  Updated Procedure to reportComplete Status
+  Updated Procedure to reportComplete Status *Done*
  
 Create Login Page *Done*
 Create new Admin Tab
