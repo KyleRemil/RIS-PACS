@@ -3,6 +3,7 @@ package com.rispacs.controller;
 import java.sql.*;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.StringUtils;
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.ModalityImage;
 import com.rispacs.model.ProcedureListModel;
@@ -147,7 +148,7 @@ public class PhysicianController {
     			updatePriorProceduresList();
     		}
     	});
-    	
+
     	Table_patientProcedures.setOnMouseClicked(event -> {
     		if(Table_patientProcedures.getSelectionModel().getSelectedItem() != null){
     			String patientID = Table_patientProcedures.getSelectionModel().getSelectedItem().getProcedureId().toString();
@@ -398,7 +399,7 @@ public class PhysicianController {
         		String physicianNotes = " ";
         		try {
 					physicianNotes = textarea_physicanNoteBox.getText().trim();
-					if (!physicianNotes.equals("")) {
+					if (!StringUtils.isNullOrEmpty(physicianNotes)) {
 
 						physicianNotes = textarea_physicanNoteBox.getText();
 					} else {
@@ -498,16 +499,16 @@ public class PhysicianController {
     		exception.printStackTrace();
     	}
     }
-    
+
     private void updatePriorProceduresList()
     {
     	priorProceduresList = new FilteredList<>(ModalityProcedureListObservableList, t -> t.getprocedureStatus().contains("Complete"));
-    	
+
 		Table_patientProcedures.setItems(priorProceduresList);
 	    Column_patientProcedures.setCellValueFactory(new PropertyValueFactory<>("procedureId"));
     }
     private void updateProcedureImageList(String id)
     {
-    	
+
     }
 }
