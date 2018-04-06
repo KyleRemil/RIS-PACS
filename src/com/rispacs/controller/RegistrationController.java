@@ -27,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
 public class RegistrationController {
@@ -80,6 +81,27 @@ public class RegistrationController {
 				registration_Button_UpdatePatient.setDisable(false);
     		}
 		});
+    	
+    	Button_SearchPatient.setDisable(true);
+    	TextField_patientSearchFirstName.setOnKeyPressed(event -> {
+    		if(event.getCode() == KeyCode.ENTER)
+    			SearchPatient();
+  		});
+    	TextField_patientSearchLastName.setOnKeyPressed(event -> {
+    		if(event.getCode() == KeyCode.ENTER)
+    			SearchPatient();
+  		});
+    	TextField_patientSearchFirstName.textProperty().addListener((obs, oldText, newText) -> {
+    	    System.out.println("Text of 1st name search changed from "+oldText+" to "+newText);
+    	    UpdateSearchButtonState();
+    	    //SearchPatient(); //This could be an AJAX-like thing
+    	});
+    	TextField_patientSearchLastName.textProperty().addListener((obs, oldText, newText) -> {
+    	    System.out.println("Text of last name search changed from "+oldText+" to "+newText);
+    	    UpdateSearchButtonState();
+    	    //SearchPatient(); //This could be an AJAX-like thing
+    	});
+    	
     }
     private void PopulatePatientInformation(PatientModel patientModel)
     {
@@ -110,6 +132,9 @@ public class RegistrationController {
 	}
 	@FXML
     void RequestRegisterNewPatient(ActionEvent event){
+		//TextField_patientSearchFirstName.setText("hi");
+		//TextField_patientSearchLastName.textProperty().setValue("hello!");
+		
     	System.out.println("RequestRegisterNewPatient() Called");
     	if (validateRequiredFields() == true)	//If no required fields are empty
     	{
@@ -267,7 +292,7 @@ public class RegistrationController {
 	}
 
     @FXML
-    void SearchPatient(ActionEvent event)
+    void SearchPatient()//ActionEvent event)
     {
 
     	System.out.println("SearchPatient() Called");
@@ -347,5 +372,16 @@ public class RegistrationController {
 				e.printStackTrace();
 			}
     	}
+    }
+
+    private void UpdateSearchButtonState()
+    {
+    	System.out.println("UpdateSearchButton running");
+    	boolean b1 = StringUtils.isNullOrEmpty(TextField_patientSearchFirstName.getText().toString());
+    	boolean b2 = StringUtils.isNullOrEmpty(TextField_patientSearchLastName.getText().toString());
+    	if(b1 && b2)
+    		Button_SearchPatient.setDisable(true);
+    	else
+    		Button_SearchPatient.setDisable(false);
     }
 }
