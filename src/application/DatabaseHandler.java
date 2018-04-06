@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class DatabaseHandler
 {
-	private static String connectionString = "jdbc:mysql://localhost:3306/rispacs?autoReconnect=true&useSSL=false";
+	private static String connectionString = "jdbc:mysql://localhost:3306/risdatabase?autoReconnect=true&useSSL=false";
 	private static String connectionName = "root";
 	private static String connectionPassword = "";
 	//private static String connectionPassword = "";

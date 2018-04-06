@@ -58,7 +58,7 @@ public class TechnicianController {
     												+ "patient.patientFirstName, "
     												+ "modalityproceduretype.modalityProcedureTypeDesc, "
     												+ "modalitytype.modalityTypeName, "
-    												+ "procedurelist.procedureScheduledTime, "
+    												+ "procedurelist.procedureScheduledDate, "
     												+ "procedurestatus.procedureStatusDesc "
     												+ "FROM procedurelist, patient, modalityproceduretype, modalitytype, procedurestatus "
     												+ "WHERE procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND (procedureStatusID <= 1 OR procedureStatusID = 2)";
@@ -74,7 +74,7 @@ public class TechnicianController {
 				String modalityName = resultSet.getString("modalitytype.modalityTypeName");
 				String procedureType = resultSet.getString("modalityproceduretype.modalityProcedureTypeDesc");
 				String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
-				String procedureDate = resultSet.getString("procedurelist.procedureScheduledTime");
+				String procedureDate = resultSet.getString("procedurelist.procedureScheduledDate");
 				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientName, modalityName,procedureType,procedureStatus,procedureDate));
     		}
 
