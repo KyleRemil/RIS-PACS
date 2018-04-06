@@ -1,7 +1,6 @@
 package com.rispacs.controller;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.rispacs.model.ArrivedPatientsModel;
@@ -9,8 +8,7 @@ import com.rispacs.model.ModalityImage;
 import com.rispacs.model.ProcedureListModel;
 
 import application.DatabaseHandler;
-import com.rispacs.model.ProcedureSchedule;
-import com.rispacs.model.SchedulerTree;
+import com.rispacs.model.schedule.SchedulerTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

@@ -1,8 +1,5 @@
-package com.rispacs.model;
+package com.rispacs.model.schedule;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 //A binary tree for sorting out the scheduling
@@ -10,9 +7,9 @@ public class SchedulerTree {
 
     public Node root;
 
-    public void addNode(long key, int id) {
+    public void addNode(long key, Appointment appointment) {
 
-        Node newNode = new Node(key, id);
+        Node newNode = new Node(key, appointment);
 
         if (root == null) {
 
@@ -69,15 +66,15 @@ public class SchedulerTree {
     private class Node {
 
         long key;
-        int id;
+        Appointment appointment;
 
         Node leftChild;
         Node rightChild;
 
-        private Node(long key, int id) {
+        private Node(long key, Appointment appointment) {
 
             this.key = key;
-            this.id = id;
+            this.appointment = appointment;
         }
     }
 

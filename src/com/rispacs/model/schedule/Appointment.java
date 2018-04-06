@@ -1,4 +1,4 @@
-package com.rispacs.model;
+package com.rispacs.model.schedule;
 
 import java.sql.Timestamp;
 

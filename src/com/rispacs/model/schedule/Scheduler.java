@@ -1,22 +1,28 @@
-package com.rispacs.model;
+package com.rispacs.model.schedule;
 
 import application.DatabaseHandler;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Scheduler {
 
     private ArrayList appointmentList = new ArrayList();
     SchedulerTree schedulerTree = new SchedulerTree();
 
-    public void populateAppointmentList() {
+    public void generateSchedule() {
+
+        //just making the code that needs to be called by other classes cleaner
+
+        populateAppointmentList();
+        buildSchedulerTree();
+    }
+
+    private void populateAppointmentList() {
 
         Connection connection = null;
 
@@ -49,7 +55,6 @@ public class Scheduler {
         catch(SQLException e)
         {
             e.printStackTrace();
-            System.out.println("ERROR @ Control.removeUser.First Try");
         }
         finally
         {
@@ -61,6 +66,18 @@ public class Scheduler {
             {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void buildSchedulerTree() {
+
+        //shuffling list to randomize the data so the tree is more balanced.
+        Collections.shuffle(appointmentList);
+
+        for (int i = 0; i < appointmentList.size(); i++) {
+            Appointment thisAppointment = (Appointment) appointmentList.get(i);
+            long longDate = thisAppointment.getDateOfRequest().getTime();
+            schedulerTree.addNode(longDate, thisAppointment);
         }
     }
 

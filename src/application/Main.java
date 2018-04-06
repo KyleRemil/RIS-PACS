@@ -1,6 +1,6 @@
 package application;
 
-import com.rispacs.model.Scheduler;
+import com.rispacs.model.schedule.Scheduler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -24,7 +24,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		Scheduler scheduler = new Scheduler();
-		scheduler.populateAppointmentList();
+		scheduler.generateSchedule();
 		launch(args);
 	}
 }
