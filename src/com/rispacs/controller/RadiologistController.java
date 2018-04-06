@@ -98,7 +98,7 @@ public class RadiologistController {
 	    				TextArea_report.setText(null);
 	    				Table_patientProcedures.getItems().clear();
 	    				Table_ProcedureImages.getItems().clear();
-	    				getAllRelevantPatientProcedures();
+	    				UpdateProcedureToReportComplete();
 	    			}
 	        		catch (SQLException e)
 	        		{
@@ -122,7 +122,7 @@ public class RadiologistController {
        	{
        		connection = DatabaseHandler.getConnection();
 
-           	String updateProcedureToProcedureCompleteQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID= 4 WHERE procedureId=" + currentProcedureID;
+           	String updateProcedureToProcedureCompleteQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID = 4 WHERE procedureId=" + currentProcedureID;
 
            	PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureToProcedureCompleteQuery);
            	preparedStatement.execute();

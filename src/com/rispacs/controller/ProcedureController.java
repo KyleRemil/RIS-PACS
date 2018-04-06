@@ -69,7 +69,7 @@ public class ProcedureController {
     		String currentProcedureID = Context.getInstance().getCurrentProcedureID();
     		connection = DatabaseHandler.getConnection();
 
-        	String updateProcedureToProcedureCompleteQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID=3 WHERE procedureId=" + currentProcedureID;
+        	String updateProcedureToProcedureCompleteQuery = "UPDATE procedurelist SET procedurestatus_procedureStatusID = 3 WHERE procedureId=" + currentProcedureID;
 
         	PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureToProcedureCompleteQuery);
         	preparedStatement.execute();

@@ -15,9 +15,7 @@ public class DatabaseHandler
 	public static Connection getConnection() throws SQLException
 	{
 		return DriverManager.getConnection(connectionString, connectionName, connectionPassword);
-
 	}
-
 	// method that displays our errors in more detail if connection fails
 	public static void displayException(SQLException ex){
 		System.err.println("Error Message: " + ex.getMessage());
