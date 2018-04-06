@@ -11,6 +11,7 @@ import application.DatabaseHandler;
 import com.rispacs.model.schedule.SchedulerTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -53,8 +54,8 @@ public class PhysicianController {
     private ObservableList<ProcedureListModel> ModalityProcedureListObservableList;
 
 
-    @FXML private TableView<?> Table_patientProcedures;
-    @FXML private TableColumn<?, ?> Column_patientProcedures;
+    @FXML private TableView<ProcedureListModel> Table_patientProcedures;
+    @FXML private TableColumn<ProcedureListModel, String> Column_patientProcedures;
 
     @FXML private TableView<ModalityImage> Table_ProcedureImages;
     @FXML private TableColumn<ModalityImage, String> Column_ImageName;
@@ -65,6 +66,7 @@ public class PhysicianController {
     @FXML private TextArea TextArea_report;
 
     private ObservableList<ModalityImage> procedureImagesList;
+    private FilteredList<ProcedureListModel> priorProceduresList;
 
     private ArrayList procedureList = new ArrayList();
     private ArrayList procedureQueue = new ArrayList();
@@ -136,11 +138,20 @@ public class PhysicianController {
     	populatecomboBox_modalityTechnician();
     	populatecomboBox_modalityName();
 
+    	refresh_Table_avaliablePatients();
     	Table_avaliablePatients.setOnMouseClicked(event -> {
     		if(Table_avaliablePatients.getSelectionModel().getSelectedItem() != null)
     		{
     			String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
     			populateTable_patientRadiologyHistory(patientID);
+    			updatePriorProceduresList();
+    		}
+    	});
+    	
+    	Table_patientProcedures.setOnMouseClicked(event -> {
+    		if(Table_patientProcedures.getSelectionModel().getSelectedItem() != null){
+    			String patientID = Table_patientProcedures.getSelectionModel().getSelectedItem().getProcedureId().toString();
+    			updateProcedureImageList(patientID);
     		}
     	});
     }
@@ -428,7 +439,7 @@ public class PhysicianController {
     	}
     }
     @FXML
-    void refresh_Table_avaliablePatients(ActionEvent event)
+    void refresh_Table_avaliablePatients()//ActionEvent event)
     {
     	System.out.println("refresh_Table_avaliablePatients() Called");
     	Connection connection = null;
@@ -487,9 +498,16 @@ public class PhysicianController {
     		exception.printStackTrace();
     	}
     }
-
-
-
-
-
+    
+    private void updatePriorProceduresList()
+    {
+    	priorProceduresList = new FilteredList<>(ModalityProcedureListObservableList, t -> t.getprocedureStatus().contains("Complete"));
+    	
+		Table_patientProcedures.setItems(priorProceduresList);
+	    Column_patientProcedures.setCellValueFactory(new PropertyValueFactory<>("procedureId"));
+    }
+    private void updateProcedureImageList(String id)
+    {
+    	
+    }
 }
