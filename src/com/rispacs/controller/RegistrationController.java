@@ -29,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 
 public class RegistrationController {
 
@@ -44,8 +45,8 @@ public class RegistrationController {
     @FXML private Text registration_Title_PatientWeight;
     @FXML private Text registration_Title_ContactInformation;
     @FXML private Text registration_Title_ContactInformation2;
-    @FXML private ComboBox<?> registration_ComboBox_PatientMaritalStatus;
-    @FXML private ComboBox<?> registration_ComboBox_PatientGender;
+    @FXML private ComboBox<MaritalStatus> registration_ComboBox_PatientMaritalStatus;
+    @FXML private ComboBox<Gender> registration_ComboBox_PatientGender;
 
     @FXML private TextField registration_TextField_PatientMiddleName;
     @FXML private TextField registration_TextField_PatientSSN;
@@ -60,6 +61,7 @@ public class RegistrationController {
     @FXML private TextField TextField_patientSearchLastName;
     @FXML private Button Button_SearchPatient;
 
+    @FXML private Button registration_Button_Clear;
 
     @FXML private TableView<PatientModel> Table_searchPatient;
     @FXML private TableColumn<PatientModel, String> Column_patientID;
@@ -67,6 +69,8 @@ public class RegistrationController {
     @FXML private TableColumn<PatientModel, String> Column_patientLastVisit;
 
     private ObservableList<PatientModel> SearchPatientList;
+    private ObservableList<MaritalStatus> maritalStatusList;
+    private ObservableList<Gender> genderList;
 
     private String selectedPatientID = null;
     public void initialize()
@@ -81,7 +85,7 @@ public class RegistrationController {
 				registration_Button_UpdatePatient.setDisable(false);
     		}
 		});
-    	
+
     	Button_SearchPatient.setDisable(true);
     	TextField_patientSearchFirstName.setOnKeyPressed(event -> {
     		if(event.getCode() == KeyCode.ENTER)
@@ -101,17 +105,115 @@ public class RegistrationController {
     	    UpdateSearchButtonState();
     	    //SearchPatient(); //This could be an AJAX-like thing
     	});
-    	
+
+    	PopulateMartialStatusComboBox();
+    	PopulateGenderComboBox();
+
     }
+
+    private void PopulateMartialStatusComboBox()
+    {
+    	maritalStatusList = FXCollections.observableArrayList();
+    	MaritalStatus maritalStatusS = new MaritalStatus("Single");
+    	MaritalStatus maritalStatusM = new MaritalStatus("Married");
+    	MaritalStatus maritalStatusD = new MaritalStatus("Divorced");
+
+    	maritalStatusList.addAll(maritalStatusS,maritalStatusM, maritalStatusD);
+
+    	registration_ComboBox_PatientMaritalStatus.setItems(maritalStatusList);
+
+    	registration_ComboBox_PatientMaritalStatus.setConverter(new StringConverter<MaritalStatus>()
+    	{
+            @Override
+            public String toString(MaritalStatus object)
+            {
+                return object.getMaritalStatusName();
+            }
+            @Override
+            public MaritalStatus fromString(String string)
+            {
+                return null; // No conversion fromString needed.
+            }
+        });
+    }
+
+    private void PopulateGenderComboBox()
+    {
+    	genderList = FXCollections.observableArrayList();
+    	Gender genderMale = new Gender("M","Male");
+    	Gender genderFemale = new Gender("F","Female");
+
+    	genderList.addAll(genderMale,genderFemale);
+
+    	registration_ComboBox_PatientGender.setItems(genderList);
+
+    	registration_ComboBox_PatientGender.setConverter(new StringConverter<Gender>()
+    	{
+            @Override
+            public String toString(Gender object)
+            {
+                return object.getGenderDescription();
+            }
+            @Override
+            public Gender fromString(String string)
+            {
+                return null; // No conversion fromString needed.
+            }
+        });
+    }
+
+    private class MaritalStatus
+    {
+        private final String maritalStatusName;
+
+        public MaritalStatus(String maritalStatusName){
+            this.maritalStatusName = maritalStatusName;
+        }
+        public String getMaritalStatusName(){
+            return maritalStatusName;
+        }
+    }
+    private class Gender
+    {
+    	private String genderID;
+        private String genderDescription;
+
+        public Gender(String genderID, String genderDescription){
+            this.genderID = genderID;
+        	this.genderDescription = genderDescription;
+        }
+        public String getGenderDescription(){
+            return genderDescription;
+        }
+        public String getGenderID(){
+            return genderID;
+        }
+    }
+
     private void PopulatePatientInformation(PatientModel patientModel)
     {
-    	registration_TextField_PatientMiddleName.setText(patientModel.getPatientID());
+    	int genderIndex = 0;
+    	registration_TextField_PatientMiddleName.setText(patientModel.getPatientMiddleName());
         registration_TextField_PatientSSN.setText(patientModel.getPatientSSN());
         registration_TextField_PatientWeight.setText(patientModel.getPatientWeight());
         registration_TextField_PatientHeight.setText(patientModel.getPatinetHeight());
         registration_TextField_PatientFirstName.setText(patientModel.getPatientFirstName());
         registration_TextField_PatientLastName.setText(patientModel.getPatientLastName());
 
+        String patientGender = patientModel.getPatientGender();
+        System.out.println();
+        switch (patientGender)
+        {
+        	case "M":
+        		genderIndex = 0;
+        		break;
+        	case "F":
+        		genderIndex = 1;
+        		break;
+        	default:
+        }
+
+        registration_ComboBox_PatientGender.getSelectionModel().select(genderIndex);
         String dateValue = patientModel.getPatientDOB();
 
         Date date = null;
@@ -134,7 +236,7 @@ public class RegistrationController {
     void RequestRegisterNewPatient(ActionEvent event){
 		//TextField_patientSearchFirstName.setText("hi");
 		//TextField_patientSearchLastName.textProperty().setValue("hello!");
-		
+
     	System.out.println("RequestRegisterNewPatient() Called");
     	if (validateRequiredFields() == true)	//If no required fields are empty
     	{
@@ -155,6 +257,7 @@ public class RegistrationController {
     	String patientSSN = registration_TextField_PatientSSN.getText().toString();
     	String patientHeight = registration_TextField_PatientHeight.getText().toString();
     	String patientWeight = registration_TextField_PatientWeight.getText().toString();
+    	String patientGender = registration_ComboBox_PatientGender.getSelectionModel().getSelectedItem().getGenderID();
         try
     	{
     		connection = DatabaseHandler.getConnection();
@@ -172,7 +275,7 @@ public class RegistrationController {
     		preparedStatement.setString (1, patientFirstName);
     		preparedStatement.setString (2, patientMiddleName);
     		preparedStatement.setString (3, patientLastName);
-    		preparedStatement.setString (4, "x");
+    		preparedStatement.setString (4, patientGender);
     		preparedStatement.setInt (5, Integer.parseInt(patientSSN));
     		preparedStatement.setInt (6, Integer.parseInt(patientHeight));
     		preparedStatement.setInt (7, Integer.parseInt(patientWeight));
@@ -190,6 +293,7 @@ public class RegistrationController {
     		try
     		{
 				connection.close();
+				clearPatientInformation();
 			}
     		catch (SQLException e)
     		{
@@ -218,7 +322,6 @@ public class RegistrationController {
     	}
 		return isValidated;
     }
-
     @FXML
     void updatePatient(ActionEvent event)
     {
@@ -231,6 +334,7 @@ public class RegistrationController {
     	String patientSSN = registration_TextField_PatientSSN.getText().toString();
     	String patientHeight = registration_TextField_PatientHeight.getText().toString();
     	String patientWeight = registration_TextField_PatientWeight.getText().toString();
+    	String patientGender = registration_ComboBox_PatientGender.getSelectionModel().getSelectedItem().getGenderID();
         try
     	{
     		connection = DatabaseHandler.getConnection();
@@ -247,7 +351,7 @@ public class RegistrationController {
     		preparedStatement.setString (1, patientFirstName);
     		preparedStatement.setString (2, patientMiddleName);
     		preparedStatement.setString (3, patientLastName);
-    		preparedStatement.setString (4, "x");
+    		preparedStatement.setString (4, patientGender);
     		preparedStatement.setInt (5, Integer.parseInt(patientSSN));
     		preparedStatement.setInt (6, Integer.parseInt(patientHeight));
     		preparedStatement.setInt (7, Integer.parseInt(patientWeight));
@@ -268,8 +372,10 @@ public class RegistrationController {
         		selectedPatientID = null;
         		registration_Button_RegisterNewPatient.setDisable(false);
         		//registration_Button_UpdatePatient.setDisable(true);
-        		clearPatientInformation();
 				connection.close();
+				clearPatientInformation();
+				SearchPatient();
+
 			}
     		catch (SQLException e)
     		{
@@ -278,7 +384,6 @@ public class RegistrationController {
 			}
     	}
     }
-
     private void clearPatientInformation()
     {
     	registration_TextField_PatientMiddleName.setText(null);
@@ -288,9 +393,11 @@ public class RegistrationController {
         registration_TextField_PatientFirstName.setText(null);
         registration_TextField_PatientLastName.setText(null);
         registration_TextField_PatientDOB.setValue(null);
-        //registration_Button_RegisterNewPatient.setText(null);
+        registration_ComboBox_PatientMaritalStatus.valueProperty().set(null);
+        registration_ComboBox_PatientGender.valueProperty().set(null);
+        registration_Button_RegisterNewPatient.setDisable(false);
+        registration_Button_UpdatePatient.setDisable(true);
 	}
-
     @FXML
     void SearchPatient()//ActionEvent event)
     {
@@ -306,7 +413,7 @@ public class RegistrationController {
 
     		String searchPatientFirstName = TextField_patientSearchFirstName.getText().toString();
         	String searchPatientLastName = TextField_patientSearchLastName.getText().toString();
-        	
+
         	boolean firstNull = StringUtils.isNullOrEmpty(searchPatientFirstName);//(searchPatientFirstName == null) || searchPatientFirstName.isEmpty()
         	//System.out.println("Empty string: " + StringUtils.isNullOrEmpty(""));
         	//System.out.println("Null string: " + StringUtils.isNullOrEmpty(null));
@@ -320,8 +427,8 @@ public class RegistrationController {
         	}
     		//String searchPatientQuery = "SELECT * FROM patient WHERE patientFirstName Like  '%"+searchPatientFirstName+"%' OR PatientLastName Like '%"+searchPatientLastName+"%'";
 
-    		String searchPatientQuery = "SELECT * FROM patient" + ((!firstNull || !lastNull)? " WHERE" + 
-    				((!firstNull)? " patientFirstName Like  ?" + ((!lastNull)?" AND ": " "):" ") + 
+    		String searchPatientQuery = "SELECT * FROM patient" + ((!firstNull || !lastNull)? " WHERE" +
+    				((!firstNull)? " patientFirstName Like  ?" + ((!lastNull)?" AND ": " "):" ") +
     				((!lastNull)? " PatientLastName Like ?" : " ") : "");
     		PreparedStatement preparedStatement = connection.prepareStatement(searchPatientQuery);
     		System.out.println(searchPatientQuery);
@@ -332,7 +439,7 @@ public class RegistrationController {
     		}
     		else
     			preparedStatement.setString(1, "%" + searchPatientLastName + "%");
-    		
+
     		System.out.println(preparedStatement);
     		ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -373,7 +480,6 @@ public class RegistrationController {
 			}
     	}
     }
-
     private void UpdateSearchButtonState()
     {
     	System.out.println("UpdateSearchButton running");
@@ -384,4 +490,11 @@ public class RegistrationController {
     	else
     		Button_SearchPatient.setDisable(false);
     }
+    @FXML
+    void ClearPatientForm(ActionEvent event) {
+    	registration_Button_RegisterNewPatient.setDisable(false);
+    	registration_Button_UpdatePatient.setDisable(true);
+    	clearPatientInformation();
+    }
+
 }

@@ -21,11 +21,11 @@
             <TextField fx:id="registration_TextField_PatientMiddleName" layoutX="277.0" layoutY="19.0" prefHeight="25.0" prefWidth="47.0" promptText="MI" />
             <Text fx:id="registration_Title_PatientDOB" layoutX="42.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:" />
             <JFXDatePicker fx:id="registration_TextField_PatientDOB" layoutX="112.0" layoutY="43.0" />
-            <ComboBox fx:id="registration_ComboBox_PatientGender" layoutX="437.0" layoutY="43.0" prefWidth="150.0" promptText="Male" />
+            <ComboBox fx:id="registration_ComboBox_PatientGender" layoutX="437.0" layoutY="43.0" prefWidth="150.0" />
             <Text fx:id="registration_Title_PatientGender" layoutX="395.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender:" />
             <TextField fx:id="registration_TextField_PatientSSN" layoutX="112.0" layoutY="68.0" promptText="#" />
             <Text fx:id="registration_Title_PatientSSN" layoutX="86.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SSN:" />
-            <ComboBox fx:id="registration_ComboBox_PatientMaritalStatus" layoutX="437.0" layoutY="68.0" prefWidth="150.0" promptText="Single" />
+            <ComboBox fx:id="registration_ComboBox_PatientMaritalStatus" layoutX="437.0" layoutY="68.0" prefWidth="150.0" />
             <Text fx:id="registration_Title_PatientMaritalStatus" layoutX="361.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status:" />
             <TextField fx:id="registration_TextField_PatientHeight" layoutX="112.0" layoutY="93.0" promptText="ft." />
             <Text fx:id="registration_Title_PatientHeight" layoutX="72.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
@@ -62,6 +62,7 @@
             </TableView>
          </children>
       </Pane>
+      <Button fx:id="registration_Button_Clear" layoutX="329.0" layoutY="469.0" mnemonicParsing="false" onAction="#ClearPatientForm" text="Clear Form" />
       <Button fx:id="registration_Button_RegisterNewPatient" layoutX="515.0" layoutY="469.0" mnemonicParsing="false" onAction="#RequestRegisterNewPatient" text="Register Patient" />
       <Button fx:id="registration_Button_UpdatePatient" layoutX="411.0" layoutY="469.0" mnemonicParsing="false" onAction="#updatePatient" text="Update Patient" />
    </children>
