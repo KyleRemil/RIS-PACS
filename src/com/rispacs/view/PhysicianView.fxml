@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
+<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
    <children>
       <TabPane layoutX="276.0" layoutY="63.0" prefHeight="495.0" prefWidth="1068.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -40,7 +40,7 @@
                               <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Details" />
                               <Text layoutX="14.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Performing Modality Name:" />
                               <ComboBox fx:id="comboBox_modalityName" layoutX="167.0" layoutY="36.0" prefWidth="150.0" />
-                              <TextArea fx:id="textarea_phsysicanNoteBox" layoutX="484.0" layoutY="38.0" prefHeight="54.0" prefWidth="445.0" />
+                              <TextArea fx:id="textarea_physicanNoteBox" layoutX="484.0" layoutY="38.0" prefHeight="54.0" prefWidth="445.0" />
                               <Text layoutX="409.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" />
                               <Text layoutX="14.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Procedure Type:" />
                               <ComboBox fx:id="comboBox_modalityProcedureType" layoutX="167.0" layoutY="66.0" prefWidth="150.0" />
