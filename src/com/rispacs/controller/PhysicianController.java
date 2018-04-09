@@ -1,10 +1,12 @@
 package com.rispacs.controller;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.StringUtils;
 import com.rispacs.model.ArrivedPatientsModel;
+import com.rispacs.model.Context;
 import com.rispacs.model.ModalityImage;
 import com.rispacs.model.ProcedureListModel;
 
@@ -21,6 +23,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
 
@@ -153,6 +156,13 @@ public class PhysicianController {
     		if(Table_patientProcedures.getSelectionModel().getSelectedItem() != null){
     			String patientID = Table_patientProcedures.getSelectionModel().getSelectedItem().getProcedureId().toString();
     			updateProcedureImageList(patientID);
+    		}
+    	});
+
+    	Table_ProcedureImages.setOnMouseClicked(event -> {
+    		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			ModalityImage img = Table_ProcedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
     		}
     	});
     }
@@ -509,6 +519,82 @@ public class PhysicianController {
     }
     private void updateProcedureImageList(String id)
     {
+    	System.out.println("updateProcedureImageList() Called");
+    	Connection connection = null;
+        try
+    	{
+        	procedureImagesList = FXCollections.observableArrayList();
+    		connection = DatabaseHandler.getConnection();
+    		String getAllCurrentProcedureImages = "SELECT * FROM modalityimage WHERE procedure_procedureId =" + id;
+    		PreparedStatement preparedStatement = connection.prepareStatement(getAllCurrentProcedureImages);
+    		ResultSet resultSet = preparedStatement.executeQuery();
 
+    		while (resultSet.next())
+    		{
+    			String modalityImageID = resultSet.getString("modalityImageID");
+    			InputStream inputStream = resultSet.getBinaryStream("modalityImageBlob");
+    			//BufferedImage image = ImageIO.read(inputStream);
+    			javafx.scene.image.Image image = new Image(inputStream, ImageView_patientProcedureImage.getFitWidth(), ImageView_patientProcedureImage.getFitHeight(), true, true);
+    			String modalityImageName = resultSet.getString("modalityImageName");
+    			procedureImagesList.add(new ModalityImage (modalityImageID,image,modalityImageName));
+    		}
+
+    		Column_ImageName.setCellValueFactory(new PropertyValueFactory<>("modalityImageName"));
+
+    		Table_ProcedureImages.setItems(null);
+    		Table_ProcedureImages.setItems(procedureImagesList);
+    	}
+        catch(Exception exception)
+    	{
+    		exception.printStackTrace();
+    	}
+    	finally
+    	{
+    		try
+    		{
+				connection.close();
+			}
+    		catch (SQLException e)
+    		{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    }
+    private void setPreviewImage(ModalityImage mi)
+    {
+    	try
+    	{
+    		javafx.scene.image.Image image = mi.getImage();
+
+    		if (image != null) {
+                double w = 0;
+                double h = 0;
+
+                double ratioX = ImageView_patientProcedureImage.getFitWidth() / image.getWidth();
+                double ratioY = ImageView_patientProcedureImage.getFitHeight() / image.getHeight();
+
+                double reducCoeff = 0;
+                if(ratioX >= ratioY)
+                {
+                    reducCoeff = ratioY;
+                } else {
+                    reducCoeff = ratioX;
+                }
+
+                w = image.getWidth() * reducCoeff;
+                h = image.getHeight() * reducCoeff;
+
+                ImageView_patientProcedureImage.setX((ImageView_patientProcedureImage.getFitWidth() - w) / 2);
+                ImageView_patientProcedureImage.setY((ImageView_patientProcedureImage.getFitHeight() - h) / 2);
+
+                ImageView_patientProcedureImage.setImage(image);
+                ImageView_patientProcedureImage.setPreserveRatio(true);
+            }
+    	}
+    	catch(Exception exception)
+    	{
+    		exception.printStackTrace();
+    	}
     }
 }
