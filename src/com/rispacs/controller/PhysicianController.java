@@ -149,6 +149,9 @@ public class PhysicianController {
     			String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
     			populateTable_patientRadiologyHistory(patientID);
     			updatePriorProceduresList();
+    			Table_ProcedureImages.setItems(null);
+    			ImageView_patientProcedureImage.setImage(null);
+    			TextArea_report.setText(null);
     		}
     	});
 
@@ -156,6 +159,10 @@ public class PhysicianController {
     		if(Table_patientProcedures.getSelectionModel().getSelectedItem() != null){
     			String patientID = Table_patientProcedures.getSelectionModel().getSelectedItem().getProcedureId().toString();
     			updateProcedureImageList(patientID);
+    			if(!procedureImagesList.isEmpty())
+    				setPreviewImage(procedureImagesList.get(0));
+    			else
+    				ImageView_patientProcedureImage.setImage(null);
     		}
     	});
 
@@ -527,7 +534,7 @@ public class PhysicianController {
         	procedureImagesList = FXCollections.observableArrayList();
     		connection = DatabaseHandler.getConnection();
     		//String getAllCurrentProcedureImages = "SELECT * FROM modalityimage WHERE procedure_procedureId =" + id;
-    		String getAllCurrentProcedureImages = "SELECT modalityImageID, modalityImageBlob, modalityImageName, modalityImageNotes, reportID, reportText FROM modalityimage" 
+    		String getAllCurrentProcedureImages = "SELECT modalityImageID, modalityImageBlob, modalityImageName, modalityImageNotes, reportID, reportText FROM modalityimage"
     				+ " join report on modalityimage.procedure_procedureId = report.procedure_procedureId"
     				+ " where modalityimage.procedure_procedureId = ?"
     				+ " order by reportID";
