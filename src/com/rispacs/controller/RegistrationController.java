@@ -237,7 +237,7 @@ public class RegistrationController {
 		//TextField_patientSearchFirstName.setText("hi");
 		//TextField_patientSearchLastName.textProperty().setValue("hello!");
 
-    	System.out.println("RequestRegisterNewPatient() Called");
+    	////System.out.println("RequestRegisterNewPatient() Called");
     	if (validateRequiredFields() == true)	//If no required fields are empty
     	{
     		insertNewPatient();
@@ -249,7 +249,7 @@ public class RegistrationController {
     }
     private void insertNewPatient()
     {
-    	System.out.println("insertNewPatient() Called");
+    	//System.out.println("insertNewPatient() Called");
     	Connection connection = null;
     	String patientFirstName = registration_TextField_PatientFirstName.getText().toString();
     	String patientMiddleName = registration_TextField_PatientMiddleName.getText().toString();
@@ -303,7 +303,7 @@ public class RegistrationController {
     	}
     }
     private boolean validateRequiredFields(){
-    	System.out.println("validateRequiredFields() Called");
+    	//System.out.println("validateRequiredFields() Called");
     	boolean isValidated = true;
 
     	if(registration_TextField_PatientFirstName.getText().trim().isEmpty())
@@ -326,7 +326,7 @@ public class RegistrationController {
     void updatePatient(ActionEvent event)
     {
     	registration_Button_UpdatePatient.setDisable(true);
-    	System.out.println("insertNewPatient() Called");
+    	//System.out.println("insertNewPatient() Called");
     	Connection connection = null;
     	String patientFirstName = registration_TextField_PatientFirstName.getText().toString();
     	String patientMiddleName = registration_TextField_PatientMiddleName.getText().toString();
@@ -402,7 +402,7 @@ public class RegistrationController {
     void SearchPatient()//ActionEvent event)
     {
 
-    	System.out.println("SearchPatient() Called");
+    	//System.out.println("SearchPatient() Called");
     	//registration_Button_UpdatePatient.setDisable(false);
     	Connection connection = null;
         try
@@ -482,7 +482,7 @@ public class RegistrationController {
     }
     private void UpdateSearchButtonState()
     {
-    	System.out.println("UpdateSearchButton running");
+    	//System.out.println("UpdateSearchButton running");
     	boolean b1 = StringUtils.isNullOrEmpty(TextField_patientSearchFirstName.getText().toString());
     	boolean b2 = StringUtils.isNullOrEmpty(TextField_patientSearchLastName.getText().toString());
     	if(b1 && b2)
