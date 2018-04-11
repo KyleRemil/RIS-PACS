@@ -126,7 +126,7 @@
             <Button fx:id="Button_deleteRequest" layoutX="777.0" layoutY="9.0" mnemonicParsing="false" text="Delete Request" />
             <Button fx:id="Button_updateRequest" layoutX="676.0" layoutY="9.0" mnemonicParsing="false" text="Update Request" />
             <Button fx:id="Button_sendRequest" layoutX="587.0" layoutY="9.0" mnemonicParsing="false" onAction="#requestProcedure" text="Send Request" />
-            <Button fx:id="Button_AddAppointment" layoutX="474.0" layoutY="9.0" mnemonicParsing="false" text="Book Appoinment" />
+            <Button fx:id="Button_AddAppointment" layoutX="474.0" layoutY="9.0" mnemonicParsing="false" onAction="#bookAppointment" text="Book Appoinment" />
             <Button layoutX="429.0" layoutY="9.0" mnemonicParsing="false" text="Reset" />
             <Button fx:id="Button_refreshPatientHistory" layoutX="373.0" layoutY="9.0" mnemonicParsing="false" onAction="#refresh_Table_patientRadiologyHistory" text="Refresh" />
          </children>

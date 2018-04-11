@@ -22,6 +22,12 @@ public class Context {
         return instance;
     }
 
+    public void sortSchedule() {
+		Scheduler scheduler = new Scheduler();
+		scheduler.generateSchedule();
+	}
+
+
 	/**
 	 * @return the x
 	 */
@@ -44,7 +50,7 @@ public class Context {
 	}
 
 	/**
-	 * @param set the role
+	// * @param set the role
 	 */
 	public void setRole(int role) {
 		this.role = role;
