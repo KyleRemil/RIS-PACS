@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -68,6 +67,8 @@ public class FrameController {
 		menu_close.setOnAction(event -> {
 			System.exit(0);
 		});
+
+
     }
 
     public void logOut()

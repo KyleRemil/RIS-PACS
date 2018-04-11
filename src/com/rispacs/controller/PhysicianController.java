@@ -11,7 +11,6 @@ import com.rispacs.model.ModalityImage;
 import com.rispacs.model.ProcedureListModel;
 
 import application.DatabaseHandler;
-import com.rispacs.model.schedule.SchedulerTree;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -74,9 +73,6 @@ public class PhysicianController {
 
     private ArrayList procedureList = new ArrayList();
     private ArrayList procedureQueue = new ArrayList();
-
-	private SchedulerTree newSchedulerTree = new SchedulerTree();
-
 
 	private class ModalityTechnician
     {
@@ -635,4 +631,9 @@ public class PhysicianController {
     		exception.printStackTrace();
     	}
     }
+    @FXML
+	public void bookAppointment() {
+		Context context = new Context();
+		context.sortSchedule();
+	}
 }
