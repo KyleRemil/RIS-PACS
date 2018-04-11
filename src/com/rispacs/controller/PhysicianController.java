@@ -145,6 +145,9 @@ public class PhysicianController {
     			String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
     			populateTable_patientRadiologyHistory(patientID);
     			updatePriorProceduresList();
+    			Table_ProcedureImages.setItems(null);
+    			ImageView_patientProcedureImage.setImage(null);
+    			TextArea_report.setText(null);
     		}
     	});
 
@@ -152,6 +155,10 @@ public class PhysicianController {
     		if(Table_patientProcedures.getSelectionModel().getSelectedItem() != null){
     			String patientID = Table_patientProcedures.getSelectionModel().getSelectedItem().getProcedureId().toString();
     			updateProcedureImageList(patientID);
+    			if(!procedureImagesList.isEmpty())
+    				setPreviewImage(procedureImagesList.get(0));
+    			else
+    				ImageView_patientProcedureImage.setImage(null);
     		}
     	});
 
@@ -517,12 +524,18 @@ public class PhysicianController {
     {
     	System.out.println("updateProcedureImageList() Called");
     	Connection connection = null;
+    	TextArea_report.setText(null);
         try
     	{
         	procedureImagesList = FXCollections.observableArrayList();
     		connection = DatabaseHandler.getConnection();
-    		String getAllCurrentProcedureImages = "SELECT * FROM modalityimage WHERE procedure_procedureId =" + id;
+    		//String getAllCurrentProcedureImages = "SELECT * FROM modalityimage WHERE procedure_procedureId =" + id;
+    		String getAllCurrentProcedureImages = "SELECT modalityImageID, modalityImageBlob, modalityImageName, modalityImageNotes, reportID, reportText FROM modalityimage"
+    				+ " join report on modalityimage.procedure_procedureId = report.procedure_procedureId"
+    				+ " where modalityimage.procedure_procedureId = ?"
+    				+ " order by reportID";
     		PreparedStatement preparedStatement = connection.prepareStatement(getAllCurrentProcedureImages);
+    		preparedStatement.setString(1, id);
     		ResultSet resultSet = preparedStatement.executeQuery();
 
     		while (resultSet.next())
@@ -533,6 +546,8 @@ public class PhysicianController {
     			javafx.scene.image.Image image = new Image(inputStream, ImageView_patientProcedureImage.getFitWidth(), ImageView_patientProcedureImage.getFitHeight(), true, true);
     			String modalityImageName = resultSet.getString("modalityImageName");
     			procedureImagesList.add(new ModalityImage (modalityImageID,image,modalityImageName));
+    			if(StringUtils.isNullOrEmpty(TextArea_report.getText()))
+    					TextArea_report.setText(resultSet.getString("reportText"));
     		}
 
     		Column_ImageName.setCellValueFactory(new PropertyValueFactory<>("modalityImageName"));

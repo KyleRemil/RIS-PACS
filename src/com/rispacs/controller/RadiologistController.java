@@ -54,12 +54,10 @@ public class RadiologistController {
     		setPreviewImage(Table_ProcedureImages.getSelectionModel().getSelectedItem());
 		});
     }
-
     @FXML
     void refreshTable_patients(ActionEvent event) {
     	getAllCompletedProcedure();
     }
-
     @FXML
     void submitReport(ActionEvent event)
     {
@@ -98,6 +96,7 @@ public class RadiologistController {
 	    				TextArea_report.setText(null);
 	    				Table_patientProcedures.getItems().clear();
 	    				Table_ProcedureImages.getItems().clear();
+
 	    				UpdateProcedureToReportComplete();
 	    			}
 	        		catch (SQLException e)
@@ -113,7 +112,6 @@ public class RadiologistController {
     		exception.printStackTrace();
     	}
     }
-
     void UpdateProcedureToReportComplete()
    	{
    		System.out.println("UpdateProcedureToReportComplete() Called");
@@ -136,7 +134,10 @@ public class RadiologistController {
        		try
        		{
    				connection.close();
+
    				currentProcedureID = null;
+   				ImageView_patientProcedureImage.setImage(null);
+   				getAllCompletedProcedure();
    			}
        		catch (SQLException e)
        		{
@@ -145,7 +146,6 @@ public class RadiologistController {
    			}
        	}
     }
-
     void getAllRelevantPatientProcedures()
     {
     	System.out.println("getAllCompletedProcedure() Called");
