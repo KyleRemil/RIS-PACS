@@ -57,6 +57,27 @@ public class ProcedureController {
     		});
 
     	Button_saveImage.setDisable(true);
+
+    	Button_nextImage.setOnMouseClicked(event -> {
+    		if(Table_procedureImages.getSelectionModel().getSelectedItem() != null){
+    			if(Table_procedureImages.getSelectionModel().getSelectedIndex() != Table_procedureImages.getItems().size() - 1)
+    				Table_procedureImages.getSelectionModel().selectNext();
+    			else
+    				Table_procedureImages.getSelectionModel().selectFirst();
+    			ModalityImage img = Table_procedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
+    		}
+    	});
+    	Button_previousImage.setOnMouseClicked(event -> {
+    		if(Table_procedureImages.getSelectionModel().getSelectedItem() != null){
+    			if(Table_procedureImages.getSelectionModel().getSelectedIndex() != 0)
+    				Table_procedureImages.getSelectionModel().selectPrevious();
+    			else
+    				Table_procedureImages.getSelectionModel().selectLast();
+    			ModalityImage img = Table_procedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
+    		}
+    	});
     }
 
 	@FXML

@@ -159,8 +159,10 @@ public class PhysicianController {
     		if(Table_patientProcedures.getSelectionModel().getSelectedItem() != null){
     			String patientID = Table_patientProcedures.getSelectionModel().getSelectedItem().getProcedureId().toString();
     			updateProcedureImageList(patientID);
-    			if(!procedureImagesList.isEmpty())
+    			if(!procedureImagesList.isEmpty()){
+    				Table_ProcedureImages.getSelectionModel().selectFirst();
     				setPreviewImage(procedureImagesList.get(0));
+    			}
     			else
     				ImageView_patientProcedureImage.setImage(null);
     		}
@@ -168,6 +170,27 @@ public class PhysicianController {
 
     	Table_ProcedureImages.setOnMouseClicked(event -> {
     		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			ModalityImage img = Table_ProcedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
+    		}
+    	});
+    	//Table_ProcedureImages.getSelectionModel().set
+    	Button_nextImage.setOnMouseClicked(event -> {
+    		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			if(Table_ProcedureImages.getSelectionModel().getSelectedIndex() != Table_ProcedureImages.getItems().size() - 1)
+    				Table_ProcedureImages.getSelectionModel().selectNext();
+    			else
+    				Table_ProcedureImages.getSelectionModel().selectFirst();
+    			ModalityImage img = Table_ProcedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
+    		}
+    	});
+    	Button_previousImage.setOnMouseClicked(event -> {
+    		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			if(Table_ProcedureImages.getSelectionModel().getSelectedIndex() != 0)
+    				Table_ProcedureImages.getSelectionModel().selectPrevious();
+    			else
+    				Table_ProcedureImages.getSelectionModel().selectLast();
     			ModalityImage img = Table_ProcedureImages.getSelectionModel().getSelectedItem();
     			setPreviewImage(img);
     		}
