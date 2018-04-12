@@ -68,7 +68,9 @@ public class FrameController {
 			System.exit(0);
 		});
 
-
+		
+		//create initial schedule - should probably create it here
+		//Context.getInstance().sortSchedule();
     }
 
     public void logOut()

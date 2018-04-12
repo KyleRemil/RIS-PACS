@@ -6,6 +6,7 @@ public class Context {
 
 	private final static Context instance = new Context();
 	private int x = 0;
+	private Scheduler scheduler = new Scheduler();
 
 	private int role = 1;
 	/*
@@ -23,10 +24,13 @@ public class Context {
     }
 
     public void sortSchedule() {
-		Scheduler scheduler = new Scheduler();
+    	scheduler = new Scheduler();
 		scheduler.generateSchedule();
 	}
 
+    public Scheduler getScheduler() {
+    	return scheduler;
+    }
 
 	/**
 	 * @return the x

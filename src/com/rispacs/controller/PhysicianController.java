@@ -633,7 +633,11 @@ public class PhysicianController {
     }
     @FXML
 	public void bookAppointment() {
-		Context context = new Context();
-		context.sortSchedule();
+		/*Context context = new Context(); //shouldn't make a new object
+		context.sortSchedule();*/
+    	
+    	//Could do either of these (whichever works):
+    	//Context.getInstance().getScheduler().bookAppointment(); //directly call needed funtion
+    	Context.getInstance().sortSchedule(); //tells context to do it, which is how it was before (and basically overwrites the object each time)
 	}
 }
