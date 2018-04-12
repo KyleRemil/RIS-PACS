@@ -8,6 +8,7 @@ import com.mysql.jdbc.StringUtils;
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.Context;
 import com.rispacs.model.ModalityImage;
+import com.rispacs.model.PatientModel;
 import com.rispacs.model.ProcedureListModel;
 
 import application.DatabaseHandler;
@@ -24,15 +25,19 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 public class PhysicianController {
 
     @FXML private TableView<ProcedureListModel> Table_patientRadiologyHistory;
     @FXML private TextArea textarea_physicanNoteBox;
-    @FXML private TableView<ArrivedPatientsModel> Table_avaliablePatients;
+    /*@FXML private TableView<ArrivedPatientsModel> Table_avaliablePatients;
     @FXML private TableColumn<ArrivedPatientsModel, String> column_patientID;
-    @FXML private TableColumn<ArrivedPatientsModel, String> column_patientName;
+    @FXML private TableColumn<ArrivedPatientsModel, String> column_patientName;*/
+    @FXML private TableView<PatientModel> Table_avaliablePatients;
+    @FXML private TableColumn<PatientModel, String> column_patientID;
+    @FXML private TableColumn<PatientModel, String> column_patientName;
     @FXML private Button Button_refreshAvaliblePatientTable;
     @FXML private Button Button_deleteRequest;
     @FXML private Button Button_updateRequest;
@@ -50,7 +55,8 @@ public class PhysicianController {
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureId;
     @FXML private Button Button_refreshPatientHistory;
 
-    private ObservableList<ArrivedPatientsModel> arrivedPatientArray;
+    //private ObservableList<ArrivedPatientsModel> arrivedPatientArray;
+    private ObservableList<PatientModel> arrivedPatientArray;
     private ObservableList<ModalityTechnician> modalityTechnicianObservableList;
     private ObservableList<ModalityName> ModalityNameObservableList;
     private ObservableList<ModalityProcedureType> ModalityProcedureTypeObservableList;
@@ -70,6 +76,13 @@ public class PhysicianController {
 
     private ObservableList<ModalityImage> procedureImagesList;
     private FilteredList<ProcedureListModel> priorProceduresList;
+    
+    @FXML private Text patientID;
+    @FXML private Text patientDOB;
+    @FXML private Text patientName;
+    @FXML private Text patientHeight;
+    @FXML private Text patientGender;
+    @FXML private Text patientWeight;
 
     private ArrayList procedureList = new ArrayList();
     private ArrayList procedureQueue = new ArrayList();
@@ -142,12 +155,13 @@ public class PhysicianController {
     	Table_avaliablePatients.setOnMouseClicked(event -> {
     		if(Table_avaliablePatients.getSelectionModel().getSelectedItem() != null)
     		{
-    			String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
+    			String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getPatientID().toString();
     			populateTable_patientRadiologyHistory(patientID);
     			updatePriorProceduresList();
     			Table_ProcedureImages.setItems(null);
     			ImageView_patientProcedureImage.setImage(null);
     			TextArea_report.setText(null);
+    			setPatientInfo();
     		}
     	});
 
@@ -425,13 +439,16 @@ public class PhysicianController {
     	try
     	{
     		connection = DatabaseHandler.getConnection();
-    		ArrivedPatientsModel arrivedPatientArray = Table_avaliablePatients.getSelectionModel().getSelectedItem();
+    		//ArrivedPatientsModel arrivedPatientArray = Table_avaliablePatients.getSelectionModel().getSelectedItem();
+    		PatientModel patient = Table_avaliablePatients.getSelectionModel().getSelectedItem();
     		ModalityTechnician modalityTechnician = comboBox_modalityTechnician.getSelectionModel().getSelectedItem();
     		ModalityProcedureType modalityProcedureType = comboBox_modalityProcedureType.getSelectionModel().getSelectedItem();
 
-        	if(arrivedPatientArray != null)
+        	//if(arrivedPatientArray != null)
+    		if(patient != null)
         	{
-        		String selectedPatientID = arrivedPatientArray.getpatientID();
+        		//String selectedPatientID = arrivedPatientArray.getpatientID();
+        		String selectedPatientID = patient.getPatientID();
         		String physicianNotes = " ";
         		try {
 					physicianNotes = textarea_physicanNoteBox.getText().trim();
@@ -493,8 +510,16 @@ public class PhysicianController {
     		{
     			String patientName = resultSet.getString("patientFirstName");
 				String patientID = resultSet.getString("patientID");
+				String patientMidName = resultSet.getString("patientMiddleName");
+				String patientLastName = resultSet.getString("patientLastName");
+				String patientGender = resultSet.getString("patientGender");
+				String patientSSN = "";//resultSet.getString("patientSSN");
+				String patinetHeight = resultSet.getString("patinetHeight");
+				String patientWeight = resultSet.getString("patientWeight");
+				String patientDOB = resultSet.getString("patientDOB");
 
-				arrivedPatientArray.add(new ArrivedPatientsModel (patientID, patientName));
+				//arrivedPatientArray.add(new ArrivedPatientsModel (patientID, patientName));
+				arrivedPatientArray.add(new PatientModel (patientID, patientName, patientMidName, patientLastName, patientGender, patientSSN, patinetHeight, patientWeight, patientDOB));
     		}
 
     		column_patientID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
@@ -527,8 +552,9 @@ public class PhysicianController {
     	System.out.println("refresh_Table_patientRadiologyHistory() Called");
     	try
     	{
-    	String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
-    	populateTable_patientRadiologyHistory(patientID);
+    		//String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
+    		String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getPatientID().toString();
+    		populateTable_patientRadiologyHistory(patientID);
     	}
     	catch(Exception exception)
     	{
@@ -630,6 +656,16 @@ public class PhysicianController {
     	{
     		exception.printStackTrace();
     	}
+    }
+    public void setPatientInfo()
+    {
+    	PatientModel patient = Table_avaliablePatients.getSelectionModel().getSelectedItem();
+    	patientID.setText(patient.getPatientID());
+        patientDOB.setText(patient.getPatientDOB());
+        patientName.setText(patient.getPatientLastName() + ", " + patient.getPatientFirstName() + " " + patient.getPatientMiddleName().charAt(0)+ ".");
+        patientHeight.setText(patient.getPatinetHeight());
+        patientGender.setText(patient.getPatientGender());
+        patientWeight.setText(patient.getPatientWeight());
     }
     @FXML
 	public void bookAppointment() {
