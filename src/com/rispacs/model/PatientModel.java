@@ -14,8 +14,10 @@ public class PatientModel
  	private StringProperty patinetHeight;
  	private StringProperty patientWeight;
  	private StringProperty patientDOB;
+ 	private StringProperty patientTotalName;
 
- 	public PatientModel(String patientID, String patientFirstName, String patientMiddleName, String patientLastName, String patientGender, String patientSSN, String patinetHeight, String patientWeight, String patientDOB)
+
+	public PatientModel(String patientID, String patientFirstName, String patientMiddleName, String patientLastName, String patientGender, String patientSSN, String patinetHeight, String patientWeight, String patientDOB)
  	{
 		this.patientID = new SimpleStringProperty(patientID);
 		this.patientFirstName = new SimpleStringProperty(patientFirstName);
@@ -26,6 +28,7 @@ public class PatientModel
 		this.patinetHeight = new SimpleStringProperty(patinetHeight);
 		this.patientWeight = new SimpleStringProperty(patientWeight);
 		this.patientDOB = new SimpleStringProperty(patientDOB);
+		this.patientTotalName = new SimpleStringProperty(patientFirstName + " " + patientMiddleName.charAt(0) + ". " + patientLastName);
 	}
 
 	public String getPatientID() {
@@ -55,6 +58,11 @@ public class PatientModel
 	public String getPatientDOB() {
 		return patientDOB.get();
 	}
+	public String getPatientTotalName()
+	{
+		return patientTotalName.get();
+	}
+
 
 	public void setPatientID(String Value) {
 		patientID.set(Value);
@@ -111,4 +119,8 @@ public class PatientModel
 	public StringProperty patientDOBProperty() {
 		return patientDOB;
 	}
+	public StringProperty patientTotalNameProperty() {
+		return patientTotalName;
+	}
+
 }

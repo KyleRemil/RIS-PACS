@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.ProcedureSchedule;
 import com.rispacs.model.Context;
+import com.rispacs.model.PatientModel;
 
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
@@ -56,10 +57,13 @@ public class TechnicianController {
     		String getAllScheduledProceduresQuery = "SELECT procedurelist.procedureId, "
     												+ "procedurelist.patient_patientID, "
     												+ "patient.patientFirstName, "
+    												+ "patient.patientMiddleName, "
+    												+ "patient.patientLastName, "
     												+ "modalityproceduretype.modalityProcedureTypeDesc, "
     												+ "modalitytype.modalityTypeName, "
     												+ "procedurelist.procedureScheduledDate, "
-    												+ "procedurestatus.procedureStatusDesc "
+    												+ "procedurestatus.procedureStatusDesc, "
+    												+ "patient.*"
     												+ "FROM procedurelist, patient, modalityproceduretype, modalitytype, procedurestatus "
     												+ "WHERE procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND (procedureStatusID <= 1 OR procedureStatusID = 2)";
 
@@ -69,13 +73,25 @@ public class TechnicianController {
     		while (resultSet.next())
     		{
     			String procedureID = resultSet.getString("procedurelist.procedureId");
-    			String patientName = resultSet.getString("patient.patientFirstName");
+    			String patientFisrtName = resultSet.getString("patient.patientFirstName");
 				String patientID = resultSet.getString("procedurelist.patient_patientID");
 				String modalityName = resultSet.getString("modalitytype.modalityTypeName");
 				String procedureType = resultSet.getString("modalityproceduretype.modalityProcedureTypeDesc");
 				String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
 				String procedureDate = resultSet.getString("procedurelist.procedureScheduledDate");
-				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientName, modalityName,procedureType,procedureStatus,procedureDate));
+
+				PatientModel patientModel = new PatientModel (
+						resultSet.getString("patientID"),
+						resultSet.getString("patientFirstName"),
+						resultSet.getString("patientMiddleName"),
+						resultSet.getString("patientLastName"),
+						resultSet.getString("patientGender"),
+						"",
+						resultSet.getString("patinetHeight"),
+						resultSet.getString("patientWeight"),
+						resultSet.getString("patientDOB"));
+
+				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientFisrtName, modalityName,procedureType,procedureStatus,procedureDate, patientModel));
     		}
 
     		column_PatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));

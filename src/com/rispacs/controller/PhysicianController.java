@@ -76,7 +76,7 @@ public class PhysicianController {
 
     private ObservableList<ModalityImage> procedureImagesList;
     private FilteredList<ProcedureListModel> priorProceduresList;
-    
+
     @FXML private Text patientID;
     @FXML private Text patientDOB;
     @FXML private Text patientName;
@@ -523,7 +523,7 @@ public class PhysicianController {
     		}
 
     		column_patientID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
-    		column_patientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+    		column_patientName.setCellValueFactory(new PropertyValueFactory<>("patientTotalName"));
 
     		Table_avaliablePatients.setItems(null);
     		Table_avaliablePatients.setItems(arrivedPatientArray);
@@ -671,7 +671,7 @@ public class PhysicianController {
 	public void bookAppointment() {
 		/*Context context = new Context(); //shouldn't make a new object
 		context.sortSchedule();*/
-    	
+
     	//Could do either of these (whichever works):
     	//Context.getInstance().getScheduler().bookAppointment(); //directly call needed funtion
     	Context.getInstance().sortSchedule(); //tells context to do it, which is how it was before (and basically overwrites the object each time)

@@ -13,17 +13,24 @@ public class ProcedureSchedule
 	private StringProperty procedureStatus;
 	private StringProperty procedureTime;
 
-	public ProcedureSchedule(String procedureID, String patientID, String patientName, String modalityName, String procedureType, String procedureStatus, String procedureTime)
+	private PatientModel patientModel;
+
+	public ProcedureSchedule(String procedureID, String patientID, String patientName, String modalityName, String procedureType, String procedureStatus, String procedureTime, PatientModel patientModel)
 	{
 		this.procedureID = new SimpleStringProperty(procedureID);
-		this.patientName = new SimpleStringProperty(patientName);
+		this.patientName = new SimpleStringProperty(patientModel.getPatientTotalName());
 		this.patientID = new SimpleStringProperty(patientID);
 		this.modalityName = new SimpleStringProperty(modalityName);
 		this.procedureType = new SimpleStringProperty(procedureType);
 		this.procedureStatus = new SimpleStringProperty(procedureStatus);
 		this.procedureTime = new SimpleStringProperty(procedureTime);
+		this.patientModel = patientModel;
 	}
 
+	public PatientModel getPatietModel()
+	{
+		return patientModel;
+	}
 	//Getters
 	public String getprocedureID()
 	{
