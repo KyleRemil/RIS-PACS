@@ -13,16 +13,11 @@ public class Scheduler {
     public SchedulerTree schedulerTree = new SchedulerTree();
     public SchedulerTree schedulerTreeById = new SchedulerTree();
     SchedulerQueue schedulerQueue;
+    private Timestamp latestScheduledDate;
 
     public void generateSchedule() {
-
-        //just making the code that needs to be called by other classes cleaner
-
         populateAppointmentList();
-        buildSchedulerTree();
-        buildScheduleTreeById();
         bookAppointment();
-//        buildSchedulerQueue();
     }
 
     private void populateAppointmentList() {
@@ -34,11 +29,17 @@ public class Scheduler {
                 "procedurelist.procedureScheduledDate " +
                 "FROM procedurelist, procedurestatus, modalityproceduretype\n" +
                 "WHERE procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId AND " +
-                "procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID;";
+                "procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND " +
+                "procedurelist.procedurestatus_procedureStatusID = 0;";
+
+        String query1 = "SELECT MAX(procedurelist.procedureScheduledDate)\n" +
+                "FROM procedurelist\n" +
+                "WHERE procedurelist.procedurestatus_procedureStatusID = 1;";
         try
         {
             connection = DatabaseHandler.getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery(query);
+            ResultSet resultSet1 = connection.createStatement().executeQuery(query1);
             while (resultSet.next())
             {
                 String modalityType_modalityTypeId = resultSet.getString("modalityproceduretype.modalityType_modalityTypeId");
@@ -71,6 +72,12 @@ public class Scheduler {
 
 
             }
+            while (resultSet1.next()) {
+                String stringScheduledDate = resultSet1.getString("MAX(procedurelist.procedureScheduledDate)");
+                if (stringScheduledDate != null && !stringScheduledDate.isEmpty()){
+                    latestScheduledDate = Timestamp.valueOf(stringScheduledDate);
+                } else latestScheduledDate = new Timestamp(System.currentTimeMillis());
+            }
         }
         catch(SQLException e)
         {
@@ -89,7 +96,162 @@ public class Scheduler {
         }
     }
 
-    private void buildSchedulerTree() {
+    public void bookAppointment() {
+        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
+        if (localTimeStamp.getNanos() >= latestScheduledDate.getNanos()) {
+            LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
+
+            for (int i = 0; i < appointmentList.size(); i++) {
+                Appointment thisAppointment = (Appointment) appointmentList.get(i);
+                Timestamp returnTime;
+                long minutes = localDateTime.getMinute();
+                long seconds = localDateTime.getSecond();
+                long nanos = localDateTime.getNano();
+                if (minutes < 30) {
+                    localDateTime = localDateTime.minusMinutes(minutes);
+                    localDateTime = localDateTime.minusSeconds(seconds);
+                    localDateTime = localDateTime.minusNanos(nanos);
+                    localDateTime = localDateTime.plusMinutes(30);
+                } else if (minutes >= 30) {
+                    localDateTime = localDateTime.minusMinutes(minutes);
+                    localDateTime = localDateTime.minusSeconds(seconds);
+                    localDateTime = localDateTime.minusNanos(nanos);
+                    localDateTime = localDateTime.plusHours(1);
+                }
+                returnTime = Timestamp.valueOf(localDateTime);
+                thisAppointment.setScheduledDate(returnTime);
+            }
+            addAppointmentsToDatabase();
+        } else {
+            LocalDateTime latestDateTime = latestScheduledDate.toLocalDateTime();
+            for (int i = 0; i < appointmentList.size(); i++) {
+                Appointment thisAppointment = (Appointment) appointmentList.get(i);
+                Timestamp returnTime;
+                long minutes = latestDateTime.getMinute();
+                long seconds = latestDateTime.getSecond();
+                long nanos = latestDateTime.getNano();
+                if (minutes < 30) {
+                    latestDateTime = latestDateTime.minusMinutes(minutes);
+                    latestDateTime = latestDateTime.minusSeconds(seconds);
+                    latestDateTime = latestDateTime.minusNanos(nanos);
+                    latestDateTime = latestDateTime.plusMinutes(30);
+                } else if (minutes >= 30) {
+                    latestDateTime = latestDateTime.minusMinutes(minutes);
+                    latestDateTime = latestDateTime.minusSeconds(seconds);
+                    latestDateTime = latestDateTime.minusNanos(nanos);
+                    latestDateTime = latestDateTime.plusHours(1);
+                }
+                returnTime = Timestamp.valueOf(latestDateTime);
+                thisAppointment.setScheduledDate(returnTime);
+            }
+            addAppointmentsToDatabase();
+        }
+
+    }
+
+    public void addAppointmentsToDatabase() {
+        Connection connection = null;
+        try {
+            connection = DatabaseHandler.getConnection();
+            for (int i =0; i < appointmentList.size(); i++) {
+                Appointment appointment = (Appointment) appointmentList.get(i);
+                String id = String.valueOf(appointment.getProcedureId());
+                Timestamp timestamp = appointment.getScheduledDate();
+                String time = timestamp.toString();
+
+                String update = "UPDATE procedurelist\n" +
+                        "SET procedurelist.procedureScheduledDate = " + "'" + time + "', procedurelist.procedurestatus_procedureStatusID = 1" +
+                        " WHERE procedurelist.procedureId = " + id + ";";
+
+                int rslt = connection.createStatement().executeUpdate(update);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class Appointment {
+
+        //Need modalityTypeId from modalitytype table.
+        // Need patientId, procedureId, procedureDateOfRequest, modalityProcedureType from procedurelist table
+
+        private int procedureId, modalityTypeId, patientId, procedureStatus;
+        private Timestamp dateOfRequest,scheduledDate;
+
+        Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest, Timestamp scheduledDate) {
+
+            this.modalityTypeId = modalityTypeId;
+            this.patientId = patientId;
+            this.procedureId = procedureId;
+            this.dateOfRequest = dateOfRequest;
+            this.procedureStatus = procedureStatus;
+            this.scheduledDate = scheduledDate;
+        }
+
+        Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest) {
+
+            this.modalityTypeId = modalityTypeId;
+            this.patientId = patientId;
+            this.procedureId = procedureId;
+            this.dateOfRequest = dateOfRequest;
+            this.procedureStatus = procedureStatus;
+        }
+
+        public int getProcedureId() {
+            return procedureId;
+        }
+
+        public void setProcedureId(int procedureId) {
+            this.procedureId = procedureId;
+        }
+
+        public int getModalityTypeId() {
+            return modalityTypeId;
+        }
+
+        public void setModalityTypeId(int modalityTypeId) {
+            this.modalityTypeId = modalityTypeId;
+        }
+
+        public int getPatientId() {
+            return patientId;
+        }
+
+        public void setPatientId(int patientId) {
+            this.patientId = patientId;
+        }
+
+        public Timestamp getDateOfRequest() {
+            return dateOfRequest;
+        }
+
+        public void setDateOfRequest(Timestamp dateOfRequest) {
+            this.dateOfRequest = dateOfRequest;
+        }
+
+        public Timestamp getScheduledDate() {
+            return scheduledDate;
+        }
+
+        public void setScheduledDate(Timestamp scheduledDate) {
+            this.scheduledDate = scheduledDate;
+        }
+
+        public int getProcedureStatus() {
+            return procedureStatus;
+        }
+
+        public void setProcedureStatus(int procedureStatus) {
+            this.procedureStatus = procedureStatus;
+        }
+    }
+
+    // Testing Purposes only ///////////////////////////////////////////////////////////////////////////////////////
+
+    // Old throw away code below. I havent deleted it yet because I want to be sure I dont need it. /////////////////
+    //-----------------------------------------------------------------------------------------------------------------
+
+    private void buildSchedulerTreeByTime() {
 
         //shuffling list to randomize the data so the tree is more balanced.
 //        Collections.shuffle(appointmentList);
@@ -123,6 +285,8 @@ public class Scheduler {
         }
     }
 
+
+
     //Idea #1. Thinking of used the time the booked the appointment to determine the appointment time
 //    public void bookAppointment() {
 //        for (int i = 0; i < appointmentList.size(); i++) {
@@ -146,52 +310,9 @@ public class Scheduler {
 
     // Idea #2. Just use the order in which they were received to determine their priority. Then just get the current
     // time (if the scheduled date is null) then find the next available even time slot and book it.
-    public void bookAppointment() {
-        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
-        LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
-        for (int i = 0; i < appointmentList.size(); i++) {
-            Appointment thisAppointment = (Appointment) appointmentList.get(i);
-            Timestamp returnTime;
-            long minutes = localDateTime.getMinute();
-            long seconds = localDateTime.getSecond();
-            long nanos = localDateTime.getNano();
-            if (minutes < 30) {
-                localDateTime = localDateTime.minusMinutes(minutes);
-                localDateTime = localDateTime.minusSeconds(seconds);
-                localDateTime = localDateTime.minusNanos(nanos);
-                localDateTime = localDateTime.plusMinutes(30);
-            } else if (minutes >= 30) {
-                localDateTime = localDateTime.minusMinutes(minutes);
-                localDateTime = localDateTime.minusSeconds(seconds);
-                localDateTime = localDateTime.minusNanos(nanos);
-                localDateTime = localDateTime.plusHours(1);
-            }
-            returnTime = Timestamp.valueOf(localDateTime);
-            thisAppointment.setScheduledDate(returnTime);
-        }
-        addAppointmentsToDatabase();
-    }
 
-    public void addAppointmentsToDatabase() {
-        Connection connection = null;
-        try {
-            connection = DatabaseHandler.getConnection();
-            for (int i =0; i < appointmentList.size(); i++) {
-                Appointment appointment = (Appointment) appointmentList.get(i);
-                String id = String.valueOf(appointment.getProcedureId());
-                Timestamp timestamp = appointment.getScheduledDate();
-                String time = timestamp.toString();
 
-                String update = "UPDATE procedurelist\n" +
-                        "SET procedurelist.procedureScheduledDate = " + "'" + time + "'" +
-                        " WHERE procedurelist.procedureId = " + id + ";";
 
-                int rslt = connection.createStatement().executeUpdate(update);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     ///////// Scraps / Notes /////////////////////////////////////////////////////////////////////////////////////////
@@ -527,81 +648,7 @@ public class Scheduler {
 
     }
 
-    public class Appointment {
 
-        //Need modalityTypeId from modalitytype table.
-        // Need patientId, procedureId, procedureDateOfRequest, modalityProcedureType from procedurelist table
-
-        private int procedureId, modalityTypeId, patientId, procedureStatus;
-        private Timestamp dateOfRequest,scheduledDate;
-
-        Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest, Timestamp scheduledDate) {
-
-            this.modalityTypeId = modalityTypeId;
-            this.patientId = patientId;
-            this.procedureId = procedureId;
-            this.dateOfRequest = dateOfRequest;
-            this.procedureStatus = procedureStatus;
-            this.scheduledDate = scheduledDate;
-        }
-
-        Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest) {
-
-            this.modalityTypeId = modalityTypeId;
-            this.patientId = patientId;
-            this.procedureId = procedureId;
-            this.dateOfRequest = dateOfRequest;
-            this.procedureStatus = procedureStatus;
-        }
-
-        public int getProcedureId() {
-            return procedureId;
-        }
-
-        public void setProcedureId(int procedureId) {
-            this.procedureId = procedureId;
-        }
-
-        public int getModalityTypeId() {
-            return modalityTypeId;
-        }
-
-        public void setModalityTypeId(int modalityTypeId) {
-            this.modalityTypeId = modalityTypeId;
-        }
-
-        public int getPatientId() {
-            return patientId;
-        }
-
-        public void setPatientId(int patientId) {
-            this.patientId = patientId;
-        }
-
-        public Timestamp getDateOfRequest() {
-            return dateOfRequest;
-        }
-
-        public void setDateOfRequest(Timestamp dateOfRequest) {
-            this.dateOfRequest = dateOfRequest;
-        }
-
-        public Timestamp getScheduledDate() {
-            return scheduledDate;
-        }
-
-        public void setScheduledDate(Timestamp scheduledDate) {
-            this.scheduledDate = scheduledDate;
-        }
-
-        public int getProcedureStatus() {
-            return procedureStatus;
-        }
-
-        public void setProcedureStatus(int procedureStatus) {
-            this.procedureStatus = procedureStatus;
-        }
-    }
 
     public class SchedulerQueue {
 

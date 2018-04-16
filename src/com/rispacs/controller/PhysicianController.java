@@ -673,7 +673,7 @@ public class PhysicianController {
 		context.sortSchedule();*/
 
     	//Could do either of these (whichever works):
-    	//Context.getInstance().getScheduler().bookAppointment(); //directly call needed funtion
-    	Context.getInstance().sortSchedule(); //tells context to do it, which is how it was before (and basically overwrites the object each time)
+    	Context.getInstance().getScheduler().generateSchedule(); //directly call needed funtion
+//    	Context.getInstance().sortSchedule(); //tells context to do it, which is how it was before (and basically overwrites the object each time)
 	}
 }
