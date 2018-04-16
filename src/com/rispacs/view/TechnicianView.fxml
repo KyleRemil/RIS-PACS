@@ -50,7 +50,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <JFXTextArea layoutX="58.0" layoutY="130.0" style="-fx-border-color: black;" text="Referring Physician Radiology Procedure Info goes here (Not Editable)" unFocusColor="TRANSPARENT" />
+                              <JFXTextArea fx:id="procedureInfo_textArea" layoutX="58.0" layoutY="130.0" style="-fx-border-color: black;" text="Referring Physician Radiology Procedure Info goes here (Not Editable)" unFocusColor="TRANSPARENT" />
                               <Button fx:id="Button_beginProcedure" layoutX="418.0" layoutY="327.0" mnemonicParsing="false" onAction="#beginProcedure" text="Begin Procedure" />
                            </children>
                         </Pane>

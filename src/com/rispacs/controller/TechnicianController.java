@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.jfoenix.controls.JFXTextArea;
 import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.ProcedureSchedule;
 import com.rispacs.model.Context;
@@ -46,6 +47,7 @@ public class TechnicianController {
     @FXML private Text patientWeight;
 
     @FXML private Button Button_beginProcedure;
+    @FXML private JFXTextArea procedureInfo_textArea;
 
     private ObservableList<ProcedureSchedule> procedureScheduleList;
 
@@ -53,7 +55,8 @@ public class TechnicianController {
     public void initialize() {
     	refreshProcedureScheduleTable(null);
     	Table_procedureScheduleTable.setOnMouseClicked(event -> {
-			setPatientInfo();
+    		if(Table_procedureScheduleTable.getSelectionModel().getSelectedItem() != null)
+    			setPatientInfo();
 		});
     }
     @FXML
@@ -74,6 +77,7 @@ public class TechnicianController {
     												+ "modalitytype.modalityTypeName, "
     												+ "procedurelist.procedureScheduledDate, "
     												+ "procedurestatus.procedureStatusDesc, "
+    												+ "procedurelist.physicianNotes, "
     												+ "patient.*"
     												+ "FROM procedurelist, patient, modalityproceduretype, modalitytype, procedurestatus "
     												+ "WHERE procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND patient.patientID = procedurelist.patient_patientID AND modalityproceduretype.modalityProcedureTypeId = procedurelist.modalityProcedureTypeId AND modalitytype.modalityTypeId = modalityproceduretype.modalityType_modalityTypeId AND (procedureStatusID <= 1 OR procedureStatusID = 2)";
@@ -90,6 +94,7 @@ public class TechnicianController {
 				String procedureType = resultSet.getString("modalityproceduretype.modalityProcedureTypeDesc");
 				String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
 				String procedureDate = resultSet.getString("procedurelist.procedureScheduledDate");
+				String physicianNotes = resultSet.getString("procedurelist.physicianNotes");
 
 				PatientModel patientModel = new PatientModel (
 						resultSet.getString("patientID"),
@@ -102,7 +107,7 @@ public class TechnicianController {
 						resultSet.getString("patientWeight"),
 						resultSet.getString("patientDOB"));
 
-				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientFisrtName, modalityName,procedureType,procedureStatus,procedureDate, patientModel));
+				procedureScheduleList.add(new ProcedureSchedule (procedureID, patientID, patientFisrtName, modalityName,procedureType,procedureStatus,procedureDate, physicianNotes, patientModel));
     		}
 
     		column_PatientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
@@ -143,6 +148,8 @@ public class TechnicianController {
         patientHeight.setText(patient.getPatinetHeight());
         patientGender.setText(patient.getPatientGender());
         patientWeight.setText(patient.getPatientWeight());
+        
+        procedureInfo_textArea.setText(Table_procedureScheduleTable.getSelectionModel().getSelectedItem().getPhysicianNotes());
     }
 
 
@@ -168,8 +175,11 @@ public class TechnicianController {
         		PreparedStatement preparedStatement = connection.prepareStatement(updateProcedureStatusQuery);
         		preparedStatement.execute();
 
-        		refreshProcedureScheduleTable(null);
+        		//refreshProcedureScheduleTable(null);
+        		Button_beginProcedure.setDisable(true);
         		openProcedureView();
+        		Button_beginProcedure.setDisable(false);
+        		refreshProcedureScheduleTable(null);
         	}
     	}
         catch(Exception exception)
@@ -195,7 +205,7 @@ public class TechnicianController {
             Stage stage = new Stage();
             stage.setTitle("Procedure");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait();
         }
         catch (IOException e) {
             e.printStackTrace();
