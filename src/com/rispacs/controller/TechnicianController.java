@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class TechnicianController {
@@ -37,6 +38,13 @@ public class TechnicianController {
     @FXML private TableColumn<ProcedureSchedule, String> column_procedureTime;
     @FXML private TableColumn<ProcedureSchedule, String> column_procedureStatus;
 
+    @FXML private Text patientID;
+    @FXML private Text patientDOB;
+    @FXML private Text patientName;
+    @FXML private Text patientHeight;
+    @FXML private Text patientGender;
+    @FXML private Text patientWeight;
+
     @FXML private Button Button_beginProcedure;
 
     private ObservableList<ProcedureSchedule> procedureScheduleList;
@@ -44,6 +52,9 @@ public class TechnicianController {
     @FXML
     public void initialize() {
     	refreshProcedureScheduleTable(null);
+    	Table_procedureScheduleTable.setOnMouseClicked(event -> {
+			setPatientInfo();
+		});
     }
     @FXML
     void refreshProcedureScheduleTable(ActionEvent event)
@@ -122,6 +133,18 @@ public class TechnicianController {
 			}
     	}
     }
+
+    public void setPatientInfo()
+    {
+    	PatientModel patient = Table_procedureScheduleTable.getSelectionModel().getSelectedItem().getPatietModel();
+    	patientID.setText(patient.getPatientID());
+        patientDOB.setText(patient.getPatientDOB());
+        patientName.setText(patient.getPatientLastName() + ", " + patient.getPatientFirstName() + " " + patient.getPatientMiddleName().charAt(0)+ ".");
+        patientHeight.setText(patient.getPatinetHeight());
+        patientGender.setText(patient.getPatientGender());
+        patientWeight.setText(patient.getPatientWeight());
+    }
+
 
     @FXML
     void beginProcedure(ActionEvent event)

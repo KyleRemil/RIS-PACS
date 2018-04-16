@@ -9,10 +9,18 @@ public class CompletedProcedureModel
 	private StringProperty patientName;
 	private StringProperty patientID;
 
-	public CompletedProcedureModel(String procedureID, String patientName, String patientID) {
+	private PatientModel patientModel;
+
+	public CompletedProcedureModel(String procedureID, String patientName, String patientID, PatientModel patientModel) {
 		this.procedureID = new SimpleStringProperty(procedureID);
 		this.patientName = new SimpleStringProperty(patientName);
 		this.patientID = new SimpleStringProperty(patientID);
+		this.patientModel = patientModel;
+	}
+
+	public PatientModel getPatietModel()
+	{
+		return patientModel;
 	}
 
 	//Getters

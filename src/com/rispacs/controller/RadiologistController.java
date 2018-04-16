@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import com.rispacs.model.CompletedProcedureModel;
 import com.rispacs.model.Context;
 import com.rispacs.model.ModalityImage;
+import com.rispacs.model.PatientModel;
 
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
@@ -22,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class RadiologistController {
@@ -40,6 +42,13 @@ public class RadiologistController {
     @FXML private TableColumn<ModalityImage, String> Column_ImageName;
     @FXML private TextArea TextArea_report;
 
+    @FXML private Text patientID;
+    @FXML private Text patientDOB;
+    @FXML private Text patientName;
+    @FXML private Text patientHeight;
+    @FXML private Text patientGender;
+    @FXML private Text patientWeight;
+
     private ObservableList<CompletedProcedureModel> completedProcedureList;
     private ObservableList<ModalityImage> procedureImagesList;
 
@@ -48,6 +57,7 @@ public class RadiologistController {
     public void initialize() {
     	Table_patients.setOnMouseClicked(event -> {
     			currentProcedureID = Table_patients.getSelectionModel().getSelectedItem().getprocedureID();
+    			setPatientInfo();
     			getProcedureImages(Table_patients.getSelectionModel().getSelectedItem().getprocedureID());
     		});
     	Table_ProcedureImages.setOnMouseClicked(event -> {
@@ -155,7 +165,7 @@ public class RadiologistController {
     		connection = DatabaseHandler.getConnection();
     		completedProcedureList = FXCollections.observableArrayList();
 
-    		String getAllCompletedProceduresQuery = "SELECT procedureID, patientID, patient.patientFirstName, patient.patientLastName "
+    		String getAllCompletedProceduresQuery = "SELECT procedureID, patientID, patient.patientFirstName, patient.patientLastName, patient.* "
     				+ "FROM procedurelist, patient "
     				+ "Where patient.patientID = procedurelist.patient_patientID AND procedurestatus_procedureStatusID = 3";
 
@@ -170,7 +180,19 @@ public class RadiologistController {
 				String patientID = resultSet.getString("patientID");
 				String patientFullName = patientFirstName + " " + patientLastName;
 
-				completedProcedureList.add(new CompletedProcedureModel (procedureID, patientFullName, patientID));
+				PatientModel patientModel = new PatientModel (
+						resultSet.getString("patientID"),
+						resultSet.getString("patientFirstName"),
+						resultSet.getString("patientMiddleName"),
+						resultSet.getString("patientLastName"),
+						resultSet.getString("patientGender"),
+						"",
+						resultSet.getString("patinetHeight"),
+						resultSet.getString("patientWeight"),
+						resultSet.getString("patientDOB"));
+
+
+				completedProcedureList.add(new CompletedProcedureModel (procedureID, patientFullName, patientID, patientModel));
     		}
 
     		Column_procedureID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
@@ -285,7 +307,7 @@ public class RadiologistController {
     		connection = DatabaseHandler.getConnection();
     		completedProcedureList = FXCollections.observableArrayList();
 
-    		String getAllCompletedProceduresQuery = "SELECT procedureID, patientID, patient.patientFirstName, patient.patientLastName "
+    		String getAllCompletedProceduresQuery = "SELECT procedureID, patientID, patient.patientFirstName, patient.patientLastName, patient.*"
     				+ "FROM procedurelist, patient "
     				+ "Where patient.patientID = procedurelist.patient_patientID AND procedurestatus_procedureStatusID = 3";
 
@@ -300,7 +322,19 @@ public class RadiologistController {
 				String patientID = resultSet.getString("patientID");
 				String patientFullName = patientFirstName + " " + patientLastName;
 
-				completedProcedureList.add(new CompletedProcedureModel (procedureID, patientFullName, patientID));
+
+				PatientModel patientModel = new PatientModel (
+						resultSet.getString("patientID"),
+						resultSet.getString("patientFirstName"),
+						resultSet.getString("patientMiddleName"),
+						resultSet.getString("patientLastName"),
+						resultSet.getString("patientGender"),
+						"",
+						resultSet.getString("patinetHeight"),
+						resultSet.getString("patientWeight"),
+						resultSet.getString("patientDOB"));
+
+				completedProcedureList.add(new CompletedProcedureModel (procedureID, patientFullName, patientID, patientModel));
     		}
 
     		Column_procedureID.setCellValueFactory(new PropertyValueFactory<>("patientID"));
@@ -325,6 +359,17 @@ public class RadiologistController {
 				e.printStackTrace();
 			}
     	}
+    }
+
+    public void setPatientInfo()
+    {
+    	PatientModel patient = Table_patients.getSelectionModel().getSelectedItem().getPatietModel();
+    	patientID.setText(patient.getPatientID());
+        patientDOB.setText(patient.getPatientDOB());
+        patientName.setText(patient.getPatientLastName() + ", " + patient.getPatientFirstName() + " " + patient.getPatientMiddleName().charAt(0)+ ".");
+        patientHeight.setText(patient.getPatinetHeight());
+        patientGender.setText(patient.getPatientGender());
+        patientWeight.setText(patient.getPatientWeight());
     }
 
 }

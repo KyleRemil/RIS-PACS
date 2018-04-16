@@ -10,7 +10,7 @@ public class DatabaseHandler
 	private static String connectionString = "jdbc:mysql://localhost:3306/risdatabase?autoReconnect=true&useSSL=false";
 	private static String connectionName = "root";
 	//private static String connectionPassword = "password";
-	private static String connectionPassword = "";
+	private static String connectionPassword = "#altf4ctrlf6f12!";
 	// connection  method that connects us to the MySQL database
 	public static Connection getConnection() throws SQLException
 	{

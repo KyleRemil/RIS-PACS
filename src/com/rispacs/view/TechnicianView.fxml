@@ -28,21 +28,6 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <Pane layoutX="617.0" layoutY="14.0" prefHeight="99.0" prefWidth="692.0" style="-fx-background-color: blue;">
-                           <children>
-                              <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
-                              <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
-                              <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age:" />
-                              <Text layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
-                              <Text layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age Value" />
-                              <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name" />
-                              <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status" />
-                              <Text layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
-                              <Text layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Marital Status Value" />
-                              <Text layoutX="484.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
-                              <Text layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
-                           </children>
-                        </Pane>
                         <Pane layoutX="617.0" layoutY="113.0" prefHeight="423.0" prefWidth="692.0">
                            <children>
                               <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduled Start Time" wrappingWidth="223.5087890625">
@@ -69,5 +54,22 @@
                               <Button fx:id="Button_beginProcedure" layoutX="418.0" layoutY="327.0" mnemonicParsing="false" onAction="#beginProcedure" text="Begin Procedure" />
                            </children>
                         </Pane>
+      <Pane layoutX="617.0" layoutY="14.0" prefHeight="99.0" prefWidth="692.0">
+         <children>
+            <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
+            <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
+            <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB:" />
+            <Text fx:id="patientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
+            <Text fx:id="patientDOB" layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB Value" />
+            <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
+            <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
+            <Text fx:id="patientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
+            <Text fx:id="patientHeight" layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Height Value" />
+            <Text layoutX="484.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
+            <Text fx:id="patientGender" layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
+            <Text layoutX="484.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" />
+            <Text fx:id="patientWeight" layoutX="561.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Weight Value" />
+         </children>
+      </Pane>
                      </children>
 </AnchorPane>

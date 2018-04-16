@@ -40,21 +40,6 @@
             <Button fx:id="Button_refreshTable_patients" layoutX="14.0" layoutY="535.0" mnemonicParsing="false" onAction="#refreshTable_patients" text="Refresh" />
          </children>
       </Pane>
-      <Pane layoutX="282.0" layoutY="25.0" prefHeight="110.0" prefWidth="1036.0" style="-fx-background-color: green;">
-         <children>
-            <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
-            <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
-            <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age:" />
-            <Text layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
-            <Text layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age Value" />
-            <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name" />
-            <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status" />
-            <Text layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
-            <Text layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Marital Status Value" />
-            <Text layoutX="14.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
-            <Text layoutX="91.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
-         </children>
-      </Pane>
       <Button fx:id="Button_submitReport" layoutX="1225.0" layoutY="554.0" mnemonicParsing="false" onAction="#submitReport" text="Submit Report" />
       <Text layoutX="1044.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report:" wrappingWidth="117.5966796875">
          <font>
@@ -70,6 +55,23 @@
          </columnResizePolicy>
       </TableView>
       <TextArea fx:id="TextArea_report" layoutX="1044.0" layoutY="169.0" prefHeight="376.0" prefWidth="273.0" />
+      <Pane layoutX="280.0" layoutY="25.0" prefHeight="99.0" prefWidth="940.0">
+         <children>
+            <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
+            <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
+            <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB:" />
+            <Text fx:id="patientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
+            <Text fx:id="patientDOB" layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB Value" />
+            <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
+            <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
+            <Text fx:id="patientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
+            <Text fx:id="patientHeight" layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Height Value" />
+            <Text layoutX="484.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
+            <Text fx:id="patientGender" layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
+            <Text layoutX="484.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" />
+            <Text fx:id="patientWeight" layoutX="561.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Weight Value" />
+         </children>
+      </Pane>
 
    </children>
 </AnchorPane>
