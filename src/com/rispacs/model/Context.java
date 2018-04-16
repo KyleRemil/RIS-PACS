@@ -8,6 +8,8 @@ public class Context {
 	private int x = 0;
 	private Scheduler scheduler = new Scheduler();
 
+	private String selectedModalityTypeID = null;
+
 	private int role = 1;
 	/*
 	0	Admin
@@ -31,7 +33,12 @@ public class Context {
     public Scheduler getScheduler() {
     	return scheduler;
     }
-
+    public String getSelectedModalityTypeID() {
+		return selectedModalityTypeID;
+	}
+	public void setSelectedModalityTypeID(String selectedModalityTypeID) {
+		this.selectedModalityTypeID = selectedModalityTypeID;
+	}
 	/**
 	 * @return the x
 	 */
@@ -84,7 +91,7 @@ public class Context {
 		this.userName = userName;
 	}
 
-	
+
 	public String getCurrentProcedureID() {
 		return currentProcedureID;
 	}

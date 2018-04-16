@@ -1,5 +1,6 @@
 package com.rispacs.controller;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -25,7 +28,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 public class PhysicianController {
@@ -373,9 +378,11 @@ public class PhysicianController {
              {
             	 if (newVal != null)
                  {
+            		 Context.getInstance().setSelectedModalityTypeID(newVal.modalityID);
             		 comboBox_modalityProcedureType.getSelectionModel().clearSelection();
                      comboBox_modalityProcedureType.getItems().clear();
             		 populatecomboBox_modalityProcedureType(newVal.getmodalityID());
+            		 openMedicalConflictBox();
                  }
              }
              catch (Exception e)
@@ -383,7 +390,22 @@ public class PhysicianController {
 				e.printStackTrace();
              }
         });
+
     }
+    void openMedicalConflictBox()
+    {
+    	try {
+        	AnchorPane root = (AnchorPane)FXMLLoader.load(getClass().getResource("/com/rispacs/view/MedicalConflictsView.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Conflicts");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     void populatecomboBox_modalityTechnician(){
     	System.out.println("populatecomboBox_modalityTechnician() Called");
     	Connection connection = null;
