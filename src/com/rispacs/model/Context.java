@@ -8,6 +8,16 @@ public class Context {
 	private int x = 0;
 	private Scheduler scheduler = new Scheduler();
 
+	private boolean medicalFlag = false;
+
+	public boolean getMedicalFlag() {
+		return medicalFlag;
+	}
+	public void setMedicalFlag(boolean value) {
+		this.medicalFlag = value;
+	}
+
+
 	private String selectedModalityTypeID = null;
 
 	private int role = 1;

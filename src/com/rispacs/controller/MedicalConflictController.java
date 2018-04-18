@@ -19,8 +19,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-public class MedicalConflictController {
+public class MedicalConflictController{
     @FXML private Text Text_ModalityName;
     @FXML private TextArea TextArea_modalityWarnings;
     @FXML private Pane foundationPane;
@@ -80,10 +81,32 @@ public class MedicalConflictController {
 	}
 	@FXML
     void approveFlag(ActionEvent event) {
+		try
+    	{
+			System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+			Context.getInstance().setMedicalFlag(true);
+			System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+    		Stage stage = (Stage) Button_approve.getScene().getWindow();
+        	stage.close();
+		} catch (Exception exception)
+    	{
 
+		}
     }
     @FXML
     void denyFlag(ActionEvent event) {
+    	try
+    	{
+    		System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+    		Context.getInstance().setMedicalFlag(false);
+    		System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+    		Stage stage = (Stage) Button_approve.getScene().getWindow();
+        	stage.close();
+		} catch (Exception exception)
+    	{
 
+		}
     }
+
+
 }
