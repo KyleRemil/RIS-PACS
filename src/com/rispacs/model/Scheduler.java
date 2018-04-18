@@ -10,17 +10,20 @@ import java.util.Collections;
 public class Scheduler {
 
     private ArrayList appointmentList = new ArrayList();
+    private ArrayList xRayList = new ArrayList();
+    private ArrayList ctScanList = new ArrayList();
+    private ArrayList mRIList = new ArrayList();
     public SchedulerTree schedulerTree = new SchedulerTree();
     public SchedulerTree schedulerTreeById = new SchedulerTree();
     SchedulerQueue schedulerQueue;
     private Timestamp latestScheduledDate;
 
     public void generateSchedule() {
-        populateAppointmentList();
+        populateLists();
         bookAppointment();
     }
 
-    private void populateAppointmentList() {
+    private void populateLists() {
 
         Connection connection = null;
 
@@ -76,7 +79,9 @@ public class Scheduler {
                 String stringScheduledDate = resultSet1.getString("MAX(procedurelist.procedureScheduledDate)");
                 if (stringScheduledDate != null && !stringScheduledDate.isEmpty()){
                     latestScheduledDate = Timestamp.valueOf(stringScheduledDate);
-                } else latestScheduledDate = new Timestamp(System.currentTimeMillis());
+                } else {
+                    latestScheduledDate = new Timestamp(System.currentTimeMillis());
+                }
             }
         }
         catch(SQLException e)
