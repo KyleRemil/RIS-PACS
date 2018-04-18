@@ -872,5 +872,4 @@ public class PhysicianController {
     	}
     }
 
-
 }

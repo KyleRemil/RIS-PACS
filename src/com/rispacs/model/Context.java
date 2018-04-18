@@ -17,7 +17,6 @@ public class Context {
 		this.medicalFlag = value;
 	}
 
-
 	private String selectedModalityTypeID = null;
 
 	private int role = 1;
