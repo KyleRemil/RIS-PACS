@@ -637,7 +637,7 @@ public class PhysicianController {
     }
     private void updatePriorProceduresList()
     {
-    	priorProceduresList = new FilteredList<>(ModalityProcedureListObservableList, t -> t.getprocedureStatus().contains("Complete"));
+    	priorProceduresList = new FilteredList<>(ModalityProcedureListObservableList, t -> t.getprocedureStatus().contains("Report Complete"));
 
 		Table_patientProcedures.setItems(priorProceduresList);
 	    Column_patientProcedures.setCellValueFactory(new PropertyValueFactory<>("procedureId"));
