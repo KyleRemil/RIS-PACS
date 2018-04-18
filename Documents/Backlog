@@ -72,6 +72,10 @@ Referring MD (Robert In progress)
   Get Patient Procedures *Done*
   Sign off on flags
   Get Procedure Report
+  Refresh Table *Done*
+  Reset Procedure Form *Done*
+  Update Procedure *Done*
+  Delete Procedure 
   
 Modality Technician (Robert In progress)
   Get procedure worklist *Done*
