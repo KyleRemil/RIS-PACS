@@ -220,6 +220,73 @@ public class PhysicianController {
     			setPreviewImage(img);
     		}
     	});
+
+    	comboBox_modalityName.setConverter(new StringConverter<ModalityName>()
+    	{
+            @Override
+            public String toString(ModalityName object)
+            {
+                return object.getmodalityName();
+            }
+            @Override
+            public ModalityName fromString(String string)
+            {
+                return null; // No conversion fromString needed.
+            }
+        });
+    	comboBox_modalityName.valueProperty().addListener((ov, oldVal, newVal) ->
+    	{
+             try
+             {
+            	 if (newVal != null)
+                 {
+            		 System.out.println(newVal.getmodalityName() + "'s Modality ID:" + newVal.getmodalityID());
+                     System.out.println("Call populatecomboBox_modalityProcedureType("+ newVal.getmodalityID()+")");
+            		 Context.getInstance().setSelectedModalityTypeID(newVal.modalityID);
+            		 Context.getInstance().setMedicalFlag(false);
+            		 comboBox_modalityProcedureType.getSelectionModel().clearSelection();
+                     comboBox_modalityProcedureType.getItems().clear();
+            		 populatecomboBox_modalityProcedureType(newVal.getmodalityID());
+            		 openMedicalConflictBox();
+                 }
+            	 else
+            	 {
+
+            	 }
+             }
+             catch (Exception e)
+             {
+				e.printStackTrace();
+             }
+        });
+
+    	comboBox_modalityProcedureType.setConverter(new StringConverter<ModalityProcedureType>()
+    	{
+            @Override
+            public String toString(ModalityProcedureType object)
+            {
+                return object.getmodalityProcedureTypeDesc();
+            }
+            @Override
+            public ModalityProcedureType fromString(String string)
+            {
+                return null; // No conversion fromString needed.
+            }
+        });
+    	comboBox_modalityProcedureType.valueProperty().addListener((ov, oldVal, newVal) ->
+    	{
+    		try
+    		{
+    			if (newVal != null)
+    			{
+    				System.out.println(newVal.getmodalityProcedureTypeDesc() + "'s Modality Procedure Type ID:" + newVal.getmodalityProcedureTypeID());
+    			}
+    		}
+    		catch (Exception e)
+    		{
+				e.printStackTrace();
+			}
+        });
     }
     void populateTable_patientRadiologyHistory(String patientID)
     {
@@ -315,23 +382,7 @@ public class PhysicianController {
 				e.printStackTrace();
 			}
     	}
-    	comboBox_modalityProcedureType.setConverter(new StringConverter<ModalityProcedureType>()
-    	{
-            @Override
-            public String toString(ModalityProcedureType object)
-            {
-                return object.getmodalityProcedureTypeDesc();
-            }
-            @Override
-            public ModalityProcedureType fromString(String string)
-            {
-                return null; // No conversion fromString needed.
-            }
-        });
-    	comboBox_modalityProcedureType.valueProperty().addListener((ov, oldVal, newVal) ->
-    	{
-             System.out.println(newVal.getmodalityProcedureTypeDesc() + "'s Modality Procedure Type ID:" + newVal.getmodalityProcedureTypeID());
-        });
+
     }
     void populatecomboBox_modalityName()
     {
@@ -367,41 +418,6 @@ public class PhysicianController {
 				e.printStackTrace();
 			}
     	}
-    	comboBox_modalityName.setConverter(new StringConverter<ModalityName>()
-    	{
-            @Override
-            public String toString(ModalityName object)
-            {
-                return object.getmodalityName();
-            }
-            @Override
-            public ModalityName fromString(String string)
-            {
-                return null; // No conversion fromString needed.
-            }
-        });
-    	comboBox_modalityName.valueProperty().addListener((ov, oldVal, newVal) ->
-    	{
-             System.out.println(newVal.getmodalityName() + "'s Modality ID:" + newVal.getmodalityID());
-             System.out.println("Call populatecomboBox_modalityProcedureType("+ newVal.getmodalityID()+")");
-             try
-             {
-            	 if (newVal != null)
-                 {
-            		 Context.getInstance().setSelectedModalityTypeID(newVal.modalityID);
-            		 Context.getInstance().setMedicalFlag(false);
-            		 comboBox_modalityProcedureType.getSelectionModel().clearSelection();
-                     comboBox_modalityProcedureType.getItems().clear();
-            		 populatecomboBox_modalityProcedureType(newVal.getmodalityID());
-            		 openMedicalConflictBox();
-                 }
-             }
-             catch (Exception e)
-             {
-				e.printStackTrace();
-             }
-        });
-
     }
     void openMedicalConflictBox()
     {
@@ -529,6 +545,18 @@ public class PhysicianController {
     	catch(Exception exception)
     	{
     		exception.printStackTrace();
+    	}
+    	finally
+    	{
+    		try{
+    			connection.close();
+    			clearProcedureFields();
+    			refresh_Table_patientRadiologyHistory(null);
+    		}
+    		catch(Exception exception)
+    		{
+    			exception.printStackTrace();
+    		}
     	}
     }
     @FXML
@@ -730,11 +758,8 @@ public class PhysicianController {
 			connection = DatabaseHandler.getConnection();
 			if (procedureListModel != null)
 			{
-				if (procedureListModel.getprocedureStatus().toString() != "Not Scheduled")
-				{
-					System.out.println("Procedure has been scheduled or completed. Delete not avalible");
-				}
-				else
+				//System.out.println(procedureListModel.getprocedureStatus());
+				if (procedureListModel.getprocedureStatus().equals("Not Scheduled"))
 				{
 					String procedureID = procedureListModel.getProcedureId();
 					String deleteProcedure = "DELETE FROM procedurelist WHERE procedureId= ?";
@@ -743,6 +768,10 @@ public class PhysicianController {
 		            preparedStatement.setString(1, procedureID);
 		            System.out.println(preparedStatement);
 		            preparedStatement.execute();
+				}
+				else
+				{
+					System.out.println("Procedure has been scheduled or completed. Delete not avalible");
 				}
 			}
 			else
@@ -832,6 +861,7 @@ public class PhysicianController {
     		try
     		{
     			refresh_Table_patientRadiologyHistory(null);
+    			clearProcedureFields();
 				connection.close();
 			}
     		catch (SQLException e)
