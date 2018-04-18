@@ -56,13 +56,38 @@ public class RadiologistController {
 
     public void initialize() {
     	Table_patients.setOnMouseClicked(event -> {
+    		if(Table_patients.getSelectionModel().getSelectedItem() != null){
     			currentProcedureID = Table_patients.getSelectionModel().getSelectedItem().getprocedureID();
     			setPatientInfo();
     			getProcedureImages(Table_patients.getSelectionModel().getSelectedItem().getprocedureID());
-    		});
-    	Table_ProcedureImages.setOnMouseClicked(event -> {
-    		setPreviewImage(Table_ProcedureImages.getSelectionModel().getSelectedItem());
+    		}
 		});
+    	Table_ProcedureImages.setOnMouseClicked(event -> {
+    		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			setPreviewImage(Table_ProcedureImages.getSelectionModel().getSelectedItem());
+    		}
+		});
+
+    	Button_nextImage.setOnMouseClicked(event -> {
+    		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			if(Table_ProcedureImages.getSelectionModel().getSelectedIndex() != Table_ProcedureImages.getItems().size() - 1)
+    				Table_ProcedureImages.getSelectionModel().selectNext();
+    			else
+    				Table_ProcedureImages.getSelectionModel().selectFirst();
+    			ModalityImage img = Table_ProcedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
+    		}
+    	});
+    	Button_previousImage.setOnMouseClicked(event -> {
+    		if(Table_ProcedureImages.getSelectionModel().getSelectedItem() != null){
+    			if(Table_ProcedureImages.getSelectionModel().getSelectedIndex() != 0)
+    				Table_ProcedureImages.getSelectionModel().selectPrevious();
+    			else
+    				Table_ProcedureImages.getSelectionModel().selectLast();
+    			ModalityImage img = Table_ProcedureImages.getSelectionModel().getSelectedItem();
+    			setPreviewImage(img);
+    		}
+    	});
     }
     @FXML
     void refreshTable_patients(ActionEvent event) {
