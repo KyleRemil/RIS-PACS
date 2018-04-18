@@ -28,7 +28,7 @@
     </Pane>
     <Pane layoutX="306.0" layoutY="292.0" prefHeight="299.0" prefWidth="1047.0" style="-fx-background-color: orange;">
       <children>
-        <TableView layoutX="14.0" layoutY="35.0" prefHeight="194.0" prefWidth="1018.0">
+        <TableView layoutX="14.0" layoutY="35.0" prefHeight="194.0" prefWidth="1018.0" fx:id="PatientInvoiceTable">
           <columns>
             <TableColumn prefWidth="98.0" text="Date of Service" fx:id="DateCol" />
             <TableColumn prefWidth="95.0" text="Item " fx:id="ItemCol" />
@@ -54,12 +54,12 @@
         <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
         <Text id="" layoutX="14.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
         <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age:" />
-        <Text id="PatientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
-        <Text id="PatientAge" layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age Value" />
+        <Text id="PatientID" fx:id="PatientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
+        <Text id="PatientAge" fx:id="PatientAge" layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Age Value" />
         <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name" />
-        <Text id="PatientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
+        <Text id="PatientName" fx:id="PatientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
         <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
-        <Text id="PatientGender" layoutX="269.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
+        <Text id="PatientGender" fx:id="PatientGender" layoutX="269.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:"/>
       </children>
     </Pane>
   </children>
