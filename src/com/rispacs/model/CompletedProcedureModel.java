@@ -10,12 +10,15 @@ public class CompletedProcedureModel
 	private StringProperty patientID;
 
 	private PatientModel patientModel;
+	
+	private StringProperty timestamp;
 
-	public CompletedProcedureModel(String procedureID, String patientName, String patientID, PatientModel patientModel) {
+	public CompletedProcedureModel(String procedureID, String patientName, String patientID, PatientModel patientModel, String timestamp) {
 		this.procedureID = new SimpleStringProperty(procedureID);
 		this.patientName = new SimpleStringProperty(patientName);
 		this.patientID = new SimpleStringProperty(patientID);
 		this.patientModel = patientModel;
+		this.timestamp = new SimpleStringProperty(timestamp);
 	}
 
 	public PatientModel getPatietModel()
@@ -64,5 +67,10 @@ public class CompletedProcedureModel
 	public StringProperty patientIDProperty()
 	{
 		return patientID;
+	}
+	
+	public StringProperty timeProperty()
+	{
+		return timestamp;
 	}
 }
