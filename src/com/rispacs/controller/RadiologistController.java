@@ -136,6 +136,9 @@ public class RadiologistController {
     			//setPreviewImage(img);
     		}
     	});
+    	
+    	//auto load pending procedure list when view is loaded on start-up
+    	getAllCompletedProcedure();
     }
     @FXML
     void refreshTable_patients(ActionEvent event) {
