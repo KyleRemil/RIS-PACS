@@ -28,13 +28,17 @@ public class MedicalConflictController{
     @FXML private Button Button_approve;
     @FXML private Button Button_deny;
 
+    PhysicianController physicianController;
+
     public void initialize(){
     	getMedicalFlags(Context.getInstance().getSelectedModalityTypeID());
+    	physicianController = new PhysicianController();
+
     }
     private void getMedicalFlags(String string) {
     	Connection connection = null;
     	String warningModalityName = null;
-    	String warningText = null;
+    	String warningText = "";
         try
     	{
     		connection = DatabaseHandler.getConnection();
@@ -66,6 +70,7 @@ public class MedicalConflictController{
     	{
     		try
     		{
+
 				connection.close();
 			}
     		catch (SQLException e)

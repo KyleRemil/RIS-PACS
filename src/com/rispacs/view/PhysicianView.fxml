@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
+<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
    <children>
       <TabPane layoutX="276.0" layoutY="63.0" prefHeight="495.0" prefWidth="1068.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
          <tabs>

@@ -12,7 +12,7 @@
          <children>
             <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modality: " />
             <Text fx:id="Text_ModalityName" layoutX="67.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modality Name Value" />
-            <TextArea fx:id="TextArea_modalityWarnings" layoutX="13.0" layoutY="40.0" prefHeight="200.0" prefWidth="406.0" />
+            <TextArea fx:id="TextArea_modalityWarnings" editable="false" layoutX="13.0" layoutY="40.0" prefHeight="200.0" prefWidth="406.0" />
             <Text layoutX="373.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warning" />
             <Button fx:id="Button_approve" layoutX="357.0" layoutY="251.0" mnemonicParsing="false" onAction="#approveFlag" text="Approve" />
             <Button fx:id="Button_deny" layoutX="14.0" layoutY="251.0" mnemonicParsing="false" onAction="#denyFlag" text="Deny" />

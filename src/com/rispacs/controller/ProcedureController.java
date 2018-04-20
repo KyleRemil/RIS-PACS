@@ -51,7 +51,7 @@ public class ProcedureController {
     public void initialize() {
 
     	getCurrentProcedureImages(null);
-
+    	Button_finalizeProcedure.setDisable(true);
     	Table_procedureImages.setOnMouseClicked(event -> {
     		     setPreviewImage(Table_procedureImages.getSelectionModel().getSelectedItem());
     		});
@@ -183,6 +183,7 @@ public class ProcedureController {
     	{
     		try
     		{
+    	    	Button_finalizeProcedure.setDisable(false);
 				connection.close();
 			}
     		catch (SQLException e)

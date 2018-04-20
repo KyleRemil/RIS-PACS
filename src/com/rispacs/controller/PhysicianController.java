@@ -243,11 +243,9 @@ public class PhysicianController {
             		 System.out.println(newVal.getmodalityName() + "'s Modality ID:" + newVal.getmodalityID());
                      System.out.println("Call populatecomboBox_modalityProcedureType("+ newVal.getmodalityID()+")");
             		 Context.getInstance().setSelectedModalityTypeID(newVal.modalityID);
-            		 Context.getInstance().setMedicalFlag(false);
             		 comboBox_modalityProcedureType.getSelectionModel().clearSelection();
                      comboBox_modalityProcedureType.getItems().clear();
             		 populatecomboBox_modalityProcedureType(newVal.getmodalityID());
-            		 openMedicalConflictBox();
                  }
             	 else
             	 {
@@ -428,7 +426,8 @@ public class PhysicianController {
             Stage stage = new Stage();
             stage.setTitle("Conflicts");
             stage.setScene(new Scene(root));
-            stage.show();
+
+            stage.showAndWait();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -482,6 +481,7 @@ public class PhysicianController {
             }
         });
     }
+
     @FXML
     void requestProcedure(ActionEvent event){
     	System.out.println("requestProcedure() Called");
@@ -489,6 +489,9 @@ public class PhysicianController {
     	Connection connection = null;
     	try
     	{
+    		Button_AddAppointment.setDisable(true);
+    		openMedicalConflictBox();
+    		Button_AddAppointment.setDisable(false);
     		connection = DatabaseHandler.getConnection();
     		//ArrivedPatientsModel arrivedPatientArray = Table_avaliablePatients.getSelectionModel().getSelectedItem();
     		PatientModel patient = Table_avaliablePatients.getSelectionModel().getSelectedItem();
@@ -551,9 +554,11 @@ public class PhysicianController {
     	finally
     	{
     		try{
-    			connection.close();
     			clearProcedureFields();
+    			Button_AddAppointment.setDisable(false);
+    			Context.getInstance().setMedicalFlag(false);
     			refresh_Table_patientRadiologyHistory(null);
+    			connection.close();
     		}
     		catch(Exception exception)
     		{
@@ -762,7 +767,7 @@ public class PhysicianController {
 			if (procedureListModel != null)
 			{
 				//System.out.println(procedureListModel.getprocedureStatus());
-				if (procedureListModel.getprocedureStatus().equals("Not Scheduled"))
+				if (procedureListModel.getprocedureStatus().equals("Not Scheduled") || procedureListModel.getprocedureStatus().equals("Scheduled"))
 				{
 					String procedureID = procedureListModel.getProcedureId();
 					String deleteProcedure = "DELETE FROM procedurelist WHERE procedureId= ?";
