@@ -8,7 +8,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Scheduler {
-
+	/*// Example comparator
+	 *
+	 * Comparator<Appointment> timeSort = new Comparator<Appointment>()
+        {
+            public int compare(Appointment a1, Appointment a2)
+            {
+            	return a1.getTimestamp().compareTo(a2.getTimestamp());
+            }
+        };
+	 *
+	 * //Later, used like this:
+	 * Collections.sort(appointmentArrayList, timeSort);
+	 *  //For searches:
+	 * int index = Collections.binarySearch(appointmentArrayList, apptSearchingFor , timeSort);
+	 *  //returns value of index that has same timestamp. If not found, returns value <0 or <list.size()
+	 */
     private ArrayList unCompletedAppointments = new ArrayList();
     private ArrayList allAppointmentsList = new ArrayList();
     private ArrayList appointmentList = new ArrayList();
