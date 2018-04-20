@@ -30,12 +30,12 @@
                         </TableView>
                         <Pane layoutX="617.0" layoutY="113.0" prefHeight="423.0" prefWidth="692.0">
                            <children>
-                              <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduled Start Time" wrappingWidth="223.5087890625">
+                              <Text layoutX="14.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scheduled Start Time" visible="false" wrappingWidth="223.5087890625">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <Text layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Extimated End Time" wrappingWidth="223.5087890625">
+                              <Text layoutX="14.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Extimated End Time" visible="false" wrappingWidth="223.5087890625">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -50,7 +50,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <JFXTextArea fx:id="procedureInfo_textArea" layoutX="58.0" layoutY="130.0" style="-fx-border-color: black;" text="Referring Physician Radiology Procedure Info goes here (Not Editable)" unFocusColor="TRANSPARENT" />
+                              <JFXTextArea fx:id="procedureInfo_textArea" editable="false" layoutX="58.0" layoutY="130.0" style="-fx-border-color: black;" text="Referring Physician Radiology Procedure Info goes here (Not Editable)" unFocusColor="TRANSPARENT" />
                               <Button fx:id="Button_beginProcedure" layoutX="418.0" layoutY="327.0" mnemonicParsing="false" onAction="#beginProcedure" text="Begin Procedure" />
                            </children>
                         </Pane>
@@ -59,14 +59,14 @@
             <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
             <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
             <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB:" />
-            <Text fx:id="patientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
+            <Text fx:id="patientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value" />
             <Text fx:id="patientDOB" layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB Value" />
             <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
             <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
-            <Text fx:id="patientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
+            <Text fx:id="patientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value" />
             <Text fx:id="patientHeight" layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Height Value" />
             <Text layoutX="484.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
-            <Text fx:id="patientGender" layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
+            <Text fx:id="patientGender" layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value" />
             <Text layoutX="484.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" />
             <Text fx:id="patientWeight" layoutX="561.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Weight Value" />
          </children>

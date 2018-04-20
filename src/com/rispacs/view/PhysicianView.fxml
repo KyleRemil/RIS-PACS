@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
+<AnchorPane prefHeight="534.0" prefWidth="1090.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.rispacs.controller.PhysicianController">
    <children>
       <TabPane layoutX="276.0" layoutY="63.0" prefHeight="495.0" prefWidth="1068.0" side="RIGHT" tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -45,7 +45,7 @@
                               <Text layoutX="14.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Procedure Type:" />
                               <ComboBox fx:id="comboBox_modalityProcedureType" layoutX="167.0" layoutY="66.0" prefWidth="150.0" />
                               <ComboBox fx:id="comboBox_modalityTechnician" layoutX="167.0" layoutY="95.0" prefWidth="150.0" />
-                              <Text layoutX="14.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modality Technician" />
+                              <Text layoutX="14.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modality Technician:" />
                            </children>
                         </Pane>
                         <Pane prefHeight="99.0" prefWidth="940.0">
@@ -53,14 +53,14 @@
                               <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Demographics" />
                               <Text layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID:" />
                               <Text layoutX="14.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB:" />
-                              <Text fx:id="patientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value:" />
+                              <Text fx:id="patientID" layoutX="91.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient ID Value" />
                               <Text fx:id="patientDOB" layoutX="91.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient DOB Value" />
                               <Text layoutX="224.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
                               <Text layoutX="224.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
-                              <Text fx:id="patientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value:" />
+                              <Text fx:id="patientName" layoutX="301.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name Value" />
                               <Text fx:id="patientHeight" layoutX="301.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Height Value" />
                               <Text layoutX="484.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender: " />
-                              <Text fx:id="patientGender" layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value:" />
+                              <Text fx:id="patientGender" layoutX="561.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Gender Value" />
                               <Text layoutX="484.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Weight:" />
                               <Text fx:id="patientWeight" layoutX="561.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Weight Value" />
                            </children>

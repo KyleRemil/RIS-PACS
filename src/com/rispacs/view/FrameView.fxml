@@ -36,6 +36,11 @@
 	          	<fx:include source="RegistrationView.fxml" />
 	          </content>
           </Tab>
+            <Tab fx:id="tab_physician" text="Physician">
+          	<content>
+          		<fx:include source="PhysicianView.fxml" />
+          	</content>
+          </Tab>
           <Tab fx:id="tab_tech" text="Technician">
           	<content>
           		<fx:include source="TechnicianView.fxml" />
@@ -44,11 +49,6 @@
             <Tab fx:id="tab_rad" text="Radiologist">
           	<content>
           		<fx:include source="RadiologistView.fxml" />
-          	</content>
-          </Tab>
-            <Tab fx:id="tab_physician" text="Physician">
-          	<content>
-          		<fx:include source="PhysicianView.fxml" />
           	</content>
           </Tab>
             <Tab fx:id="tab_invoice" text="Invoice">

@@ -17,16 +17,16 @@
             <Text fx:id="registration_Title_basicInformation" layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Basic Information" />
             <Text fx:id="registration_Title_PatientName" layoutX="37.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
             <TextField fx:id="registration_TextField_PatientFirstName" layoutX="112.0" layoutY="19.0" promptText="First Name" />
-            <TextField fx:id="registration_TextField_PatientLastName" layoutX="341.0" layoutY="19.0" promptText="Last Name" />
             <TextField fx:id="registration_TextField_PatientMiddleName" layoutX="277.0" layoutY="19.0" prefHeight="25.0" prefWidth="47.0" promptText="MI" />
+            <TextField fx:id="registration_TextField_PatientLastName" layoutX="341.0" layoutY="19.0" promptText="Last Name" />
             <Text fx:id="registration_Title_PatientDOB" layoutX="42.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Birth:" />
             <JFXDatePicker fx:id="registration_TextField_PatientDOB" layoutX="112.0" layoutY="43.0" />
             <ComboBox fx:id="registration_ComboBox_PatientGender" layoutX="437.0" layoutY="43.0" prefWidth="150.0" />
             <Text fx:id="registration_Title_PatientGender" layoutX="395.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender:" />
             <TextField fx:id="registration_TextField_PatientSSN" layoutX="112.0" layoutY="68.0" promptText="#" />
             <Text fx:id="registration_Title_PatientSSN" layoutX="86.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="SSN:" />
-            <ComboBox fx:id="registration_ComboBox_PatientMaritalStatus" layoutX="437.0" layoutY="68.0" prefWidth="150.0" />
-            <Text fx:id="registration_Title_PatientMaritalStatus" layoutX="361.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status:" />
+            <ComboBox fx:id="registration_ComboBox_PatientMaritalStatus" disable="true" layoutX="437.0" layoutY="68.0" prefWidth="150.0" visible="false" />
+            <Text fx:id="registration_Title_PatientMaritalStatus" disable="true" layoutX="361.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Marital Status:" visible="false" />
             <TextField fx:id="registration_TextField_PatientHeight" layoutX="112.0" layoutY="93.0" promptText="ft." />
             <Text fx:id="registration_Title_PatientHeight" layoutX="72.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height:" />
             <TextField fx:id="registration_TextField_PatientWeight" layoutX="438.0" layoutY="93.0" prefHeight="25.0" prefWidth="150.0" promptText="lbs." />
@@ -45,15 +45,15 @@
       </Pane>
       <Pane layoutX="641.0" layoutY="14.0" prefHeight="437.0" prefWidth="708.0" style="-fx-background-color: #fff;">
          <children>
-            <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Paitnet Search" />
+            <Text layoutX="7.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Search" />
             <Text layoutX="7.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Patient Name:" />
             <TextField fx:id="TextField_patientSearchFirstName" layoutX="89.0" layoutY="35.0" prefHeight="25.0" prefWidth="116.0" promptText="First Name" />
             <TextField fx:id="TextField_patientSearchLastName" layoutX="220.0" layoutY="35.0" prefHeight="25.0" prefWidth="116.0" promptText="Last Name" />
             <Button fx:id="Button_SearchPatient" layoutX="284.0" layoutY="77.0" mnemonicParsing="false" onAction="#SearchPatient" text="Search" />
             <TableView fx:id="Table_searchPatient" layoutX="353.0" layoutY="35.0" prefHeight="385.0" prefWidth="340.0">
                <columns>
-                  <TableColumn fx:id="Column_patientID" prefWidth="75.0" text="Paitnet ID" />
-                  <TableColumn fx:id="Column_patientName" prefWidth="99.0" text="Paitnet Name" />
+                  <TableColumn fx:id="Column_patientID" prefWidth="75.0" text="Patient ID" />
+                  <TableColumn fx:id="Column_patientName" prefWidth="99.0" text="Patient Name" />
                   <TableColumn fx:id="Column_patientLastVisit" prefWidth="99.0" text="Last Visit" />
                </columns>
                <columnResizePolicy>
