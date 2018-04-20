@@ -558,6 +558,7 @@ public class PhysicianController {
     			exception.printStackTrace();
     		}
     	}
+    	Context.getInstance().sortSchedule();
     }
     @FXML
     void refresh_Table_avaliablePatients()//ActionEvent event)
@@ -746,7 +747,7 @@ public class PhysicianController {
 		context.sortSchedule();*/
 
     	//Could do either of these (whichever works):
-    	Context.getInstance().getScheduler().generateSchedule(); //directly call needed funtion
+    	Context.getInstance().getScheduler().bookAppointments(); //directly call needed funtion
 //    	Context.getInstance().sortSchedule(); //tells context to do it, which is how it was before (and basically overwrites the object each time)
 	}
     @FXML

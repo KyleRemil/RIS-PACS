@@ -36,7 +36,7 @@ public class Context {
 
     public void sortSchedule() {
     	scheduler = new Scheduler();
-		scheduler.generateSchedule();
+		scheduler.bookAppointments();
 	}
 
     public Scheduler getScheduler() {

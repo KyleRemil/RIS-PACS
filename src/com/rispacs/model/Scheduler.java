@@ -9,6 +9,8 @@ import java.util.Collections;
 
 public class Scheduler {
 
+    private ArrayList unCompletedAppointments = new ArrayList();
+    private ArrayList allAppointmentsList = new ArrayList();
     private ArrayList appointmentList = new ArrayList();
     private ArrayList xRayList = new ArrayList();
     private ArrayList ctScanList = new ArrayList();
@@ -16,24 +18,34 @@ public class Scheduler {
     public SchedulerTree schedulerTree = new SchedulerTree();
     public SchedulerTree schedulerTreeById = new SchedulerTree();
     SchedulerQueue schedulerQueue;
-    private Timestamp latestScheduledDate;
+    private Timestamp xRayLatestScheduledDate;
+    private Timestamp ctScanLatestScheduledDate;
+    private Timestamp mRILatestScheduledDate;
 
-    public void generateSchedule() {
-        populateLists();
-        bookAppointment();
+    public void bookAppointments() {
+        populateAppointmentList();
+        filerallAppointmentsList();
+        sortLists();
+        getLatestScheduledDates();
+        bookXrays();
+        bookCtScans();
+        bookMRIs();
+//        checkForConflicts();
+        populateUnCompletedAppointments();
+        addAllAppointmentsToDatabase();
     }
 
-    private void populateLists() {
+    private void populateAppointmentList() {
 
         Connection connection = null;
 
-        String query = "SELECT modalityproceduretype.modalityType_modalityTypeId, procedurelist.patient_patientID, " +
-                "procedurelist.procedureId, procedurelist.procedureDateOfRequest, procedurestatus.procedureStatusID, \n" +
-                "procedurelist.procedureScheduledDate " +
+        String query = "SELECT modalityproceduretype.modalityType_modalityTypeId, procedurelist.patient_patientID,\n" +
+                "procedurelist.procedureId, procedurelist.procedureDateOfRequest, procedurestatus.procedureStatusID,\n" +
+                "procedurelist.procedureScheduledDate\n" +
                 "FROM procedurelist, procedurestatus, modalityproceduretype\n" +
-                "WHERE procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId AND " +
-                "procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND " +
-                "procedurelist.procedurestatus_procedureStatusID = 0;";
+                "WHERE procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId AND\n" +
+                "procedurestatus.procedureStatusID = procedurelist.procedurestatus_procedureStatusID AND\n" +
+                "procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId;";
 
         String query1 = "SELECT MAX(procedurelist.procedureScheduledDate)\n" +
                 "FROM procedurelist\n" +
@@ -62,7 +74,7 @@ public class Scheduler {
                             Integer.valueOf(procedureStatusID),
                             Timestamp.valueOf(procedureDateOfRequest),
                             Timestamp.valueOf(procedureScheduledDate));
-                    appointmentList.add(appointment);
+                    allAppointmentsList.add(appointment);
                 } else {
                     Appointment appointment = new Appointment(
                             Integer.valueOf(modalityType_modalityTypeId),
@@ -70,19 +82,19 @@ public class Scheduler {
                             Integer.valueOf(procedureId),
                             Integer.valueOf(procedureStatusID),
                             Timestamp.valueOf(procedureDateOfRequest));
-                    appointmentList.add(appointment);
+                    allAppointmentsList.add(appointment);
                 }
 
 
             }
-            while (resultSet1.next()) {
-                String stringScheduledDate = resultSet1.getString("MAX(procedurelist.procedureScheduledDate)");
-                if (stringScheduledDate != null && !stringScheduledDate.isEmpty()){
-                    latestScheduledDate = Timestamp.valueOf(stringScheduledDate);
-                } else {
-                    latestScheduledDate = new Timestamp(System.currentTimeMillis());
-                }
-            }
+//            while (resultSet1.next()) {
+//                String stringScheduledDate = resultSet1.getString("MAX(procedurelist.procedureScheduledDate)");
+//                if (stringScheduledDate != null && !stringScheduledDate.isEmpty()){
+//                    latestScheduledDate = Timestamp.valueOf(stringScheduledDate);
+//                } else {
+//                    latestScheduledDate = new Timestamp(System.currentTimeMillis());
+//                }
+//            }
         }
         catch(SQLException e)
         {
@@ -101,65 +113,400 @@ public class Scheduler {
         }
     }
 
-    public void bookAppointment() {
-        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
-        if (localTimeStamp.getNanos() >= latestScheduledDate.getNanos()) {
-            LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
+    private void filerallAppointmentsList() {
 
-            for (int i = 0; i < appointmentList.size(); i++) {
-                Appointment thisAppointment = (Appointment) appointmentList.get(i);
-                Timestamp returnTime;
-                long minutes = localDateTime.getMinute();
-                long seconds = localDateTime.getSecond();
-                long nanos = localDateTime.getNano();
-                if (minutes < 30) {
-                    localDateTime = localDateTime.minusMinutes(minutes);
-                    localDateTime = localDateTime.minusSeconds(seconds);
-                    localDateTime = localDateTime.minusNanos(nanos);
-                    localDateTime = localDateTime.plusMinutes(30);
-                } else if (minutes >= 30) {
-                    localDateTime = localDateTime.minusMinutes(minutes);
-                    localDateTime = localDateTime.minusSeconds(seconds);
-                    localDateTime = localDateTime.minusNanos(nanos);
-                    localDateTime = localDateTime.plusHours(1);
-                }
-                returnTime = Timestamp.valueOf(localDateTime);
-                thisAppointment.setScheduledDate(returnTime);
+        for (int i = 0; i < allAppointmentsList.size(); i++) {
+            Appointment appointment = (Appointment) allAppointmentsList.get(i);
+
+            if (appointment.getProcedureStatus() == 0) {
+                appointmentList.add(appointment);
             }
-            addAppointmentsToDatabase();
-        } else {
-            LocalDateTime latestDateTime = latestScheduledDate.toLocalDateTime();
-            for (int i = 0; i < appointmentList.size(); i++) {
-                Appointment thisAppointment = (Appointment) appointmentList.get(i);
-                Timestamp returnTime;
-                long minutes = latestDateTime.getMinute();
-                long seconds = latestDateTime.getSecond();
-                long nanos = latestDateTime.getNano();
-                if (minutes < 30) {
-                    latestDateTime = latestDateTime.minusMinutes(minutes);
-                    latestDateTime = latestDateTime.minusSeconds(seconds);
-                    latestDateTime = latestDateTime.minusNanos(nanos);
-                    latestDateTime = latestDateTime.plusMinutes(30);
-                } else if (minutes >= 30) {
-                    latestDateTime = latestDateTime.minusMinutes(minutes);
-                    latestDateTime = latestDateTime.minusSeconds(seconds);
-                    latestDateTime = latestDateTime.minusNanos(nanos);
-                    latestDateTime = latestDateTime.plusHours(1);
-                }
-                returnTime = Timestamp.valueOf(latestDateTime);
-                thisAppointment.setScheduledDate(returnTime);
-            }
-            addAppointmentsToDatabase();
         }
+    }
+
+    private void populateUnCompletedAppointments() {
+
+        for (int i = 0; i < allAppointmentsList.size(); i++) {
+            Appointment appointment = (Appointment) allAppointmentsList.get(i);
+            int status = appointment.getProcedureStatus();
+
+            if (status == 0 || status == 1) {
+                unCompletedAppointments.add(appointment);
+            }
+        }
+    }
+
+    private void setLatestscheduledDates() {
+
+        Appointment xrayAppointment = (Appointment) xRayList.get(0);
+        Appointment ctAppointment = (Appointment) ctScanList.get(0);
+        Appointment mriAppointment = (Appointment) mRIList.get(0);
+
+        if (xrayAppointment.getScheduledDate() != null) {
+            Timestamp latestxRay = xrayAppointment.getScheduledDate();
+
+            for (int i = 0; i < xRayList.size(); i++) {
+                Appointment appointment = (Appointment) xRayList.get(i);
+                //TODO Let is sort the entire list of scheduled and unscheduled procedures otherwise will get an issue
+
+            }
+        }
+
+        Timestamp latestCt = ctAppointment.getScheduledDate();
+        Timestamp latestMri;
+
 
     }
 
-    public void addAppointmentsToDatabase() {
+    private void sortLists(){
+        for (int i = 0; i < allAppointmentsList.size(); i++) {
+            Appointment currentAppointment = (Appointment) allAppointmentsList.get(i);
+            int modalityTypeId = currentAppointment.getModalityTypeId();
+            if (modalityTypeId == 1) {
+                xRayList.add(currentAppointment);
+            }
+            if (modalityTypeId == 2) {
+                ctScanList.add(currentAppointment);
+            }
+            if (modalityTypeId == 3) {
+                mRIList.add(currentAppointment);
+            } else if (modalityTypeId < 1 || modalityTypeId > 3){
+                System.out.println("Appoint with procedureID " + currentAppointment.getProcedureId() + "is not linked" +
+                        "to a modality.");
+            }
+        }
+    }
+
+    private void getLatestScheduledDates() {
+
+        if (xRayList.size() > 0) {
+            Appointment appointment = (Appointment) xRayList.get(0);
+            Timestamp latestXrayTimeStamp = appointment.getDateOfRequest();
+
+            for (int i = 0; i < xRayList.size(); i++) {
+                Timestamp currentXrayTimeStamp;
+                Appointment xRayAppointment = (Appointment) xRayList.get(i);
+                currentXrayTimeStamp = xRayAppointment.getDateOfRequest();
+
+                if (currentXrayTimeStamp.getNanos() > latestXrayTimeStamp.getNanos()) {
+                    latestXrayTimeStamp = currentXrayTimeStamp;
+                }
+            }
+            xRayLatestScheduledDate = roundTime(latestXrayTimeStamp);
+        }
+
+        if (ctScanList.size() > 0){
+            Appointment appointment = (Appointment) ctScanList.get(0);
+            Timestamp latestCtScanTimeStamp = appointment.getDateOfRequest();
+
+            for (int i = 0; i < ctScanList.size(); i++) {
+                Timestamp currentCtScanTimeStamp;
+                Appointment ctScanAppointment = (Appointment) ctScanList.get(i);
+                currentCtScanTimeStamp = ctScanAppointment.getDateOfRequest();
+
+                if (currentCtScanTimeStamp.getNanos() > latestCtScanTimeStamp.getNanos()) {
+                    latestCtScanTimeStamp = currentCtScanTimeStamp;
+                }
+            }
+            ctScanLatestScheduledDate = roundTime(latestCtScanTimeStamp);
+        }
+
+        if (mRIList.size() > 0) {
+            Appointment appointment = (Appointment) mRIList.get(0);
+            Timestamp latestMriTimeStamp = appointment.getDateOfRequest();
+
+
+            for (int i = 0; i < mRIList.size(); i++) {
+                Timestamp currentMriTimeStamp;
+                Appointment mriAppointment = (Appointment) mRIList.get(i);
+                currentMriTimeStamp = mriAppointment.getDateOfRequest();
+
+                if (currentMriTimeStamp.getNanos() > latestMriTimeStamp.getNanos()) {
+                    latestMriTimeStamp = currentMriTimeStamp;
+                }
+            }
+            mRILatestScheduledDate = roundTime(latestMriTimeStamp);
+        }
+    }
+
+    private Timestamp roundTime(Timestamp timestamp) {
+
+        LocalDateTime localDateTime = timestamp.toLocalDateTime();
+        int minutes = localDateTime.getMinute();
+        int seconds = localDateTime.getSecond();
+        int nanos = localDateTime.getNano();
+        localDateTime = localDateTime.minusMinutes(minutes);
+        localDateTime = localDateTime.minusSeconds(seconds);
+        localDateTime = localDateTime.minusNanos(nanos);
+
+        if (minutes >= 30) {
+            localDateTime = localDateTime.plusHours(1);
+        }
+        timestamp = Timestamp.valueOf(localDateTime);
+        return timestamp;
+    }
+
+    private void bookXrays() {
+        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
+        if (xRayList.size() > 0) {
+            if (localTimeStamp.getNanos() > xRayLatestScheduledDate.getNanos()) {
+                LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
+
+                for (int i = 0; i < xRayList.size(); i++) {
+                    Appointment thisAppointment = (Appointment) xRayList.get(i);
+                    Timestamp returnTime;
+                    long minutes = localDateTime.getMinute();
+                    long seconds = localDateTime.getSecond();
+                    long nanos = localDateTime.getNano();
+                    if (minutes < 30) {
+                        localDateTime = localDateTime.minusMinutes(minutes);
+                        localDateTime = localDateTime.minusSeconds(seconds);
+                        localDateTime = localDateTime.minusNanos(nanos);
+                        localDateTime = localDateTime.plusMinutes(30);
+                    } else if (minutes >= 30) {
+                        localDateTime = localDateTime.minusMinutes(minutes);
+                        localDateTime = localDateTime.minusSeconds(seconds);
+                        localDateTime = localDateTime.minusNanos(nanos);
+                        localDateTime = localDateTime.plusHours(1);
+                    }
+                    returnTime = Timestamp.valueOf(localDateTime);
+                    thisAppointment.setScheduledDate(returnTime);
+
+                    preventConflicts(thisAppointment, ctScanList);
+                    preventConflicts(thisAppointment, mRIList);
+                }
+            } else {
+                LocalDateTime latestDateTime = xRayLatestScheduledDate.toLocalDateTime();
+                for (int i = 0; i < xRayList.size(); i++) {
+                    Appointment thisAppointment = (Appointment) xRayList.get(i);
+                    Timestamp returnTime;
+                    long minutes = latestDateTime.getMinute();
+                    long seconds = latestDateTime.getSecond();
+                    long nanos = latestDateTime.getNano();
+                    if (minutes < 30) {
+                        latestDateTime = latestDateTime.minusMinutes(minutes);
+                        latestDateTime = latestDateTime.minusSeconds(seconds);
+                        latestDateTime = latestDateTime.minusNanos(nanos);
+                        latestDateTime = latestDateTime.plusMinutes(30);
+                    } else if (minutes >= 30) {
+                        latestDateTime = latestDateTime.minusMinutes(minutes);
+                        latestDateTime = latestDateTime.minusSeconds(seconds);
+                        latestDateTime = latestDateTime.minusNanos(nanos);
+                        latestDateTime = latestDateTime.plusHours(1);
+                    }
+                    returnTime = Timestamp.valueOf(latestDateTime);
+                    thisAppointment.setScheduledDate(returnTime);
+
+                    preventConflicts(thisAppointment, ctScanList);
+                    preventConflicts(thisAppointment, mRIList);
+                }
+            }
+        }
+    }
+
+    private void bookCtScans() {
+        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
+        if (ctScanList.size() > 0) {
+            if (localTimeStamp.getNanos() > ctScanLatestScheduledDate.getNanos()) {
+                LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
+
+                for (int i = 0; i < ctScanList.size(); i++) {
+                    Appointment thisAppointment = (Appointment) ctScanList.get(i);
+                    Timestamp returnTime;
+                    long minutes = localDateTime.getMinute();
+                    long seconds = localDateTime.getSecond();
+                    long nanos = localDateTime.getNano();
+                    if (minutes < 30) {
+                        localDateTime = localDateTime.minusMinutes(minutes);
+                        localDateTime = localDateTime.minusSeconds(seconds);
+                        localDateTime = localDateTime.minusNanos(nanos);
+                        localDateTime = localDateTime.plusMinutes(30);
+                    } else if (minutes >= 30) {
+                        localDateTime = localDateTime.minusMinutes(minutes);
+                        localDateTime = localDateTime.minusSeconds(seconds);
+                        localDateTime = localDateTime.minusNanos(nanos);
+                        localDateTime = localDateTime.plusHours(1);
+                    }
+                    returnTime = Timestamp.valueOf(localDateTime);
+                    thisAppointment.setScheduledDate(returnTime);
+
+                    preventConflicts(thisAppointment, xRayList);
+                    preventConflicts(thisAppointment, mRIList);
+                }
+            } else {
+                LocalDateTime latestDateTime = ctScanLatestScheduledDate.toLocalDateTime();
+                for (int i = 0; i < ctScanList.size(); i++) {
+                    Appointment thisAppointment = (Appointment) ctScanList.get(i);
+                    Timestamp returnTime;
+                    long minutes = latestDateTime.getMinute();
+                    long seconds = latestDateTime.getSecond();
+                    long nanos = latestDateTime.getNano();
+                    if (minutes < 30) {
+                        latestDateTime = latestDateTime.minusMinutes(minutes);
+                        latestDateTime = latestDateTime.minusSeconds(seconds);
+                        latestDateTime = latestDateTime.minusNanos(nanos);
+                        latestDateTime = latestDateTime.plusMinutes(30);
+                    } else if (minutes >= 30) {
+                        latestDateTime = latestDateTime.minusMinutes(minutes);
+                        latestDateTime = latestDateTime.minusSeconds(seconds);
+                        latestDateTime = latestDateTime.minusNanos(nanos);
+                        latestDateTime = latestDateTime.plusHours(1);
+                    }
+                    returnTime = Timestamp.valueOf(latestDateTime);
+                    thisAppointment.setScheduledDate(returnTime);
+
+                    preventConflicts(thisAppointment, xRayList);
+                    preventConflicts(thisAppointment, mRIList);
+                }
+            }
+        }
+    }
+
+    private void bookMRIs() {
+        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
+        if (mRIList.size() > 0) {
+            if (localTimeStamp.getNanos() > mRILatestScheduledDate.getNanos()) {
+                LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
+
+                for (int i = 0; i < mRIList.size(); i++) {
+                    Appointment thisAppointment = (Appointment) mRIList.get(i);
+                    Timestamp returnTime;
+                    long minutes = localDateTime.getMinute();
+                    long seconds = localDateTime.getSecond();
+                    long nanos = localDateTime.getNano();
+                    if (minutes < 30) {
+                        localDateTime = localDateTime.minusMinutes(minutes);
+                        localDateTime = localDateTime.minusSeconds(seconds);
+                        localDateTime = localDateTime.minusNanos(nanos);
+                        localDateTime = localDateTime.plusMinutes(30);
+                    } else if (minutes >= 30) {
+                        localDateTime = localDateTime.minusMinutes(minutes);
+                        localDateTime = localDateTime.minusSeconds(seconds);
+                        localDateTime = localDateTime.minusNanos(nanos);
+                        localDateTime = localDateTime.plusHours(1);
+                    }
+                    returnTime = Timestamp.valueOf(localDateTime);
+                    thisAppointment.setScheduledDate(returnTime);
+
+                    preventConflicts(thisAppointment, xRayList);
+                    preventConflicts(thisAppointment, ctScanList);
+                }
+            } else {
+                LocalDateTime latestDateTime = mRILatestScheduledDate.toLocalDateTime();
+                for (int i = 0; i < mRIList.size(); i++) {
+                    Appointment thisAppointment = (Appointment) mRIList.get(i);
+                    Timestamp returnTime;
+                    long minutes = latestDateTime.getMinute();
+                    long seconds = latestDateTime.getSecond();
+                    long nanos = latestDateTime.getNano();
+                    if (minutes < 30) {
+                        latestDateTime = latestDateTime.minusMinutes(minutes);
+                        latestDateTime = latestDateTime.minusSeconds(seconds);
+                        latestDateTime = latestDateTime.minusNanos(nanos);
+                        latestDateTime = latestDateTime.plusMinutes(30);
+                    } else if (minutes >= 30) {
+                        latestDateTime = latestDateTime.minusMinutes(minutes);
+                        latestDateTime = latestDateTime.minusSeconds(seconds);
+                        latestDateTime = latestDateTime.minusNanos(nanos);
+                        latestDateTime = latestDateTime.plusHours(1);
+                    }
+                    returnTime = Timestamp.valueOf(latestDateTime);
+                    thisAppointment.setScheduledDate(returnTime);
+
+                    preventConflicts(thisAppointment, xRayList);
+                    preventConflicts(thisAppointment, ctScanList);
+                }
+            }
+        }
+    }
+
+    private void preventConflicts(Appointment thisAppointment, ArrayList arrayList) {
+        if (arrayList.size() > 0) {
+            Timestamp checkTime = thisAppointment.getScheduledDate();
+            long checkTimeNanos = checkTime.getTime();
+            int checkId = thisAppointment.getPatientId();
+            for (int j = 0; j < arrayList.size(); j++) {
+                Appointment currentAppointment = (Appointment) arrayList.get(j);
+                Timestamp currentTime = currentAppointment.getScheduledDate();
+                if (currentTime != null && thisAppointment.getProcedureStatus() == 0) {
+                    int currentId = currentAppointment.getPatientId();
+                    long currentTimeNanos = currentTime.getNanos();
+                    if (checkId == currentId && checkTimeNanos == currentTimeNanos) {
+                        Timestamp newTime = new Timestamp(checkTimeNanos);
+                        LocalDateTime checkLocalDateTime = newTime.toLocalDateTime();
+                        checkLocalDateTime = checkLocalDateTime.plusMinutes(60);
+                        checkTime = Timestamp.valueOf(checkLocalDateTime);
+                        thisAppointment.setScheduledDate(checkTime);
+                    }
+                }
+            }
+        }
+    }
+
+//    public void makeAppointmentTimes() {
+//        Timestamp localTimeStamp = new Timestamp(System.currentTimeMillis());
+//        if (localTimeStamp.getNanos() >= latestScheduledDate.getNanos()) {
+//            LocalDateTime localDateTime = localTimeStamp.toLocalDateTime();
+//
+//            for (int i = 0; i < appointmentList.size(); i++) {
+//                Appointment thisAppointment = (Appointment) appointmentList.get(i);
+//                Timestamp returnTime;
+//                long minutes = localDateTime.getMinute();
+//                long seconds = localDateTime.getSecond();
+//                long nanos = localDateTime.getNano();
+//                if (minutes < 30) {
+//                    localDateTime = localDateTime.minusMinutes(minutes);
+//                    localDateTime = localDateTime.minusSeconds(seconds);
+//                    localDateTime = localDateTime.minusNanos(nanos);
+//                    localDateTime = localDateTime.plusMinutes(30);
+//                } else if (minutes >= 30) {
+//                    localDateTime = localDateTime.minusMinutes(minutes);
+//                    localDateTime = localDateTime.minusSeconds(seconds);
+//                    localDateTime = localDateTime.minusNanos(nanos);
+//                    localDateTime = localDateTime.plusHours(1);
+//                }
+//                returnTime = Timestamp.valueOf(localDateTime);
+//                thisAppointment.setScheduledDate(returnTime);
+//            }
+//            addAppointmentsToDatabase();
+//        } else {
+//            LocalDateTime latestDateTime = latestScheduledDate.toLocalDateTime();
+//            for (int i = 0; i < appointmentList.size(); i++) {
+//                Appointment thisAppointment = (Appointment) appointmentList.get(i);
+//                Timestamp returnTime;
+//                long minutes = latestDateTime.getMinute();
+//                long seconds = latestDateTime.getSecond();
+//                long nanos = latestDateTime.getNano();
+//                if (minutes < 30) {
+//                    latestDateTime = latestDateTime.minusMinutes(minutes);
+//                    latestDateTime = latestDateTime.minusSeconds(seconds);
+//                    latestDateTime = latestDateTime.minusNanos(nanos);
+//                    latestDateTime = latestDateTime.plusMinutes(30);
+//                } else if (minutes >= 30) {
+//                    latestDateTime = latestDateTime.minusMinutes(minutes);
+//                    latestDateTime = latestDateTime.minusSeconds(seconds);
+//                    latestDateTime = latestDateTime.minusNanos(nanos);
+//                    latestDateTime = latestDateTime.plusHours(1);
+//                }
+//                returnTime = Timestamp.valueOf(latestDateTime);
+//                thisAppointment.setScheduledDate(returnTime);
+//            }
+//            addAppointmentsToDatabase();
+//        }
+//    }
+
+    private void addAllAppointmentsToDatabase() {
+        addAppointmentsToDatabase(xRayList);
+        addAppointmentsToDatabase(ctScanList);
+        addAppointmentsToDatabase(mRIList);
+    }
+
+    public void addAppointmentsToDatabase(ArrayList arrayList) {
         Connection connection = null;
         try {
             connection = DatabaseHandler.getConnection();
-            for (int i =0; i < appointmentList.size(); i++) {
-                Appointment appointment = (Appointment) appointmentList.get(i);
+            for (int i =0; i < arrayList.size(); i++) {
+                Appointment appointment = (Appointment) arrayList.get(i);
                 String id = String.valueOf(appointment.getProcedureId());
                 Timestamp timestamp = appointment.getScheduledDate();
                 String time = timestamp.toString();
@@ -174,6 +521,72 @@ public class Scheduler {
             e.printStackTrace();
         }
     }
+
+    private void checkForConflicts() {
+
+        for(int i = 0; i < unCompletedAppointments.size(); i++) {
+//            int counter = 0;
+            Appointment thisAppointment = (Appointment) unCompletedAppointments.get(i);
+            int thisPatientID = thisAppointment.getPatientId();
+            Timestamp thisScheduledDate = thisAppointment.getScheduledDate();
+
+            for (int j = 0; j < unCompletedAppointments.size(); j++) {
+                Appointment thatAppointment = (Appointment) unCompletedAppointments.get(j);
+                int thatPatientID = thatAppointment.getPatientId();
+                Timestamp thatScheduledDate = thatAppointment.getScheduledDate();
+
+                if (i != j && thisPatientID == thatPatientID && thisScheduledDate.getNanos() == thatScheduledDate.getNanos()) {
+
+                    int thatModalityType = thatAppointment.getModalityTypeId();
+
+                    if (thatModalityType == 1) {
+                        LocalDateTime originalTime = xRayLatestScheduledDate.toLocalDateTime();
+                        Timestamp newTime;
+                        newTime = Timestamp.valueOf(originalTime.plusMinutes(30));
+//                        Timestamp newTime = new Timestamp(tempTime.getNanos());
+                        thatAppointment.setScheduledDate(newTime);
+                        LocalDateTime newDate = newTime.toLocalDateTime();
+                        newDate = newDate.plusMinutes(30);
+                        newTime = Timestamp.valueOf(newDate);
+                        xRayLatestScheduledDate = newTime;
+//                        counter++;
+                    }
+                    if (thatModalityType == 2) {
+                        LocalDateTime originalTime = ctScanLatestScheduledDate.toLocalDateTime();
+                        Timestamp newTime;
+//                        if (counter > 0) {
+//                            newTime = Timestamp.valueOf(originalTime.plusHours(1));
+//                        } else {
+                            newTime = Timestamp.valueOf(originalTime.plusMinutes(30));
+//                        }
+                        thatAppointment.setScheduledDate(newTime);
+                        LocalDateTime newDate = newTime.toLocalDateTime();
+                        newDate = newDate.plusMinutes(30);
+                        newTime = Timestamp.valueOf(newDate);
+                        ctScanLatestScheduledDate = newTime;
+//                        counter++;
+                    }
+                    if (thatModalityType == 3) {
+                        LocalDateTime originalTime = mRILatestScheduledDate.toLocalDateTime();
+                        Timestamp newTime;
+//                        if (counter > 0) {
+//                            newTime = Timestamp.valueOf(originalTime.plusMinutes(90));
+//                        } else {
+                            newTime = Timestamp.valueOf(originalTime.plusMinutes(30));
+
+//                        }
+                        thatAppointment.setScheduledDate(newTime);
+                        LocalDateTime newDate = newTime.toLocalDateTime();
+                        newDate = newDate.plusMinutes(30);
+                        newTime = Timestamp.valueOf(newDate);
+                        mRILatestScheduledDate = newTime;
+//                        counter++;
+                    }
+                }
+            }
+        }
+    }
+
 
     public class Appointment {
 
