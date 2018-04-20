@@ -77,9 +77,9 @@ public class InvoiceController {
     			String patientID = PatientTable.getSelectionModel().getSelectedItem().getPatientID().toString();
     			Populate_Invoice_Table(patientID);
     			Populate_Patient_Info_Table(patientID);
-    			Table_ProcedureImages.setItems(null);
-    			ImageView_patientProcedureImage.setImage(null);
-    			TextArea_report.setText(null);
+    			//Table_ProcedureImages.setItems(null);
+    			//ImageView_patientProcedureImage.setImage(null);
+    			//TextArea_report.setText(null);
     			setPatientInfo();
     		}
     	});
@@ -89,7 +89,7 @@ public class InvoiceController {
 	}
 	private void Populate_Patient_Info_Table(String patientID2) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	@FXML
     void Populate_Patient_Table()//ActionEvent event)
@@ -147,7 +147,7 @@ public class InvoiceController {
 
 	private void Populate_Invoice_Table(String patientID)
 	{
-		
+
 	}
 	 public void setPatientInfo()
 	    {

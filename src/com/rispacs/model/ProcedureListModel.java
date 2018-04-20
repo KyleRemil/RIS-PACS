@@ -13,8 +13,9 @@ public class ProcedureListModel
 	private StringProperty scheduledTime;
 	private StringProperty procedureStatus;
 	private StringProperty procedureId;
+	private boolean patientPaid;
 
-	public ProcedureListModel(String modalityName, String procedureTypeDesc, String modalityTechnician, String dateOfRequest, String scheduledDate, String procedureStatus, String procedureId)
+	public ProcedureListModel(String modalityName, String procedureTypeDesc, String modalityTechnician, String dateOfRequest, String scheduledDate, String procedureStatus, String procedureId, boolean patientPaid)
 	{
 		this.modalityName = new SimpleStringProperty(modalityName);
 		this.procedureTypeDesc = new SimpleStringProperty(procedureTypeDesc);
@@ -23,6 +24,7 @@ public class ProcedureListModel
 		this.scheduledDate = new SimpleStringProperty(scheduledDate);
 		this.procedureStatus = new SimpleStringProperty(procedureStatus);
 		this.procedureId = new SimpleStringProperty(procedureId);
+		this.patientPaid = patientPaid;
 	}
 
 	public String getpatientName(){
@@ -98,6 +100,15 @@ public class ProcedureListModel
 
 	public void setProcedureId(String procedureId) {
 		this.procedureId.set(procedureId);
+	}
+
+
+	public boolean getPatientPaid() {
+		return patientPaid;
+	}
+
+	public void setPatientPaid(boolean patientPaid) {
+		this.patientPaid = patientPaid;
 	}
 
 }

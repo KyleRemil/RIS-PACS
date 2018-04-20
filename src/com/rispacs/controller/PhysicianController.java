@@ -292,7 +292,7 @@ public class PhysicianController {
     {
     	System.out.println("populateTable_patientRadiologyHistory("+ patientID +") Called");
     	Connection connection = null;
-    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurestatus.procedureStatusDesc, procedurelist.procedureId FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
+    	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurestatus.procedureStatusDesc, procedurelist.procedureId, procedurelist.patientPaid FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
     	ModalityProcedureListObservableList = FXCollections.observableArrayList();
     	try
     	{
@@ -308,6 +308,7 @@ public class PhysicianController {
     			String scheduledDate = resultSet.getString("procedurelist.procedureScheduledDate");
     			String procedureStatus = resultSet.getString("procedurestatus.procedureStatusDesc");
     			String procedureId = resultSet.getString("procedurelist.procedureId");
+    			boolean patientPaid = resultSet.getBoolean("procedurelist.patientPaid");
     			ProcedureListModel procedureListModel = new ProcedureListModel(
     					modalityName,
     					procedureTypeDesc,
@@ -315,7 +316,8 @@ public class PhysicianController {
     					dateOfRequest,
     					scheduledDate,
     					procedureStatus,
-						procedureId);
+						procedureId,
+						patientPaid);
     			ModalityProcedureListObservableList.add(procedureListModel);
     		}
     		Table_patientRadiologyHistory.setItems(ModalityProcedureListObservableList);
