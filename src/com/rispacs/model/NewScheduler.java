@@ -2,6 +2,7 @@ package com.rispacs.model;
 
 import application.DatabaseHandler;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,14 +14,30 @@ import java.util.Comparator;
 
 public class NewScheduler {
 
+    // Overview of the NewScheduler
+    //      The scheduler operates by sorting appointments (objects containing information relevant to the procedure)
+    // into lists based on their attributes. When an appointment is booked it checks the list for that modality. If that
+    // modalityList is empty it schedules the appointment for the nearest rounded time of the current time. If that list
+    // is not empty it then sets the time to 30 minutes after the latest appointment. The scheduler then checks for the
+    // two types of conflicts that can occur: One, the patient needs to be in two places at the same time, or two a
+    // member of the staff is required to perform two tasks at the same time. Each conflict is assigned a new educated
+    // guessed time slot from the list relevant to its limiting factor and checked. If the conflict is still not
+    // resolved, a recursive function iterates through time until the appointment passes all checks. Finally, after the
+    // exceptions have been handled the appointment or if some thing went wrong in a prior attempt, appointments, are
+    // are added to the procedurelist in the database.
+
     private ArrayList scheduledAppointments = new ArrayList();
     private ArrayList unScheduledAppointments = new ArrayList();
-    private ArrayList thisPatientList = new ArrayList();
-    private ArrayList xRayList = new ArrayList();
-    private ArrayList ctScanList = new ArrayList();
-    private ArrayList mriList = new ArrayList();
+    private ArrayList thisPatientList = new ArrayList(); // all appointments associated with the currently conflicted Patient
+    private ArrayList xRayList = new ArrayList(); //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    private ArrayList ctScanList = new ArrayList(); // These lists are full of their respective scheduled appointments
+    private ArrayList mriList = new ArrayList(); // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    private ArrayList technitionList = new ArrayList();
 
+    //Method called through context in the Physician controller by the onclickLisener in the PhysicianView for bookAppointment.
     public void bookAppointment() {
+        // The schedule is started with a best guess without checking fields and then it checks the fields to see of it was correct
+        // If it was incorrect it guesses again with knowledge of expected values and checks again etc.
         clearAllLists();
         populateUnScheduledAppointmentList();
         sortModalityLists();
@@ -30,32 +47,78 @@ public class NewScheduler {
         System.out.println("End");
     }
 
+    //method to contain all exception handling
     private void handleScheduleExceptions() {
         for (int i = 0; i < unScheduledAppointments.size(); i++) {
             Appointment appointment = (Appointment) unScheduledAppointments.get(i);
             if (checkForTimeConflict(appointment)) {
                 ArrayList arrayList = getModalityList(appointment);
-                if (arrayList.size() > 0) {
-                    Appointment tempAppointment = (Appointment) arrayList.get(arrayList.size() - 1);
-                    Timestamp tempTimestamp = tempAppointment.getScheduledDate();
-                    LocalDateTime tempLocalDateTime = tempTimestamp.toLocalDateTime();
-                    tempTimestamp = Timestamp.valueOf(tempLocalDateTime.plusMinutes(30));
-                    appointment.setScheduledDate(tempTimestamp);
-                }
+                setTimeToLastAvailable(arrayList, appointment);
                 resolveTimeConflict(appointment);
+            }
+            if (checkForStaffConflict(appointment)) {
+                setTimeToLastAvailable(technitionList, appointment);
+                resolveStaffConflict(appointment);
             }
         }
     }
 
-    private void resolveTimeConflict(Appointment appointment) {
-        while (checkForTimeConflict(appointment)) {
-            Timestamp  timestamp = appointment.getScheduledDate();
-            LocalDateTime localDateTime = timestamp.toLocalDateTime();
-            timestamp = Timestamp.valueOf(localDateTime.plusMinutes(30));
-            appointment.setScheduledDate(timestamp);
+    //Goes to the list containing the limiting factor and finds the minimum transformation to resolve the conflict.
+    private void setTimeToLastAvailable(ArrayList arrayList, Appointment appointment) {
+        if (arrayList.size() > 0) {
+            Appointment tempAppointment = (Appointment) arrayList.get(arrayList.size() - 1);
+            Timestamp tempTimestamp = tempAppointment.getScheduledDate();
+            LocalDateTime tempLocalDateTime = tempTimestamp.toLocalDateTime();
+            tempTimestamp = Timestamp.valueOf(tempLocalDateTime.plusMinutes(30));
+            appointment.setScheduledDate(tempTimestamp);
+        }
+
+    }
+
+    //if the guess and educated guess failed it then iterates through time until it reaches a state with no conflicts.
+    private void resolveStaffConflict(Appointment appointment) {
+        while (checkForStaffConflict(appointment)) {
+            incrementTimeBy30(appointment);
         }
     }
 
+    // Looks for staff conflicts. A staff conflict is when there is no labor to operate the business.
+    private boolean checkForStaffConflict(Appointment appointment1) {
+        technitionList.clear();
+        int staffId1 = appointment1.getStaffId();
+        Timestamp timestamp1 = appointment1.getScheduledDate();
+        for (int i = 0; i < scheduledAppointments.size(); i++) {
+            Appointment appointment2 = (Appointment) scheduledAppointments.get(i);
+            int staffId2 = appointment2.getStaffId();
+            if (staffId1 == staffId2) {
+                technitionList.add(appointment2);
+            }
+        }
+        for (int i = 0; i < technitionList.size(); i++) {
+            Appointment appointment2 = (Appointment) technitionList.get(i);
+            Timestamp timestamp2 = appointment2.getScheduledDate();
+            if (timestamp1.compareTo(timestamp2) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //if the guess from the last index of that modality was wrong it increments by 30 minutes until the conflict is resolved.
+    private void resolveTimeConflict(Appointment appointment) {
+        while (checkForTimeConflict(appointment)) {
+            incrementTimeBy30(appointment);
+        }
+    }
+
+    private void incrementTimeBy30(Appointment appointment) {
+        Timestamp  timestamp = appointment.getScheduledDate();
+        LocalDateTime localDateTime = timestamp.toLocalDateTime();
+        timestamp = Timestamp.valueOf(localDateTime.plusMinutes(30));
+        appointment.setScheduledDate(timestamp);
+    }
+
+    //sets the initial guessed time values for appointments
     private void setScheduledAppointmentTimes() {
         for (int i = 0; i < unScheduledAppointments.size(); i++) {
             Appointment thisAppointment = (Appointment) unScheduledAppointments.get(i);
@@ -63,6 +126,7 @@ public class NewScheduler {
         }
     }
 
+    //gets the list pertaining to that appointments modality for the 2nd educated guess.
     private ArrayList getModalityList(Appointment appointment) {
         int modalityType = appointment.getModalityTypeId();
         if (modalityType == 1) {
@@ -74,6 +138,7 @@ public class NewScheduler {
         return mriList;
     }
 
+    // suggests a time with no information about conflicts other than those directly competing for a modality.
     private Timestamp getSuggestedTime(ArrayList arrayList) {
         if (arrayList.size() <= 0) {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -87,6 +152,7 @@ public class NewScheduler {
         }
     }
 
+    // Sorts appointments into their respective modality list and then sorts all the lists by time.
     private void sortModalityLists(){
         for (int i = 0; i < scheduledAppointments.size(); i++) {
             Appointment currentAppointment = (Appointment) scheduledAppointments.get(i);
@@ -111,6 +177,7 @@ public class NewScheduler {
         Collections.sort(unScheduledAppointments, timeSort);
     }
 
+    // house keeping between calls to the same context
     private void clearAllLists() {
         scheduledAppointments.clear();
         unScheduledAppointments.clear();
@@ -120,6 +187,7 @@ public class NewScheduler {
         mriList.clear();
     }
 
+    //Checks to see if the same patient is scheduled to be at more than one appointment at the same time.
     private boolean checkForTimeConflict(Appointment appointment1) {
         thisPatientList.clear();
         Timestamp timestamp1 = appointment1.getScheduledDate();
@@ -142,6 +210,7 @@ public class NewScheduler {
         return false;
     }
 
+    //rounds timestamps to get our nice 30 minutes intervals
     private Timestamp roundTime(Timestamp timestamp) {
 
         LocalDateTime localDateTime = timestamp.toLocalDateTime();
@@ -159,6 +228,7 @@ public class NewScheduler {
         return timestamp;
     }
 
+    // queries the database for all unprocessed appointments.
     private void populateUnScheduledAppointmentList() {
 
         Connection connection = null;
@@ -203,7 +273,8 @@ public class NewScheduler {
                             Integer.valueOf(patient_patientID),
                             Integer.valueOf(procedureId),
                             Integer.valueOf(procedureStatusID),
-                            Timestamp.valueOf(procedureDateOfRequest));
+                            Timestamp.valueOf(procedureDateOfRequest),
+                            Integer.valueOf(staffId));
                     unScheduledAppointments.add(appointment);
                 }
 
@@ -227,6 +298,7 @@ public class NewScheduler {
         }
     }
 
+    //Once the final schedule passes all checks it is added to the DB.
     private void addAppointmentsToDatabase() {
         Connection connection = null;
         try {
@@ -248,6 +320,9 @@ public class NewScheduler {
         }
     }
 
+    //Comparator from Daniel to be able to use Collections frame work.
+    //I know this is not what we talked about and your idea was better, but it would take more thought and planning.
+    // This was quick and easy to crank out all be it more typing.
     Comparator<Appointment> timeSort = new Comparator<Appointment>() {
         @Override
         public int compare(Appointment o1, Appointment o2) {
@@ -255,6 +330,7 @@ public class NewScheduler {
         }
     };
 
+    //The object to store all the permanent data needed to formulate the schedule.
     private class Appointment {
 
         //Need modalityTypeId from modalitytype table.
@@ -274,14 +350,22 @@ public class NewScheduler {
             this.scheduledDate = scheduledDate;
         }
 
-        Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest) {
+        Appointment(int modalityTypeId, int patientId, int procedureId, int procedureStatus, Timestamp dateOfRequest, int staffId) {
 
-
+            this.staffId = staffId;
             this.modalityTypeId = modalityTypeId;
             this.patientId = patientId;
             this.procedureId = procedureId;
             this.dateOfRequest = dateOfRequest;
             this.procedureStatus = procedureStatus;
+        }
+
+        public int getStaffId() {
+            return staffId;
+        }
+
+        public void setStaffId(int staffId) {
+            this.staffId = staffId;
         }
 
         public int getProcedureId() {
