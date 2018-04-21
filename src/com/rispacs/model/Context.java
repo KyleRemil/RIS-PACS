@@ -6,7 +6,7 @@ public class Context {
 
 	private final static Context instance = new Context();
 	private int x = 0;
-	private Scheduler scheduler = new Scheduler();
+	private NewScheduler newScheduler = new NewScheduler();
 
 	private boolean medicalFlag = false;
 
@@ -35,12 +35,12 @@ public class Context {
     }
 
     public void sortSchedule() {
-    	scheduler = new Scheduler();
-		scheduler.bookAppointments();
+    	newScheduler = new NewScheduler();
+		newScheduler.bookAppointment();
 	}
 
-    public Scheduler getScheduler() {
-    	return scheduler;
+    public NewScheduler getScheduler() {
+    	return newScheduler;
     }
     public String getSelectedModalityTypeID() {
 		return selectedModalityTypeID;
