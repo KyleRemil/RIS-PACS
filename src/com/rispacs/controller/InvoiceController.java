@@ -136,6 +136,10 @@ public class InvoiceController {
     	}
     }
 
+    private void changessss() {
+		String wantToSleep = "Because I am tired and it needs a change to push that DB change";
+	}
+
 	private void getInvoiceFromDB(int id) {
 		Connection connection = null;
 		String getInvoice = "SELECT procedurelist.procedureId, procedurelist.patientPaid, procedurelist.procedureScheduledDate, procedurelist.patient_patientID, " +
