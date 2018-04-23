@@ -1,32 +1,22 @@
 package com.rispacs.controller;
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
-import com.mysql.jdbc.StringUtils;
-import com.rispacs.model.ArrivedPatientsModel;
-import com.rispacs.model.Context;
-import com.rispacs.model.ModalityImage;
-import com.rispacs.model.PatientModel;
-import com.rispacs.model.ProcedureListModel;
+import com.rispacs.model.*;
 
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.util.StringConverter;
+
+import javax.xml.crypto.Data;
 
 public class InvoiceController {
 
@@ -37,45 +27,46 @@ public class InvoiceController {
 	@FXML private Text PatientName;
 	/////PatientTable and its 2 columns
 	@FXML private TableView<PatientModel> PatientTable;
+	@FXML private TableView<PatientInvoice> PatientInvoiceTable;
 	@FXML private TableColumn<PatientModel, String> InvoiceNumberCol;
 	@FXML private TableColumn<PatientModel, String> PatientNameCol;
 	/////Invoice info table
 	@FXML private TableColumn<ProcedureListModel, String> DateCol;
 	@FXML private TableColumn<ProcedureListModel, String> ItemCol;
-	@FXML private TableColumn<ProcedureListModel, String> DescriptionCol;
+	@FXML private TableColumn<ProcedureListModel, String> DecriptionCol;
 	@FXML private TableColumn<ProcedureListModel, String> ItemCountCol;
 	@FXML private TableColumn<ProcedureListModel, String> CostPerCol;
 	@FXML private TableColumn<ProcedureListModel, String> DiscountCol;
 	@FXML private TableColumn<ProcedureListModel, String> BalanceCol;
 	@FXML private TableColumn<ProcedureListModel, String> PaidCol;
 	/////Pay button
-	@FXML private Button PayButton;
 	/////Observables
 	private ObservableList<PatientModel> arrivedPatientArray;
+	private ObservableList<PatientInvoice> patientInvoiceObservableList;
+
+	private ArrayList invoiceList = new ArrayList();
 
 	/////Invoice Controller
 	public void initialize()
 	{
+//		populateInvoiceTable();
 		System.out.println("Loading Patient Data");
 		/////Populate patient list table, invoice table still empty
 		Populate_Patient_Table();
 
 		///// Hitting the pay button
-		PayButton.setOnMouseReleased(event -> {
-    		if(PayButton.getText() != "Paid")
-    		{
-    			///check current patient paid status from database
-    			//set values acordingly
-    			PayButton.setText("Paid");
-    			PayButton.setDisable(true);
-    			/// if pay is successfully pressed, update PatientPaid value for that patient
-    		}
-    	});
+
+
 		PatientTable.setOnMouseClicked(event -> {
     		if(PatientTable.getSelectionModel().getSelectedItem() != null)
     		{
     			String patientID = PatientTable.getSelectionModel().getSelectedItem().getPatientID().toString();
-    			Populate_Invoice_Table(patientID);
+    			invoiceList.clear();
+    			if (patientInvoiceObservableList != null) {
+					patientInvoiceObservableList.clear();
+				}
+    			getInvoiceFromDB(Integer.valueOf(patientID));
+    			populateInvoiceTable();
     			Populate_Patient_Info_Table(patientID);
     			//Table_ProcedureImages.setItems(null);
     			//ImageView_patientProcedureImage.setImage(null);
@@ -145,10 +136,135 @@ public class InvoiceController {
     	}
     }
 
-	private void Populate_Invoice_Table(String patientID)
-	{
-
+	private void getInvoiceFromDB(int id) {
+		Connection connection = null;
+		String getInvoice = "SELECT procedurelist.procedureId, procedurelist.patientPaid, procedurelist.procedureScheduledDate, procedurelist.patient_patientID, " +
+				"modalityproceduretype.modalityProcedureTypeId\n" +
+				"FROM procedurelist, patient, modalityproceduretype\n" +
+				"WHERE patient.patientID = procedurelist.patient_patientID AND " +
+				"procedurelist.procedurestatus_procedureStatusID >= 4 AND procedurelist.procedurestatus_procedureStatusID <= " +
+				"5 AND procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId AND procedurelist.patient_patientID = " + id +"; ";
+	try {
+		connection = DatabaseHandler.getConnection();
+		ResultSet resultSet = connection.createStatement().executeQuery(getInvoice);
+		while (resultSet.next()) {
+			String procedureId = resultSet.getString("procedureId");
+			String procedureScheduledDate = resultSet.getString("procedureScheduledDate");
+			String patient_patientID = resultSet.getString("patient_patientID");
+			String modalityProcedureType = resultSet.getString("modalityProcedureTypeId");
+			String paid = resultSet.getString("patientPaid");
+			PatientInvoice patientInvoice = new PatientInvoice(Timestamp.valueOf(procedureScheduledDate),
+					Integer.valueOf(procedureId), Integer.valueOf(patient_patientID), Integer.valueOf(modalityProcedureType)
+					,Double.valueOf(paid));
+			invoiceList.add(patientInvoice);
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
 	}
+	finally {
+		try {
+			connection.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	}
+
+	private double getCost(int procedure) {
+		if (procedure == 1) {
+			return 98.00;
+		}
+		if (procedure == 2) {
+			return 92.00;
+		}
+		if (procedure == 3) {
+			return 105.00;
+		}
+		if (procedure == 4) {
+			return 89.00;
+		}
+		if (procedure == 5) {
+			return 78;
+		}
+		if (procedure == 6) {
+			return 233.00;
+		}
+		if (procedure == 7) {
+			return 400.00;
+		}
+		if (procedure == 8) {
+			return 170.00;
+		} else {
+			return 0.00;
+		}
+	}
+
+	private String getDescription(int input) {
+		if (input == 1) {
+			return "Left Arm X-Ray";
+		}
+		if (input == 2) {
+			return "Right Arm X-Ray";
+		}
+		if (input == 3) {
+			return "Left Leg X-Ray";
+		}
+		if (input == 4) {
+			return "Right Leg X-Ray";
+		}
+		if (input == 5) {
+			return "Torso X-Ray";
+		}
+		if (input == 6) {
+			return "Groin X-Ray";
+		}
+		if (input == 7) {
+			return "Brain CT-Scan";
+		}
+		if (input == 8) {
+			return "Chest Cavity MRI";
+		} else {
+			return "Empty";
+		}
+	}
+
+	private void populateInvoiceTable() {
+		patientInvoiceObservableList = FXCollections.observableArrayList();
+		for (int i = 0; i < invoiceList.size(); i++) {
+			PatientInvoice patientInvoice = (PatientInvoice) invoiceList.get(i);
+			patientInvoice.setDescription(getDescription(patientInvoice.getModalityType()));
+			patientInvoice.setItem(patientInvoice.getModalityType());
+			patientInvoice.setNumberOfIitems(1);
+			patientInvoice.setCost(getCost(patientInvoice.getModalityType()));
+			patientInvoice.setDiscount(0.00);
+			if (patientInvoice.getBalance() > 0) {
+				patientInvoice.setBalance(patientInvoice.getCost());
+			} else {
+				patientInvoice.getBalance();
+			}
+			if (patientInvoice.getPaid() > 0) {
+				patientInvoice.setCost(0.00);
+			}
+			if (patientInvoice.getPaid() ==0) {
+				patientInvoice.setBalance(patientInvoice.getCost());
+			}
+
+			patientInvoiceObservableList.add(patientInvoice);
+		}
+		PatientInvoiceTable.setItems(patientInvoiceObservableList);
+
+		DateCol.setCellValueFactory(new PropertyValueFactory<>("dateOfService"));
+		ItemCol.setCellValueFactory(new PropertyValueFactory<>("item"));
+		ItemCountCol.setCellValueFactory(new PropertyValueFactory<>("numberOfIitems"));
+		CostPerCol.setCellValueFactory(new PropertyValueFactory<>("cost"));
+		DiscountCol.setCellValueFactory(new PropertyValueFactory<>("discount"));
+		PaidCol.setCellValueFactory(new PropertyValueFactory<>("paid"));
+		BalanceCol.setCellValueFactory(new PropertyValueFactory<>("balance"));
+		DecriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+		PatientInvoiceTable.setItems(patientInvoiceObservableList);
+	}
+
 	 public void setPatientInfo()
 	    {
 	    	PatientModel patient = PatientTable.getSelectionModel().getSelectedItem();
@@ -156,6 +272,25 @@ public class InvoiceController {
 	        PatientName.setText(patient.getPatientLastName() + ", " + patient.getPatientFirstName() + " " + patient.getPatientMiddleName().charAt(0)+ ".");
 	        PatientGender.setText(patient.getPatientGender());
 	    }
+	@FXML
+	private void pay() {
+		int patientId = Integer.valueOf(PatientTable.getSelectionModel().getSelectedItem().getPatientID());
+		double paid = PatientInvoiceTable.getSelectionModel().getSelectedItem().getCost();
+		Connection connection = null;
+		String updateProcedurelist = "UPDATE procedurelist\n" +
+				"SET procedurelist.procedurestatus_procedureStatusID = 5, procedurelist.patientPaid = "+ paid +"\n" +
+				"WHERE procedurelist.procedurestatus_procedureStatusID = 4 AND procedurelist.patient_patientID = "+ patientId + ";";
+
+		try {
+			connection = DatabaseHandler.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(updateProcedurelist);
+			preparedStatement.executeUpdate();
+			System.out.println("pay");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		}
+
 
 }
 

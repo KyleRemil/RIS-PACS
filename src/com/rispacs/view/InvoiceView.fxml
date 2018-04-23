@@ -46,7 +46,7 @@
           </font>
         </Text>
         <Text font="$x1" layoutX="96.0" layoutY="22.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invoice No Value" wrappingWidth="168.13671875" />
-        <Button id="PayButton" layoutX="911.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.9609375" prefWidth="94.119140625" text="Pay Bill" fx:id="PayButton" />
+        <Button id="PayButton" layoutX="911.0" layoutY="240.0" mnemonicParsing="false" prefHeight="27.9609375" prefWidth="94.119140625" text="Pay Bill" fx:id="payBtn" onAction="#pay" />
       </children>
     </Pane>
     <Pane layoutX="306.0" layoutY="187.0" prefHeight="99.0" prefWidth="1048.0" style="-fx-background-color: green;">
