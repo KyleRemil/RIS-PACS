@@ -9,6 +9,7 @@ import com.rispacs.model.*;
 import application.DatabaseHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -39,6 +40,9 @@ public class InvoiceController {
 	@FXML private TableColumn<ProcedureListModel, String> DiscountCol;
 	@FXML private TableColumn<ProcedureListModel, String> BalanceCol;
 	@FXML private TableColumn<ProcedureListModel, String> PaidCol;
+
+    @FXML private Button Button_refreshUnpaidProcedureTable;
+    @FXML private Button payBtn;
 	/////Pay button
 	/////Observables
 	private ObservableList<PatientModel> arrivedPatientArray;
@@ -62,10 +66,16 @@ public class InvoiceController {
     		{
     			String patientID = PatientTable.getSelectionModel().getSelectedItem().getPatientID().toString();
     			invoiceList.clear();
-    			if (patientInvoiceObservableList != null) {
+
+    			if (patientInvoiceObservableList != null)
+    			{
 					patientInvoiceObservableList.clear();
 				}
-    			getInvoiceFromDB(Integer.valueOf(patientID));
+    			if (!patientID.equals(null))
+    			{
+    				getInvoiceFromDB(Integer.valueOf(patientID));
+    			}
+
     			populateInvoiceTable();
     			Populate_Patient_Info_Table(patientID);
     			//Table_ProcedureImages.setItems(null);
@@ -136,42 +146,51 @@ public class InvoiceController {
     	}
     }
 
-    private void changessss() {
-		String wantToSleep = "Because I am tired and it needs a change to push that DB change";
-	}
 
-	private void getInvoiceFromDB(int id) {
+	private void getInvoiceFromDB(int id)
+	{
 		Connection connection = null;
-		String getInvoice = "SELECT procedurelist.procedureId, procedurelist.patientPaid, procedurelist.procedureScheduledDate, procedurelist.patient_patientID, " +
-				"modalityproceduretype.modalityProcedureTypeId\n" +
-				"FROM procedurelist, patient, modalityproceduretype\n" +
-				"WHERE patient.patientID = procedurelist.patient_patientID AND " +
-				"procedurelist.procedurestatus_procedureStatusID >= 4 AND procedurelist.procedurestatus_procedureStatusID <= " +
-				"5 AND procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId AND procedurelist.patient_patientID = " + id +"; ";
-	try {
-		connection = DatabaseHandler.getConnection();
-		ResultSet resultSet = connection.createStatement().executeQuery(getInvoice);
-		while (resultSet.next()) {
-			String procedureId = resultSet.getString("procedureId");
-			String procedureScheduledDate = resultSet.getString("procedureScheduledDate");
-			String patient_patientID = resultSet.getString("patient_patientID");
-			String modalityProcedureType = resultSet.getString("modalityProcedureTypeId");
-			String paid = resultSet.getString("patientPaid");
-			PatientInvoice patientInvoice = new PatientInvoice(Timestamp.valueOf(procedureScheduledDate),
-					Integer.valueOf(procedureId), Integer.valueOf(patient_patientID), Integer.valueOf(modalityProcedureType)
-					,Double.valueOf(paid));
-			invoiceList.add(patientInvoice);
+		String getInvoice = "SELECT procedurelist.procedureId, procedurelist.patientPaid, procedurelist.procedureScheduledDate, procedurelist.patient_patientID, modalityproceduretype.modalityProcedureTypeId "
+				+ " FROM procedurelist, patient, modalityproceduretype "
+				+ " WHERE patient.patientID = procedurelist.patient_patientID "
+				+ " AND procedurelist.procedurestatus_procedureStatusID >= 4 "
+				+ " AND procedurelist.procedurestatus_procedureStatusID <= 5 "
+				+ " AND procedurelist.modalityProcedureTypeId = modalityproceduretype.modalityProcedureTypeId "
+				+ " AND procedurelist.patientPaid = 0 "
+				+ " AND procedurelist.patient_patientID =" + id;
+		try
+		{
+			connection = DatabaseHandler.getConnection();
+			ResultSet resultSet = connection.createStatement().executeQuery(getInvoice);
+
+			while (resultSet.next())
+			{
+				String procedureId = resultSet.getString("procedureId");
+				String procedureScheduledDate = resultSet.getString("procedureScheduledDate");
+				String patient_patientID = resultSet.getString("patient_patientID");
+				String modalityProcedureType = resultSet.getString("modalityProcedureTypeId");
+				String paid = resultSet.getString("patientPaid");
+				PatientInvoice patientInvoice = new PatientInvoice(Timestamp.valueOf(procedureScheduledDate),
+						Integer.valueOf(procedureId), Integer.valueOf(patient_patientID), Integer.valueOf(modalityProcedureType)
+						,Double.valueOf(paid));
+				invoiceList.add(patientInvoice);
+			}
 		}
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	finally {
-		try {
-			connection.close();
-		} catch (Exception e) {
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
-	}
+		finally
+		{
+			try
+			{
+				connection.close();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private double getCost(int procedure) {
@@ -280,20 +299,44 @@ public class InvoiceController {
 	private void pay() {
 		int patientId = Integer.valueOf(PatientTable.getSelectionModel().getSelectedItem().getPatientID());
 		double paid = PatientInvoiceTable.getSelectionModel().getSelectedItem().getCost();
-		Connection connection = null;
-		String updateProcedurelist = "UPDATE procedurelist\n" +
-				"SET procedurelist.procedurestatus_procedureStatusID = 5, procedurelist.patientPaid = "+ paid +"\n" +
-				"WHERE procedurelist.procedurestatus_procedureStatusID = 4 AND procedurelist.patient_patientID = "+ patientId + ";";
 
-		try {
+		Connection connection = null;
+		String updateProcedurelist = "UPDATE procedurelist SET patientPaid= 1 WHERE procedureId = ?";
+
+		try
+		{
+			String patientProcedureID = Integer.toString(PatientInvoiceTable.getSelectionModel().getSelectedItem().getProcedureId());
+
 			connection = DatabaseHandler.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(updateProcedurelist);
-			preparedStatement.executeUpdate();
+			preparedStatement.setString(1,patientProcedureID);
+			preparedStatement.execute();
 			System.out.println("pay");
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
+		finally
+		{
+			try
+			{
+				Populate_Patient_Table();
+				populateInvoiceTable();
+				connection.close();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
+	}
+
+    @FXML
+    void refreshUnpaidProcedureTable(ActionEvent event)
+    {
+    	Populate_Patient_Table();
+    }
 
 
 }
