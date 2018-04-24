@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 
 
 public class Main extends Application {
-
+// Run this method to start the program.
 	@Override
 	public void start(Stage primaryStage) {
 		try {

@@ -6,7 +6,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.StringUtils;
-import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.Context;
 import com.rispacs.model.ModalityImage;
 import com.rispacs.model.PatientModel;
@@ -34,19 +33,13 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 public class PhysicianController {
-
+// This controller is the workhorse for combining data into one menu.
     @FXML private TableView<ProcedureListModel> Table_patientRadiologyHistory;
     @FXML private TextArea textarea_physicanNoteBox;
-    /*@FXML private TableView<ArrivedPatientsModel> Table_avaliablePatients;
-    @FXML private TableColumn<ArrivedPatientsModel, String> column_patientID;
-    @FXML private TableColumn<ArrivedPatientsModel, String> column_patientName;*/
+
     @FXML private TableView<PatientModel> Table_avaliablePatients;
     @FXML private TableColumn<PatientModel, String> column_patientID;
     @FXML private TableColumn<PatientModel, String> column_patientName;
-    @FXML private Button Button_refreshAvaliblePatientTable;
-    @FXML private Button Button_deleteRequest;
-    @FXML private Button Button_updateRequest;
-    @FXML private Button Button_sendRequest;
     @FXML private Button Button_AddAppointment;
     @FXML private ComboBox<ModalityName> comboBox_modalityName;
     @FXML private ComboBox<ModalityProcedureType> comboBox_modalityProcedureType;
@@ -58,11 +51,8 @@ public class PhysicianController {
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureScheduledDate;
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureStatus;
     @FXML private TableColumn<ProcedureListModel, String> column_ProcedureId;
-    @FXML private Button Button_refreshPatientHistory;
-    @FXML private Button Button_reset;
 
 
-    //private ObservableList<ArrivedPatientsModel> arrivedPatientArray;
     private ObservableList<PatientModel> arrivedPatientArray;
     private ObservableList<ModalityTechnician> modalityTechnicianObservableList;
     private ObservableList<ModalityName> ModalityNameObservableList;

@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
 import javax.xml.crypto.Data;
 
 public class InvoiceController {
-
+// This class handles the invoice and payment.
 	//////Patient text info
 	@FXML private Text PatientID;
 	@FXML private Text PatientAge;
@@ -94,7 +94,7 @@ public class InvoiceController {
 	}
 	@FXML
     void Populate_Patient_Table()//ActionEvent event)
-    {
+    {// populates the patients table that displays information in the green region.
     	System.out.println("Populating Patient Table");
     	Connection connection = null;
         try
@@ -146,9 +146,8 @@ public class InvoiceController {
     	}
     }
 
-
 	private void getInvoiceFromDB(int id)
-	{
+	{// Queries the database for the information needed to create a patientInvoice
 		Connection connection = null;
 		String getInvoice = "SELECT procedurelist.procedureId, procedurelist.patientPaid, procedurelist.procedureScheduledDate, procedurelist.patient_patientID, modalityproceduretype.modalityProcedureTypeId "
 				+ " FROM procedurelist, patient, modalityproceduretype "
@@ -194,6 +193,7 @@ public class InvoiceController {
 	}
 
 	private double getCost(int procedure) {
+		// random numbers to be the cost of the respective procedure.
 		if (procedure == 1) {
 			return 98.00;
 		}
@@ -223,6 +223,7 @@ public class InvoiceController {
 	}
 
 	private String getDescription(int input) {
+		// The descriptions of the procedures referenced by an int in the db.
 		if (input == 1) {
 			return "Left Arm X-Ray";
 		}
@@ -252,6 +253,7 @@ public class InvoiceController {
 	}
 
 	private void populateInvoiceTable() {
+		// Populates the list that you click the individual patient invoices from.
 		patientInvoiceObservableList = FXCollections.observableArrayList();
 		for (int i = 0; i < invoiceList.size(); i++) {
 			PatientInvoice patientInvoice = (PatientInvoice) invoiceList.get(i);
@@ -297,6 +299,7 @@ public class InvoiceController {
 	    }
 	@FXML
 	private void pay() {
+		//Changes the status of the invoice which removes it from the list, but keeps the information in the db.
 		int patientId = Integer.valueOf(PatientTable.getSelectionModel().getSelectedItem().getPatientID());
 		double paid = PatientInvoiceTable.getSelectionModel().getSelectedItem().getCost();
 

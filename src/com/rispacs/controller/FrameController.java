@@ -14,7 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class FrameController {
-
+// This class controls what tabs are available to who.
 	@FXML private MenuItem menu_close;
     @FXML private MenuItem menu_about;
     @FXML private MenuItem menu_logout;

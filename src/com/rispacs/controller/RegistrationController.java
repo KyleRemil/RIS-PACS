@@ -12,7 +12,6 @@ import java.util.Date;
 
 import com.jfoenix.controls.JFXDatePicker;
 import com.mysql.jdbc.StringUtils;
-import com.rispacs.model.ArrivedPatientsModel;
 import com.rispacs.model.PatientModel;
 
 import application.DatabaseHandler;
@@ -23,22 +22,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 public class RegistrationController {
 
-    @FXML private Tab registrationTab;
     @FXML private Button registration_Button_RegisterNewPatient;
-    @FXML private Text registration_Title_basicInformation;
-    @FXML private Text registration_Title_ContactInformation;
-    @FXML private Text registration_Title_ContactInformation2;
     @FXML private ComboBox<MaritalStatus> registration_ComboBox_PatientMaritalStatus;
     @FXML private ComboBox<Gender> registration_ComboBox_PatientGender;
 
@@ -62,12 +55,9 @@ public class RegistrationController {
     @FXML private TextField TextField_patientSearchLastName;
     @FXML private Button Button_SearchPatient;
 
-    @FXML private Button registration_Button_Clear;
-
     @FXML private TableView<PatientModel> Table_searchPatient;
     @FXML private TableColumn<PatientModel, String> Column_patientID;
     @FXML private TableColumn<PatientModel, String> Column_patientName;
-    @FXML private TableColumn<PatientModel, String> Column_patientLastVisit;
 
     private ObservableList<PatientModel> SearchPatientList;
     private ObservableList<MaritalStatus> maritalStatusList;

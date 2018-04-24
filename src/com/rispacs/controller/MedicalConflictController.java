@@ -30,6 +30,8 @@ public class MedicalConflictController{
 
     PhysicianController physicianController;
 
+    //Certain operations have requirements the technician needs to be aware of. This class finds and displays the
+	//information for that procedure.
     public void initialize(){
     	getMedicalFlags(Context.getInstance().getSelectedModalityTypeID());
     	physicianController = new PhysicianController();

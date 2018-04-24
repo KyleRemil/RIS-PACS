@@ -28,12 +28,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 
-//imports for testing login view, without messing with main.java
-//import javafx.application.Application;
-//import java.sql.Statement;
-//import java.util.ArrayList;
-
-//testing imports end
 
 
 public class LoginController //extends Application
@@ -178,6 +172,7 @@ public class LoginController //extends Application
 			e.printStackTrace();
 		}
     }
+    // Old testing stuff Below
 //    private void setRole(int role) {
 //    	Context.getInstance().setRole(role);
 //    }
