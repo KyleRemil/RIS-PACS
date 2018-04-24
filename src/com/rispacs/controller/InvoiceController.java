@@ -330,6 +330,8 @@ public class InvoiceController {
 				e.printStackTrace();
 			}
 		}
+		getInvoiceFromDB(patientId);
+		populateInvoiceTable();
 	}
 
     @FXML

@@ -142,13 +142,27 @@ public class NewScheduler {
     private Timestamp getSuggestedTime(ArrayList arrayList) {
         if (arrayList.size() <= 0) {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            return roundTime(currentTime);
+            currentTime = roundTime(currentTime);
+            LocalDateTime initialDateTime = currentTime.toLocalDateTime();
+            initialDateTime = initialDateTime.plusMinutes(30);
+            currentTime = Timestamp.valueOf(initialDateTime);
+            return currentTime;
         } else {
             int index = arrayList.size() - 1;
             Appointment appointment = (Appointment) arrayList.get(index);
             LocalDateTime localDateTime = appointment.getScheduledDate().toLocalDateTime();
             Timestamp sugestedTime = Timestamp.valueOf(localDateTime.plusMinutes(30));
-            return sugestedTime;
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis()); //TODO test with dates before the current
+            if (sugestedTime.before(currentTime)) {
+                currentTime = roundTime(currentTime);
+                LocalDateTime currentDateTime = currentTime.toLocalDateTime();
+                currentDateTime = currentDateTime.plusMinutes(30);
+                currentTime = Timestamp.valueOf(currentDateTime);
+                return currentTime;
+            } else {
+                return roundTime(sugestedTime);
+
+            }
         }
     }
 
@@ -200,7 +214,7 @@ public class NewScheduler {
            }
         }
         for (int i = 0; i < thisPatientList.size(); i++) {
-            Appointment appointment2 = (Appointment) scheduledAppointments.get(i);
+            Appointment appointment2 = (Appointment) thisPatientList.get(i);
             Timestamp timestamp2 = appointment2.getScheduledDate();
             int patient2Id = appointment2.getPatientId();
             if (patient1Id == patient2Id && timestamp1.compareTo(timestamp2) == 0) {
