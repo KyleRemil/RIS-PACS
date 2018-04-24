@@ -22,6 +22,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -36,17 +37,17 @@ public class RegistrationController {
     @FXML private Tab registrationTab;
     @FXML private Button registration_Button_RegisterNewPatient;
     @FXML private Text registration_Title_basicInformation;
-    @FXML private Text registration_Title_PatientName;
-    @FXML private Text registration_Title_PatientDOB;
-    @FXML private Text registration_Title_PatientGender;
-    @FXML private Text registration_Title_PatientSSN;
-    @FXML private Text registration_Title_PatientMaritalStatus;
-    @FXML private Text registration_Title_PatientHeight;
-    @FXML private Text registration_Title_PatientWeight;
     @FXML private Text registration_Title_ContactInformation;
     @FXML private Text registration_Title_ContactInformation2;
     @FXML private ComboBox<MaritalStatus> registration_ComboBox_PatientMaritalStatus;
     @FXML private ComboBox<Gender> registration_ComboBox_PatientGender;
+
+    @FXML private Label registration_Title_PatientName;
+    @FXML private Label registration_Title_PatientDOB;
+    @FXML private Label registration_Title_PatientSSN;
+    @FXML private Label registration_Title_PatientHeight;
+    @FXML private Label registration_Title_PatientWeight;
+    @FXML private Label registration_Title_PatientGender;
 
     @FXML private TextField registration_TextField_PatientMiddleName;
     @FXML private TextField registration_TextField_PatientSSN;
@@ -238,8 +239,15 @@ public class RegistrationController {
 		//TextField_patientSearchLastName.textProperty().setValue("hello!");
 
     	////System.out.println("RequestRegisterNewPatient() Called");
-    	if (validateRequiredFields() == true)	//If no required fields are empty
+    	if (validateRequiredFields())	//If no required fields are empty
     	{
+    		registration_Title_PatientName.setStyle(null);
+    		registration_Title_PatientSSN.setStyle(null);
+    		registration_Title_PatientSSN.setStyle(null);
+    		registration_Title_PatientDOB.setStyle(null);
+    		registration_Title_PatientHeight.setStyle(null);
+    		registration_Title_PatientWeight.setStyle(null);
+    		registration_Title_PatientGender.setStyle(null);
     		insertNewPatient();
     	}
     	else
@@ -251,16 +259,17 @@ public class RegistrationController {
     {
     	//System.out.println("insertNewPatient() Called");
     	Connection connection = null;
-    	String patientFirstName = registration_TextField_PatientFirstName.getText().toString();
-    	String patientMiddleName = registration_TextField_PatientMiddleName.getText().toString();
-    	String patientLastName = registration_TextField_PatientLastName.getText().toString();
-    	String patientSSN = registration_TextField_PatientSSN.getText().toString();
-    	String patientHeight = registration_TextField_PatientHeight.getText().toString();
-    	String patientWeight = registration_TextField_PatientWeight.getText().toString();
-    	String patientGender = registration_ComboBox_PatientGender.getSelectionModel().getSelectedItem().getGenderID();
         try
     	{
-    		connection = DatabaseHandler.getConnection();
+        	String patientFirstName = registration_TextField_PatientFirstName.getText().toString();
+        	String patientMiddleName = registration_TextField_PatientMiddleName.getText().toString();
+        	String patientLastName = registration_TextField_PatientLastName.getText().toString();
+        	String patientSSN = registration_TextField_PatientSSN.getText().toString();
+        	String patientHeight = registration_TextField_PatientHeight.getText().toString();
+        	String patientWeight = registration_TextField_PatientWeight.getText().toString();
+        	String patientGender = registration_ComboBox_PatientGender.getSelectionModel().getSelectedItem().getGenderID();
+
+        	connection = DatabaseHandler.getConnection();
     		String insertNewPatient = "INSERT INTO patient ("
     							+ "patientFirstName,"
     							+ "patientMiddleName,"
@@ -282,7 +291,6 @@ public class RegistrationController {
     		preparedStatement.setDate (8, java.sql.Date.valueOf(registration_TextField_PatientDOB.getValue()));
 
     		preparedStatement.execute();
-
     	}
     	catch(Exception exception)
     	{
@@ -303,23 +311,82 @@ public class RegistrationController {
     	}
     }
     private boolean validateRequiredFields(){
-    	//System.out.println("validateRequiredFields() Called");
+    	System.out.println("validateRequiredFields() Called");
     	boolean isValidated = true;
 
-    	if(registration_TextField_PatientFirstName.getText().trim().isEmpty())
+    	if(registration_TextField_PatientFirstName.getText().trim().equals(null) ||registration_TextField_PatientFirstName.getText().trim().equals(""))
     	{
+    		registration_Title_PatientName.setStyle("-fx-text-fill: red;");
     		System.out.println("First Name cannot be empty");
     		isValidated = false;
     	}
-    	else if (registration_TextField_PatientLastName.getText().trim().isEmpty())
+    	if (registration_TextField_PatientLastName.getText().trim().equals(null) ||registration_TextField_PatientLastName.getText().trim().equals("") )
     	{
+    		registration_Title_PatientName.setStyle("-fx-text-fill: red;");
     		System.out.println("Last Name cannot be empty");
     		isValidated = false;
     	}
-    	else
+    	if (registration_TextField_PatientSSN.getText().trim().equals(null) || registration_TextField_PatientSSN.getText().trim().equals(""))
     	{
-    		isValidated = true;
+    		registration_Title_PatientSSN.setStyle("-fx-text-fill: red;");
+    		System.out.println("SSN cannot be empty");
+    		isValidated = false;
     	}
+    	if (registration_TextField_PatientDOB.getValue() == null)
+    	{
+    		registration_Title_PatientDOB.setStyle("-fx-text-fill: red;");
+    		System.out.println("Patient DOB cannot be empty");
+    		isValidated = false;
+    	}
+    	if (registration_TextField_PatientHeight.getText().trim().equals(null)|| registration_TextField_PatientHeight.getText().trim().equals(""))
+    	{
+    		registration_Title_PatientHeight.setStyle("-fx-text-fill: red;");
+    		System.out.println("Patient Height must not be empty");
+    		isValidated = false;
+    	}
+    	if (registration_TextField_PatientWeight.getText().trim().equals(null)|| registration_TextField_PatientWeight.getText().trim().equals(""))
+    	{
+    		registration_Title_PatientWeight.setStyle("-fx-text-fill: red;");
+    		System.out.println("Patient weight must not be empty");
+    		isValidated = false;
+    	}
+    	if (registration_ComboBox_PatientGender.getSelectionModel().isEmpty() == true)
+    	{
+    		registration_Title_PatientGender.setStyle("-fx-text-fill: red;");
+    		System.out.println("Patient Gender must not be empty");
+    		isValidated = false;
+    	}
+
+
+    	if(!registration_TextField_PatientFirstName.getText().isEmpty())
+    	{
+    		registration_Title_PatientName.setStyle(null);
+    	}
+    	if(!registration_TextField_PatientLastName.getText().isEmpty())
+    	{
+    		registration_Title_PatientName.setStyle(null);
+    	}
+    	if (!registration_TextField_PatientSSN.getText().isEmpty())
+    	{
+    		registration_Title_PatientSSN.setStyle(null);
+    	}
+    	if (registration_TextField_PatientDOB.getValue() != null)
+    	{
+    		registration_Title_PatientDOB.setStyle(null);
+    	}
+    	if (!registration_TextField_PatientHeight.getText().isEmpty())
+    	{
+    		registration_Title_PatientHeight.setStyle(null);
+    	}
+    	if (!registration_TextField_PatientWeight.getText().isEmpty())
+    	{
+    		registration_Title_PatientWeight.setStyle(null);
+    	}
+    	if (registration_ComboBox_PatientGender.getSelectionModel().isEmpty() != true)
+    	{
+    		registration_Title_PatientGender.setStyle(null);
+    	}
+
 		return isValidated;
     }
     @FXML
