@@ -25,6 +25,16 @@ RIS-PACS
 
         1. Login with the username "admin" and the password "admin". This will let you see every thing from a
         development view with out logging in and out as different users.
+            Example users and login creditials:
+                 Doctor
+                    username: doc1
+                    password: doc1
+                 Radiologist
+                    username: rad
+                    password: rad
+                 Technician
+                    username: tech1
+                    password: tech1
         2. Start in the Registration tab. The work flows through the tabs to complete the different tasks in order from
         left to right.
         3. In the Registration tab, enter the following information to create a patient: patient's name, middle initial,
