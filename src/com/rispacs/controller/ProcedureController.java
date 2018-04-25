@@ -83,7 +83,7 @@ public class ProcedureController {
 	@FXML
     void FinalizeProcedure(ActionEvent event)
 	{
-		System.out.println("FinalizeProcedure() Called");
+		//System.out.println("FinalizeProcedure() Called");
     	Connection connection = null;
     	try
     	{
@@ -120,12 +120,12 @@ public class ProcedureController {
     @FXML
     void SaveImage(ActionEvent event)
     {
-    	System.out.println("SaveImage() Called");
+    	//System.out.println("SaveImage() Called");
     	Connection connection = null;
     	try
     	{
     		String selectedProcedureID = Context.getInstance().getCurrentProcedureID();
-        	System.out.println(selectedProcedureID);
+        	//System.out.println(selectedProcedureID);
     		connection = DatabaseHandler.getConnection();
     		String fileName ="\""+ selectedFile.getName()+ "\"";
         	String filePath = selectedFile.getPath();
@@ -156,11 +156,11 @@ public class ProcedureController {
         			preparedStatement.setString(4, imageNotes);
         			if (selectedProcedureID == null)
         			{
-        				System.out.println("Selected ProcedureID is null");
+        				//System.out.println("Selected ProcedureID is null");
         			}
         			else
         			{
-        				System.out.println(preparedStatement.toString());
+        				//System.out.println(preparedStatement.toString());
             			preparedStatement.execute();
         			}
         			fileinputstream.close();
@@ -223,7 +223,7 @@ public class ProcedureController {
     @FXML
     void getCurrentProcedureImages(ActionEvent event)
     {
-    	System.out.println("getCurrentProcedureImages() Called");
+    	//System.out.println("getCurrentProcedureImages() Called");
     	String currentProcedureID = Context.getInstance().getCurrentProcedureID();
     	Connection connection = null;
         try

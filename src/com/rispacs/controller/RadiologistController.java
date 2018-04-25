@@ -66,33 +66,33 @@ public class RadiologistController {
     		}
 		});*/
     	/*Table_patients.getContextMenu().setOnAction(event -> {
-    		System.out.println("Contect Menu Action");
+    		//System.out.println("Contect Menu Action");
 		});*/
     	/*Table_patients.selectionModelProperty().addListener((ov, oldVal, newVal) ->
     	{
-			System.out.println(oldVal + " to " + newVal);
+			//System.out.println(oldVal + " to " + newVal);
         });*/
     	/*Table_patients.getSelectionModel().getSelectedIndices().addListener(new ListChangeListener<Integer>()
         {
             @Override
             public void onChanged(Change<? extends Integer> change){
-            	System.out.println("Listener");
+            	//System.out.println("Listener");
             }
         });*/
     	Table_patients.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
     	    if (newSelection != null) {
-    	    	System.out.println("selected item listener");
+    	    	//System.out.println("selected item listener");
     			currentProcedureID = newSelection.getprocedureID();
     			setPatientInfo();
     			getAllRelevantPatientProcedures();
     			//getProcedureImages(Table_patients.getSelectionModel().getSelectedItem().getprocedureID());
-    			
+
     	    }
     	});
     	//Table_patientProcedures.getSelectionModel().selectedIndexProperty().addListener((obs, oldSelection, newSelection) -> {
 		Table_patientProcedures.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
     	    if (newSelection != null) {
-    	    	System.out.println("selected index listener " + newSelection);
+    	    	//System.out.println("selected index listener " + newSelection);
     	    	//Needs to: set images, and set button disabled based on if index is 0
     	    	if(newSelection.getprocedureID().equals(currentProcedureID)){
     	    		Button_submitReport.setDisable(false);
@@ -136,7 +136,7 @@ public class RadiologistController {
     			//setPreviewImage(img);
     		}
     	});
-    	
+
     	//auto load pending procedure list when view is loaded on start-up
     	getAllCompletedProcedure();
     }
@@ -200,7 +200,7 @@ public class RadiologistController {
     }
     void UpdateProcedureToReportComplete()
    	{
-   		System.out.println("UpdateProcedureToReportComplete() Called");
+   		//System.out.println("UpdateProcedureToReportComplete() Called");
        	Connection connection = null;
        	try
        	{
@@ -234,7 +234,7 @@ public class RadiologistController {
     }
     void getAllRelevantPatientProcedures()
     {
-    	System.out.println("getAllRelevantPatientProcedures() Called");
+    	//System.out.println("getAllRelevantPatientProcedures() Called");
     	Connection connection = null;
     	try
     	{
@@ -248,7 +248,7 @@ public class RadiologistController {
 
     		PreparedStatement preparedStatement = connection.prepareStatement(getAllCompletedProceduresQuery);
     		preparedStatement.setString(1, Table_patients.getSelectionModel().getSelectedItem().getpatientID());
-    		
+
     		ResultSet resultSet = preparedStatement.executeQuery();
 
     		while (resultSet.next())
@@ -266,11 +266,11 @@ public class RadiologistController {
 
 				completedProcedureList.add(new CompletedProcedureModel (procedureID, null, null, null, date));
     		}
-    		
+
     		//Table_patientProcedures.setItems(null);
     		Table_patientProcedures.setItems(completedProcedureList);
     		Column_patientProcedures.setCellValueFactory(new PropertyValueFactory<>("time"));
-    		
+
     		Table_patientProcedures.getSelectionModel().selectFirst();
     		//getProcedureImages(Table_patientProcedures.getSelectionModel().getSelectedItem().getprocedureID());
     	}
@@ -293,7 +293,7 @@ public class RadiologistController {
     }
     void getProcedureImages(String procedureID)
     {
-    	System.out.println("getCurrentProcedureImages() Called");
+    	//System.out.println("getCurrentProcedureImages() Called");
     	Connection connection = null;
     	TextArea_report.setText(null);
         try
@@ -318,7 +318,7 @@ public class RadiologistController {
     			javafx.scene.image.Image image = new Image(inputStream, ImageView_patientProcedureImage.getFitWidth(), ImageView_patientProcedureImage.getFitHeight(), true, true);
     			String modalityImageName = resultSet.getString("modalityImageName");
     			procedureImagesList.add(new ModalityImage (modalityImageID,image,modalityImageName));
-    			
+
     			if(StringUtils.isNullOrEmpty(TextArea_report.getText()) && !procedureID.equals(currentProcedureID))
 					TextArea_report.setText(resultSet.getString("reportText"));
     		}
@@ -327,7 +327,7 @@ public class RadiologistController {
 
     		//Table_ProcedureImages.setItems(null);
     		Table_ProcedureImages.setItems(procedureImagesList);
-    		
+
     		Table_ProcedureImages.getSelectionModel().selectFirst();
     	}
         catch(Exception exception)
@@ -385,7 +385,7 @@ public class RadiologistController {
     }
     void getAllCompletedProcedure()
     {
-    	System.out.println("getAllCompletedProcedure() Called");
+    	//System.out.println("getAllCompletedProcedure() Called");
     	Connection connection = null;
     	try
     	{
@@ -418,7 +418,7 @@ public class RadiologistController {
 						resultSet.getString("patinetHeight"),
 						resultSet.getString("patientWeight"),
 						resultSet.getString("patientDOB"));
-				
+
 				String date = resultSet.getString("procedureScheduledDate");
 				date = "Current Report" + ((!StringUtils.isNullOrEmpty(date)) ? " - " + date.split(" ")[0] : "");
 

@@ -38,7 +38,7 @@ public class FrameController {
 		};
 
 		int r = Context.getInstance().getRole();
-		System.out.println(r);
+		//System.out.println(r);
 		/*
 		tab_registration.setDisable(!role_array[r][0]);
 		tab_tech.setDisable(!role_array[r][1]);
@@ -68,14 +68,14 @@ public class FrameController {
 			System.exit(0);
 		});
 
-		
+
 		//create initial schedule - should probably create it here
 		//Context.getInstance().sortSchedule();
     }
 
     public void logOut()
     {
-		System.out.println("Logging out.");
+		//System.out.println("Logging out.");
     	Context.getInstance().setRole(1);
 		Context.getInstance().setStaffId(0);
 		Context.getInstance().setStaffName("");

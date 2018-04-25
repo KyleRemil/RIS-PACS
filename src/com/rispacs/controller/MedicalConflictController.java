@@ -72,7 +72,6 @@ public class MedicalConflictController{
     	{
     		try
     		{
-
 				connection.close();
 			}
     		catch (SQLException e)
@@ -90,12 +89,13 @@ public class MedicalConflictController{
     void approveFlag(ActionEvent event) {
 		try
     	{
-			System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+			//System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
 			Context.getInstance().setMedicalFlag(true);
-			System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+			//System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
     		Stage stage = (Stage) Button_approve.getScene().getWindow();
         	stage.close();
-		} catch (Exception exception)
+		}
+		catch (Exception exception)
     	{
 
 		}
@@ -104,9 +104,9 @@ public class MedicalConflictController{
     void denyFlag(ActionEvent event) {
     	try
     	{
-    		System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+    		//System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
     		Context.getInstance().setMedicalFlag(false);
-    		System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+    		//System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
     		Stage stage = (Stage) Button_approve.getScene().getWindow();
         	stage.close();
 		} catch (Exception exception)

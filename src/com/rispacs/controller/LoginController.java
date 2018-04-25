@@ -62,12 +62,12 @@ public class LoginController //extends Application
     	textField_password.setDisable(true);
     	label_error.setVisible(true);
 
-    	System.out.println("Tried to login.");
-    	System.out.println("current username: " + textField_username.getText());
+    	//System.out.println("Tried to login.");
+    	//System.out.println("current username: " + textField_username.getText());
 
     	if(textField_username.getText().equals(""))
     	{
-    		System.out.println("Username is empty.");
+    		//System.out.println("Username is empty.");
 			label_badUsername.setVisible(true);
 			label_badPassword.setVisible(false);
 
@@ -108,11 +108,11 @@ public class LoginController //extends Application
 			String u="", p="";
 			while(rs.next())
 			{
-				//System.out.println(rs.getObject(1).getClass());
+				////System.out.println(rs.getObject(1).getClass());
 				u = rs.getString("user");
 				if (u.equals("no"))
 				{
-					System.out.println("Username not found.");
+					//System.out.println("Username not found.");
 					label_badUsername.setVisible(true);
 					label_badPassword.setVisible(false);
 					break;
@@ -122,7 +122,7 @@ public class LoginController //extends Application
 					p = rs.getString("pass");
 					if (p.equals("no"))
 					{
-						System.out.println("Password incorrect.");
+						//System.out.println("Password incorrect.");
 						label_badUsername.setVisible(false);
 						label_badPassword.setVisible(true);
 						break;
@@ -134,7 +134,7 @@ public class LoginController //extends Application
 						Context.getInstance().setStaffId(rs.getInt("id"));
 						Context.getInstance().setStaffName(rs.getString("name"));
 						Context.getInstance().setUserName(user);
-						System.out.println("" + Context.getInstance().getRole());
+						//System.out.println("" + Context.getInstance().getRole());
 						succeed = true;
 					}
 				}
@@ -161,7 +161,7 @@ public class LoginController //extends Application
 
     private void changeView()
     {
-    	System.out.println("Login succeeded!");
+    	//System.out.println("Login succeeded!");
 		try {
 			AnchorPane root = FXMLLoader.load(getClass().getResource("../view/FrameView.fxml"));
 			Stage stage = (Stage) button_login.getScene().getWindow();
@@ -189,10 +189,10 @@ public class LoginController //extends Application
 //            crypt.update(password.getBytes("UTF-8"));
 //            byte[] b = crypt.digest();
 //            sha1 = byteToHex(b);//crypt.digest());
-//            System.out.println("way 1: "+ byteToHex(b));
-//            System.out.println("way 2: "+ byteArrayToHexString(b));
-//            System.out.println("way 3: "+ getHex(b));
-//            System.out.println("way 4: "+ getHexString(b));
+//            //System.out.println("way 1: "+ byteToHex(b));
+//            //System.out.println("way 2: "+ byteArrayToHexString(b));
+//            //System.out.println("way 3: "+ getHex(b));
+//            //System.out.println("way 4: "+ getHexString(b));
 //        }
 //        catch(Exception e)
 //        {
@@ -272,7 +272,7 @@ public class LoginController //extends Application
 //	        String s1 = toSHA1( pass.getBytes("UTF-8") );
 //	        String s2 = encryptPassword(pass);
 //
-//	        System.out.println("plaintext: "+pass + "\n" + "s1: " + s1+ "\ns2: "+s2);*/
+//	        //System.out.println("plaintext: "+pass + "\n" + "s1: " + s1+ "\ns2: "+s2);*/
 //	        ArrayList<String> a = new ArrayList<String>();
 //	        a.add("admin");
 //	        a.add("Admin");
@@ -280,12 +280,12 @@ public class LoginController //extends Application
 //	        a.add("JEFF");
 //	        for(int i = 0; i < a.size(); i++)
 //	        {
-//	        	System.out.println( a.get(i) + " is:");
+//	        	//System.out.println( a.get(i) + " is:");
 //	        	//encryptPassword(a.get(i));
-//	        	//System.out.println("BigInt: " + encryptPassword2(a.get(i)));
-//	        	System.out.println("apache 1: " + DigestUtils.sha1Hex(a.get(i).getBytes("UTF-8")));
-//	        	System.out.println("apache 2: " + DigestUtils.sha1Hex(a.get(i)));
-//	        	System.out.println();
+//	        	////System.out.println("BigInt: " + encryptPassword2(a.get(i)));
+//	        	//System.out.println("apache 1: " + DigestUtils.sha1Hex(a.get(i).getBytes("UTF-8")));
+//	        	//System.out.println("apache 2: " + DigestUtils.sha1Hex(a.get(i)));
+//	        	//System.out.println();
 //	        }
 //        }
 //        catch(Exception e){

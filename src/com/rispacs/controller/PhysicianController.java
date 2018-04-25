@@ -152,7 +152,7 @@ public class PhysicianController {
     }
     public void initialize()
     {
-    	System.out.println("initialize() Called");
+    	//System.out.println("initialize() Called");
     	populatecomboBox_modalityTechnician();
     	populatecomboBox_modalityName();
 
@@ -230,8 +230,8 @@ public class PhysicianController {
              {
             	 if (newVal != null)
                  {
-            		 System.out.println(newVal.getmodalityName() + "'s Modality ID:" + newVal.getmodalityID());
-                     System.out.println("Call populatecomboBox_modalityProcedureType("+ newVal.getmodalityID()+")");
+            		 //System.out.println(newVal.getmodalityName() + "'s Modality ID:" + newVal.getmodalityID());
+                     //System.out.println("Call populatecomboBox_modalityProcedureType("+ newVal.getmodalityID()+")");
             		 Context.getInstance().setSelectedModalityTypeID(newVal.modalityID);
             		 comboBox_modalityProcedureType.getSelectionModel().clearSelection();
                      comboBox_modalityProcedureType.getItems().clear();
@@ -267,7 +267,7 @@ public class PhysicianController {
     		{
     			if (newVal != null)
     			{
-    				System.out.println(newVal.getmodalityProcedureTypeDesc() + "'s Modality Procedure Type ID:" + newVal.getmodalityProcedureTypeID());
+    				//System.out.println(newVal.getmodalityProcedureTypeDesc() + "'s Modality Procedure Type ID:" + newVal.getmodalityProcedureTypeID());
     			}
     		}
     		catch (Exception e)
@@ -278,14 +278,14 @@ public class PhysicianController {
     }
     void populateTable_patientRadiologyHistory(String patientID)
     {
-    	System.out.println("populateTable_patientRadiologyHistory("+ patientID +") Called");
+    	//System.out.println("populateTable_patientRadiologyHistory("+ patientID +") Called");
     	Connection connection = null;
     	String getPatientProcedureHistory = "SELECT modalitytype.modalityTypeName,modalityproceduretype.modalityProcedureTypeDesc, staff.staffName, procedurelist.procedureDateOfRequest, procedurelist.procedureScheduledDate, procedurestatus.procedureStatusDesc, procedurelist.procedureId, procedurelist.patientPaid FROM procedurelist ProcedureList, patient Patient, staff Staff, modalitytype ModalityType, modalityproceduretype ModalityProcedureType, procedurestatus ProcedureStatus WHERE ModalityType.modalityTypeId = ModalityProcedureType.modalityType_modalityTypeId AND ModalityProcedureType.modalityProcedureTypeId = ProcedureList.modalityProcedureTypeId AND ProcedureStatus.procedureStatusID = ProcedureList.procedurestatus_procedureStatusID AND Staff.staffID = ProcedureList.staffID_technician AND ProcedureList.patient_patientID = Patient.patientID AND Patient.patientID =" + patientID;
     	ModalityProcedureListObservableList = FXCollections.observableArrayList();
     	try
     	{
     		connection = DatabaseHandler.getConnection();
-    		System.out.println(getPatientProcedureHistory);
+    		//System.out.println(getPatientProcedureHistory);
     		ResultSet resultSet = connection.createStatement().executeQuery(getPatientProcedureHistory);
     		while (resultSet.next())
     		{
@@ -323,7 +323,7 @@ public class PhysicianController {
     	catch(SQLException e)
     	{
     		e.printStackTrace();
-    		System.out.println("ERROR @ Control.removeUser.First Try");
+    		//System.out.println("ERROR @ Control.removeUser.First Try");
     	}
     	finally
     	{
@@ -340,7 +340,7 @@ public class PhysicianController {
     }
     void populatecomboBox_modalityProcedureType(String modalityTypeId)
     {
-    	System.out.println("populatecomboBox_modalityProcedureType("+ modalityTypeId +") Called");
+    	//System.out.println("populatecomboBox_modalityProcedureType("+ modalityTypeId +") Called");
     	Connection connection = null;
     	String getModalityProcedureTypes = "SELECT * FROM modalityproceduretype WHERE modalityType_modalityTypeId =" + modalityTypeId;
     	ModalityProcedureTypeObservableList = FXCollections.observableArrayList();
@@ -358,7 +358,7 @@ public class PhysicianController {
     	catch(SQLException e)
     	{
     		e.printStackTrace();
-    		System.out.println("ERROR @ Control.removeUser.First Try");
+    		//System.out.println("ERROR @ Control.removeUser.First Try");
     	}
     	finally
     	{
@@ -376,7 +376,7 @@ public class PhysicianController {
     }
     void populatecomboBox_modalityName()
     {
-    	System.out.println("populatecomboBox_modalityName() Called");
+    	//System.out.println("populatecomboBox_modalityName() Called");
     	Connection connection = null;
     	String getModalityTypes = "SELECT * FROM modalitytype;";
     	ModalityNameObservableList = FXCollections.observableArrayList();
@@ -394,7 +394,7 @@ public class PhysicianController {
     	catch(SQLException e)
     	{
     		e.printStackTrace();
-    		System.out.println("ERROR @ Control.removeUser.First Try");
+    		//System.out.println("ERROR @ Control.removeUser.First Try");
     	}
     	finally
     	{
@@ -424,7 +424,7 @@ public class PhysicianController {
         }
     }
     void populatecomboBox_modalityTechnician(){
-    	System.out.println("populatecomboBox_modalityTechnician() Called");
+    	//System.out.println("populatecomboBox_modalityTechnician() Called");
     	Connection connection = null;
     	String getModalityTechnicians = "SELECT * FROM staff WHERE StaffRole_staffRoleID = 2";
     	// Creates Observable Array
@@ -443,7 +443,7 @@ public class PhysicianController {
     	catch(SQLException e)
     	{
     		e.printStackTrace();
-    		System.out.println("ERROR @ Control.removeUser.First Try");
+    		//System.out.println("ERROR @ Control.removeUser.First Try");
     	}
     	finally
     	{
@@ -473,8 +473,8 @@ public class PhysicianController {
     }
     @FXML
     void requestProcedure(ActionEvent event){
-    	System.out.println("requestProcedure() Called");
-    	System.out.println("Flag:" + Context.getInstance().getMedicalFlag());
+    	//System.out.println("requestProcedure() Called");
+    	//System.out.println("Flag:" + Context.getInstance().getMedicalFlag());
     	Connection connection = null;
     	try
     	{
@@ -522,18 +522,18 @@ public class PhysicianController {
             		preparedStatement.setString(2, procedureTypeId);
             		preparedStatement.setString(3, selectedPatientID);
             		preparedStatement.setString(4, physicianNotes );
-            		System.out.println(preparedStatement);
+            		//System.out.println(preparedStatement);
             		preparedStatement.execute();
     			}
     			else
     			{
-    				System.out.println("Denied Medical Flag");
-    				System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
+    				//System.out.println("Denied Medical Flag");
+    				//System.out.println("Medical Flag: "+ Context.getInstance().getMedicalFlag());
     			}
         	}
         	else
         	{
-        		System.out.println("Please Select A Patient");
+        		//System.out.println("Please Select A Patient");
         	}
     	}
     	catch(Exception exception)
@@ -559,7 +559,7 @@ public class PhysicianController {
     @FXML
     void refresh_Table_avaliablePatients()//ActionEvent event)
     {
-    	System.out.println("refresh_Table_avaliablePatients() Called");
+    	//System.out.println("refresh_Table_avaliablePatients() Called");
     	Connection connection = null;
         try
     	{
@@ -613,7 +613,7 @@ public class PhysicianController {
     @FXML
     void refresh_Table_patientRadiologyHistory(ActionEvent Event)
     {
-    	System.out.println("refresh_Table_patientRadiologyHistory() Called");
+    	//System.out.println("refresh_Table_patientRadiologyHistory() Called");
     	try
     	{
     		//String patientID = Table_avaliablePatients.getSelectionModel().getSelectedItem().getpatientID().toString();
@@ -641,7 +641,7 @@ public class PhysicianController {
     }
     private void updateProcedureImageList(String id)
     {
-    	System.out.println("updateProcedureImageList() Called");
+    	//System.out.println("updateProcedureImageList() Called");
     	Connection connection = null;
     	TextArea_report.setText(null);
         try
@@ -763,17 +763,17 @@ public class PhysicianController {
 
 		            PreparedStatement preparedStatement = connection.prepareStatement(deleteProcedure);
 		            preparedStatement.setString(1, procedureID);
-		            System.out.println(preparedStatement);
+		            //System.out.println(preparedStatement);
 		            preparedStatement.execute();
 				}
 				else
 				{
-					System.out.println("Procedure has been scheduled or completed. Delete not avalible");
+					//System.out.println("Procedure has been scheduled or completed. Delete not avalible");
 				}
 			}
 			else
 			{
-				System.out.println("Please select a procedure");
+				//System.out.println("Please select a procedure");
 			}
 		}
     	catch (Exception e)
@@ -841,12 +841,12 @@ public class PhysicianController {
                 preparedStatement.setString(3, updatedSelectedPatientID);
                 preparedStatement.setString(4, updatedPhysicianNotes );
                 preparedStatement.setString(5, procedureID );
-                System.out.println(preparedStatement);
+                //System.out.println(preparedStatement);
                 preparedStatement.execute();
     		}
     		else
     		{
-    			System.out.println("Please select a procedure");
+    			//System.out.println("Please select a procedure");
     		}
     	}
     	catch(Exception exception)

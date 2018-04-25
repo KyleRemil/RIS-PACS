@@ -87,12 +87,12 @@ public class RegistrationController {
     			SearchPatient();
   		});
     	TextField_patientSearchFirstName.textProperty().addListener((obs, oldText, newText) -> {
-    	    System.out.println("Text of 1st name search changed from "+oldText+" to "+newText);
+    	    //System.out.println("Text of 1st name search changed from "+oldText+" to "+newText);
     	    UpdateSearchButtonState();
     	    SearchPatient(); //This could be an AJAX-like thing
     	});
     	TextField_patientSearchLastName.textProperty().addListener((obs, oldText, newText) -> {
-    	    System.out.println("Text of last name search changed from "+oldText+" to "+newText);
+    	    //System.out.println("Text of last name search changed from "+oldText+" to "+newText);
     	    UpdateSearchButtonState();
     	    SearchPatient(); //This could be an AJAX-like thing
     	});
@@ -192,7 +192,7 @@ public class RegistrationController {
         registration_TextField_PatientLastName.setText(patientModel.getPatientLastName());
 
         String patientGender = patientModel.getPatientGender();
-        System.out.println();
+        //System.out.println();
         switch (patientGender)
         {
         	case "M":
@@ -228,7 +228,7 @@ public class RegistrationController {
 		//TextField_patientSearchFirstName.setText("hi");
 		//TextField_patientSearchLastName.textProperty().setValue("hello!");
 
-    	////System.out.println("RequestRegisterNewPatient() Called");
+    	//System.out.println("RequestRegisterNewPatient() Called");
     	if (validateRequiredFields())	//If no required fields are empty
     	{
     		registration_Title_PatientName.setStyle(null);
@@ -242,7 +242,7 @@ public class RegistrationController {
     	}
     	else
     	{
-    		System.out.println("Required Fields Cannot Be Empty");
+    		//System.out.println("Required Fields Cannot Be Empty");
     	}
     }
     private void insertNewPatient()
@@ -301,7 +301,7 @@ public class RegistrationController {
     	}
     }
     private boolean validateRequiredFields(){
-    	System.out.println("validateRequiredFields() Called");
+    	//System.out.println("validateRequiredFields() Called");
     	boolean isValidated = true;
 
     	if(StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText().trim()))
@@ -476,10 +476,10 @@ public class RegistrationController {
         	//System.out.println("Null string: " + StringUtils.isNullOrEmpty(null));
         	boolean lastNull = (searchPatientLastName == null) || searchPatientLastName.isEmpty();
 
-        	System.out.println("First: " + firstNull + "\nLast: " + lastNull);
+        	//System.out.println("First: " + firstNull + "\nLast: " + lastNull);
         	if(firstNull && lastNull)
         	{
-        		System.out.println("No search text");
+        		//System.out.println("No search text");
         		return;
         	}
     		//String searchPatientQuery = "SELECT * FROM patient WHERE patientFirstName Like  '%"+searchPatientFirstName+"%' OR PatientLastName Like '%"+searchPatientLastName+"%'";
@@ -488,7 +488,7 @@ public class RegistrationController {
     				((!firstNull)? " patientFirstName Like  ?" + ((!lastNull)?" AND ": " "):" ") +
     				((!lastNull)? " PatientLastName Like ?" : " ") : "");
     		PreparedStatement preparedStatement = connection.prepareStatement(searchPatientQuery);
-    		System.out.println(searchPatientQuery);
+    		//System.out.println(searchPatientQuery);
     		if(!firstNull) {
     			preparedStatement.setString(1, "%" + searchPatientFirstName + "%");
     			if(!lastNull)
@@ -497,7 +497,7 @@ public class RegistrationController {
     		else
     			preparedStatement.setString(1, "%" + searchPatientLastName + "%");
 
-    		System.out.println(preparedStatement);
+    		//System.out.println(preparedStatement);
     		ResultSet resultSet = preparedStatement.executeQuery();
 
     		while (resultSet.next())

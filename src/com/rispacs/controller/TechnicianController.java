@@ -62,7 +62,7 @@ public class TechnicianController {
     @FXML
     void refreshProcedureScheduleTable(ActionEvent event)
     {
-    	System.out.println("refresh_Table_avaliablePatients() Called");
+    	//System.out.println("refresh_Table_avaliablePatients() Called");
     	Connection connection = null;
         try
     	{
@@ -148,7 +148,7 @@ public class TechnicianController {
         patientHeight.setText(patient.getPatinetHeight());
         patientGender.setText(patient.getPatientGender());
         patientWeight.setText(patient.getPatientWeight());
-        
+
         procedureInfo_textArea.setText(Table_procedureScheduleTable.getSelectionModel().getSelectedItem().getPhysicianNotes());
     }
 
@@ -158,13 +158,13 @@ public class TechnicianController {
     {
     	String procedureID = Table_procedureScheduleTable.getSelectionModel().getSelectedItem().getprocedureID().toString();
     	Context.getInstance().setCurrentProcedureID(procedureID);
-    	System.out.println("beginProcedure() Called");
+    	//System.out.println("beginProcedure() Called");
     	Connection connection = null;
         try
     	{
         	if (procedureID == null)
         	{
-        		System.out.println("Please Select a procedure from the table to begin.");
+        		//System.out.println("Please Select a procedure from the table to begin.");
         	}
         	else
         	{

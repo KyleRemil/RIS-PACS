@@ -54,7 +54,7 @@ public class InvoiceController {
 	public void initialize()
 	{
 //		populateInvoiceTable();
-		System.out.println("Loading Patient Data");
+		//System.out.println("Loading Patient Data");
 		/////Populate patient list table, invoice table still empty
 		Populate_Patient_Table();
 
@@ -95,7 +95,7 @@ public class InvoiceController {
 	@FXML
     void Populate_Patient_Table()//ActionEvent event)
     {// populates the patients table that displays information in the green region.
-    	System.out.println("Populating Patient Table");
+    	//System.out.println("Populating Patient Table");
     	Connection connection = null;
         try
     	{
@@ -309,7 +309,7 @@ public class InvoiceController {
 			PreparedStatement preparedStatement = connection.prepareStatement(updateProcedurelist);
 			preparedStatement.setString(1,patientProcedureID);
 			preparedStatement.execute();
-			System.out.println("pay");
+			//System.out.println("pay");
 		}
 		catch (Exception e)
 		{
