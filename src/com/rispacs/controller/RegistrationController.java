@@ -304,19 +304,19 @@ public class RegistrationController {
     	System.out.println("validateRequiredFields() Called");
     	boolean isValidated = true;
 
-    	if(StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText()))
+    	if(StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText().trim()))
     	{
     		registration_Title_PatientName.setStyle("-fx-text-fill: red;");
     		System.out.println("First Name cannot be empty");
     		isValidated = false;
     	}
-    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientLastName.getText()))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientLastName.getText().trim()))
     	{
     		registration_Title_PatientName.setStyle("-fx-text-fill: red;");
     		System.out.println("Last Name cannot be empty");
     		isValidated = false;
     	}
-    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientSSN.getText()))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientSSN.getText().trim()))
     	{
     		registration_Title_PatientSSN.setStyle("-fx-text-fill: red;");
     		System.out.println("SSN cannot be empty");
@@ -328,13 +328,13 @@ public class RegistrationController {
     		System.out.println("Patient DOB cannot be empty");
     		isValidated = false;
     	}
-    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientHeight.getText()))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientHeight.getText().trim()))
     	{
     		registration_Title_PatientHeight.setStyle("-fx-text-fill: red;");
     		System.out.println("Patient Height must not be empty");
     		isValidated = false;
     	}
-    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientWeight.getText()))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientWeight.getText().trim()))
     	{
     		registration_Title_PatientWeight.setStyle("-fx-text-fill: red;");
     		System.out.println("Patient weight must not be empty");
@@ -348,15 +348,15 @@ public class RegistrationController {
     	}
 
 
-    	if(!StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText()))
+    	if(!StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText().trim()))
     	{
     		registration_Title_PatientName.setStyle(null);
     	}
-    	if(!StringUtils.isNullOrEmpty(registration_TextField_PatientLastName.getText()))
+    	if(!StringUtils.isNullOrEmpty(registration_TextField_PatientLastName.getText().trim()))
     	{
     		registration_Title_PatientName.setStyle(null);
     	}
-    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientSSN.getText()))
+    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientSSN.getText().trim()))
     	{
     		registration_Title_PatientSSN.setStyle(null);
     	}
@@ -364,11 +364,11 @@ public class RegistrationController {
     	{
     		registration_Title_PatientDOB.setStyle(null);
     	}
-    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientHeight.getText()))
+    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientHeight.getText().trim()))
     	{
     		registration_Title_PatientHeight.setStyle(null);
     	}
-    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientWeight.getText()))
+    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientWeight.getText().trim()))
     	{
     		registration_Title_PatientWeight.setStyle(null);
     	}
