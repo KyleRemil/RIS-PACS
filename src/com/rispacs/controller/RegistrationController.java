@@ -89,12 +89,12 @@ public class RegistrationController {
     	TextField_patientSearchFirstName.textProperty().addListener((obs, oldText, newText) -> {
     	    System.out.println("Text of 1st name search changed from "+oldText+" to "+newText);
     	    UpdateSearchButtonState();
-    	    //SearchPatient(); //This could be an AJAX-like thing
+    	    SearchPatient(); //This could be an AJAX-like thing
     	});
     	TextField_patientSearchLastName.textProperty().addListener((obs, oldText, newText) -> {
     	    System.out.println("Text of last name search changed from "+oldText+" to "+newText);
     	    UpdateSearchButtonState();
-    	    //SearchPatient(); //This could be an AJAX-like thing
+    	    SearchPatient(); //This could be an AJAX-like thing
     	});
 
     	PopulateMartialStatusComboBox();
@@ -304,19 +304,19 @@ public class RegistrationController {
     	System.out.println("validateRequiredFields() Called");
     	boolean isValidated = true;
 
-    	if(registration_TextField_PatientFirstName.getText().trim().equals(null) ||registration_TextField_PatientFirstName.getText().trim().equals(""))
+    	if(StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText()))
     	{
     		registration_Title_PatientName.setStyle("-fx-text-fill: red;");
     		System.out.println("First Name cannot be empty");
     		isValidated = false;
     	}
-    	if (registration_TextField_PatientLastName.getText().trim().equals(null) ||registration_TextField_PatientLastName.getText().trim().equals("") )
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientLastName.getText()))
     	{
     		registration_Title_PatientName.setStyle("-fx-text-fill: red;");
     		System.out.println("Last Name cannot be empty");
     		isValidated = false;
     	}
-    	if (registration_TextField_PatientSSN.getText().trim().equals(null) || registration_TextField_PatientSSN.getText().trim().equals(""))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientSSN.getText()))
     	{
     		registration_Title_PatientSSN.setStyle("-fx-text-fill: red;");
     		System.out.println("SSN cannot be empty");
@@ -328,13 +328,13 @@ public class RegistrationController {
     		System.out.println("Patient DOB cannot be empty");
     		isValidated = false;
     	}
-    	if (registration_TextField_PatientHeight.getText().trim().equals(null)|| registration_TextField_PatientHeight.getText().trim().equals(""))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientHeight.getText()))
     	{
     		registration_Title_PatientHeight.setStyle("-fx-text-fill: red;");
     		System.out.println("Patient Height must not be empty");
     		isValidated = false;
     	}
-    	if (registration_TextField_PatientWeight.getText().trim().equals(null)|| registration_TextField_PatientWeight.getText().trim().equals(""))
+    	if (StringUtils.isNullOrEmpty(registration_TextField_PatientWeight.getText()))
     	{
     		registration_Title_PatientWeight.setStyle("-fx-text-fill: red;");
     		System.out.println("Patient weight must not be empty");
@@ -348,15 +348,15 @@ public class RegistrationController {
     	}
 
 
-    	if(!registration_TextField_PatientFirstName.getText().isEmpty())
+    	if(!StringUtils.isNullOrEmpty(registration_TextField_PatientFirstName.getText()))
     	{
     		registration_Title_PatientName.setStyle(null);
     	}
-    	if(!registration_TextField_PatientLastName.getText().isEmpty())
+    	if(!StringUtils.isNullOrEmpty(registration_TextField_PatientLastName.getText()))
     	{
     		registration_Title_PatientName.setStyle(null);
     	}
-    	if (!registration_TextField_PatientSSN.getText().isEmpty())
+    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientSSN.getText()))
     	{
     		registration_Title_PatientSSN.setStyle(null);
     	}
@@ -364,11 +364,11 @@ public class RegistrationController {
     	{
     		registration_Title_PatientDOB.setStyle(null);
     	}
-    	if (!registration_TextField_PatientHeight.getText().isEmpty())
+    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientHeight.getText()))
     	{
     		registration_Title_PatientHeight.setStyle(null);
     	}
-    	if (!registration_TextField_PatientWeight.getText().isEmpty())
+    	if (!StringUtils.isNullOrEmpty(registration_TextField_PatientWeight.getText()))
     	{
     		registration_Title_PatientWeight.setStyle(null);
     	}

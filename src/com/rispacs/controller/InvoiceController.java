@@ -145,7 +145,6 @@ public class InvoiceController {
 			}
     	}
     }
-
 	private void getInvoiceFromDB(int id)
 	{// Queries the database for the information needed to create a patientInvoice
 		Connection connection = null;
@@ -191,7 +190,6 @@ public class InvoiceController {
 			}
 		}
 	}
-
 	private double getCost(int procedure) {
 		// random numbers to be the cost of the respective procedure.
 		if (procedure == 1) {
@@ -221,7 +219,6 @@ public class InvoiceController {
 			return 0.00;
 		}
 	}
-
 	private String getDescription(int input) {
 		// The descriptions of the procedures referenced by an int in the db.
 		if (input == 1) {
@@ -251,7 +248,6 @@ public class InvoiceController {
 			return "Empty";
 		}
 	}
-
 	private void populateInvoiceTable() {
 		// Populates the list that you click the individual patient invoices from.
 		patientInvoiceObservableList = FXCollections.observableArrayList();
@@ -289,7 +285,6 @@ public class InvoiceController {
 
 		PatientInvoiceTable.setItems(patientInvoiceObservableList);
 	}
-
 	 public void setPatientInfo()
 	    {
 	    	PatientModel patient = PatientTable.getSelectionModel().getSelectedItem();
@@ -336,7 +331,6 @@ public class InvoiceController {
 		getInvoiceFromDB(patientId);
 		populateInvoiceTable();
 	}
-
     @FXML
     void refreshUnpaidProcedureTable(ActionEvent event)
     {

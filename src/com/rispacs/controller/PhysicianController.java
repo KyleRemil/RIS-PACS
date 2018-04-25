@@ -471,7 +471,6 @@ public class PhysicianController {
             }
         });
     }
-
     @FXML
     void requestProcedure(ActionEvent event){
     	System.out.println("requestProcedure() Called");
